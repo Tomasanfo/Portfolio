@@ -329,6 +329,23 @@ nav.scrolled {
     border-bottom: 1px solid #222;
 }
 
+.mobile-menu .mobile-login {
+    color: var(--matrix-green);
+    font-weight: 700;
+    letter-spacing: 2px;
+    border: 1px solid var(--matrix-green);
+    padding: 12px 16px;
+    margin-top: 12px;
+    text-align: center;
+    background: rgba(0, 255, 65, 0.05);
+    transition: all 0.3s ease;
+}
+
+.mobile-menu .mobile-login:hover {
+    background: var(--matrix-green);
+    color: #000;
+}
+
 /* ========================================
    HERO SECTION
 ======================================== */
