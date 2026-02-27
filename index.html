@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Anfo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* ESTILOS PARA GALERÍA DE CERTIFICADOS */
+        .cert-gallery-btn {
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cert-gallery-btn::after {
+            content: 'VER →';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 255, 65, 0.9);
+            color: #000;
+            font-size: 9px;
+            padding: 4px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .cert-gallery-btn:hover::after {
+            transform: translateY(0);
+        }
+
+        /* Modal de Galería (Grid) */
+        .cert-modal .modal-content {
+            max-width: 1000px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .cert-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            padding: 20px 0;
+        }
+
+        .cert-item {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            padding: 16px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .cert-item:hover {
+            border-color: var(--matrix-green);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 255, 65, 0.2);
+        }
+
+        .cert-image-thumb {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+            border: 1px solid #333;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .cert-image-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .cert-item:hover .cert-image-thumb img {
+            transform: scale(1.05);
+        }
+
+        .cert-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 255, 65, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .cert-item:hover .cert-overlay {
+            opacity: 1;
+        }
+
+        .cert-overlay-text {
+            color: var(--matrix-green);
+            font-size: 12px;
+            font-weight: bold;
+            border: 1px solid var(--matrix-green);
+            padding: 8px 16px;
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .cert-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: var(--matrix-green);
+            color: #000;
+            font-size: 10px;
+            padding: 4px 8px;
+            font-weight: bold;
+            z-index: 5;
+        }
+
+        .cert-badge.santander {
+            background: #ff0000;
+            color: #fff;
+        }
+
+        .cert-badge.ypf {
+            background: #00a0e3;
+            color: #fff;
+        }
+
+        .cert-title {
+            font-size: 12px;
+            color: #fff;
+            margin-bottom: 4px;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+
+        .cert-issuer {
+            font-size: 10px;
+            color: var(--matrix-cyan);
+            margin-bottom: 8px;
+        }
+
+        .cert-date {
+            font-size: 9px;
+            color: #666;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .cert-status {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--matrix-green);
+            animation: pulse 2s infinite;
+        }
+
+        .cert-counter {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: var(--matrix-red);
+            color: #fff;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: bold;
+            border: 2px solid #000;
+            animation: pulse 2s infinite;
+            z-index: 10;
+            box-shadow: 0 2px 8px rgba(255, 0, 60, 0.4);
+        }
+
+        .cert-preview-hint {
+            font-size: 9px;
+            color: var(--matrix-green);
+            margin-top: 8px;
+            opacity: 0.7;
+        }
+
+        /* Modal de Vista Completa */
+        .cert-full-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            z-index: 3000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .cert-full-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .cert-full-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 24px;
+            border-bottom: 1px solid rgba(0, 255, 65, 0.3);
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .cert-back-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: transparent;
+            border: 1px solid var(--matrix-green);
+            color: var(--matrix-green);
+            padding: 10px 20px;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .cert-back-btn:hover {
+            background: var(--matrix-green);
+            color: #000;
+        }
+
+        .cert-full-title {
+            font-size: 14px;
+            color: #fff;
+            text-align: center;
+            flex: 1;
+            margin: 0 20px;
+        }
+
+        .cert-nav-info {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .cert-full-body {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .cert-full-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            box-shadow: 0 0 40px rgba(0, 255, 65, 0.2);
+            border: 1px solid rgba(0, 255, 65, 0.3);
+        }
+
+        .cert-nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--matrix-green);
+            color: var(--matrix-green);
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 20px;
+        }
+
+        .cert-nav-btn:hover {
+            background: var(--matrix-green);
+            color: #000;
+        }
+
+        .cert-nav-btn.prev {
+            left: 20px;
+        }
+
+        .cert-nav-btn.next {
+            right: 20px;
+        }
+
+        .cert-nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .cert-full-footer {
+            padding: 16px 24px;
+            border-top: 1px solid rgba(0, 255, 65, 0.3);
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .cert-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #333;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .cert-dot.active {
+            background: var(--matrix-green);
+            box-shadow: 0 0 10px var(--matrix-green);
+        }
+
+        .cert-dot:hover {
+            background: var(--matrix-cyan);
+        }
+
+        .modal-subtitle {
+            color: #666;
+            font-size: 12px;
+            margin-top: 8px;
+        }
+
+        /* Asegurar visibilidad del badge */
+        .stat-card {
+            position: relative;
+            overflow: visible !important;
+        }
+
+        .stat-card {
+            padding-top: 40px !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">INICIANDO_SISTEMA...</div>
+            <div class="loading-log">
+                <div>Cargando certificados... [OK]</div>
+                <div>Verificando credenciales... [OK]</div>
+                <div>Acceso concedido... [OK]</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Matrix Rain Canvas -->
+    <canvas id="matrix-canvas"></canvas>
+
+    <!-- CRT Effects -->
+    <div class="scanlines"></div>
+    <div class="crt-vignette"></div>
+    <div class="noise-overlay"></div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <svg class="logo-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+                <span class="logo-text">ANFOSSI.T</span>
+            </a>
+
+            <div class="nav-links">
+                <a href="#home" class="nav-link">INICIO</a>
+                <a href="#about" class="nav-link">PERFIL</a>
+                <a href="#skills" class="nav-link">HABILIDADES</a>
+                <a href="#education" class="nav-link">FORMACIÓN</a>
+                <a href="#contact" class="nav-link">CONTACTO</a>
+            </div>
+
+            <div class="nav-auth">
+                <button id="auth-btn" class="btn-cyber glow" onclick="window.location.href='login.html'">LOGIN</button>
+            </div>
+
+            <button class="mobile-menu-btn" id="mobile-menu-btn">
+                <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+            </button>
+        </div>
+
+        <div class="mobile-menu" id="mobile-menu">
+            <a href="#home" class="nav-link">INICIO</a>
+            <a href="#about" class="nav-link">PERFIL</a>
+            <a href="#skills" class="nav-link">HABILIDADES</a>
+            <a href="#education" class="nav-link">FORMACIÓN</a>
+            <a href="#contact" class="nav-link">CONTACTO</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="status-badge">
+                <span class="dot"></span>
+                <span>ESTUDIANTE_CIBERSEGURIDAD</span>
+            </div>
+
+            <h1 class="hero-title">
+                <span class="typewriter" id="hero-typewriter"></span>
+                <span class="typewriter-cursor" id="typewriter-cursor"></span>
+            </h1>
+
+            <p class="hero-subtitle" id="hero-subtitle"></p>
+
+            <div class="hero-buttons" id="hero-buttons" style="opacity: 0;">
+                <button class="btn-primary" onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})">
+                    <span>CONTACTAR</span>
+                    <svg class="arrow" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                </button>
+                <button class="btn-secondary" onclick="document.getElementById('skills').scrollIntoView({behavior: 'smooth'})">
+                    VER_HABILIDADES
+                </button>
+            </div>
+
+            <div class="hero-stats">
+                <!-- STAT CARD CON GALERÍA DE CERTIFICADOS -->
+                <div class="stat-card cert-gallery-btn" onclick="openCertGallery()">
+                    <div class="cert-counter">7</div>
+                    <svg class="stat-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+                    </svg>
+                    <div class="stat-value">7</div>
+                    <div class="stat-label">CERTIFICADOS</div>
+                    <div class="cert-preview-hint">Click para ver galería</div>
+                </div>
+
+                <div class="stat-card cyan">
+                    <svg class="stat-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                    </svg>
+                    <div class="stat-value">IA</div>
+                    <div class="stat-label">ESPECIALIZACIÓN</div>
+                </div>
+                <div class="stat-card red">
+                    <svg class="stat-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                    </svg>
+                    <div class="stat-value">FASTA</div>
+                    <div class="stat-label">UNIVERSIDAD (EN PAUSA)</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="hacker-grid"></div>
+        <div class="about-content">
+            <div class="about-image">
+                <div class="about-image-inner">
+                    <div class="about-image-grid"></div>
+                    <div class="hacker-logo">
+                        <div class="logo-circles">
+                            <div class="logo-circle"></div>
+                            <div class="logo-circle"></div>
+                            <div class="logo-circle"></div>
+                            <div class="logo-letter">T</div>
+                        </div>
+                        <p style="color: var(--matrix-green); font-size: 12px; letter-spacing: 2px;">TOMAS_ANFOSSI</p>
+                    </div>
+                </div>
+                <div class="about-image-frame">
+                    <span class="frame-bl"></span><span class="frame-br"></span>
+                </div>
+                <div class="about-badge">
+                    <div class="about-badge-content">
+                        <span class="status-dot"></span>
+                        <span>EN_BÚSQUEDA_ACTIVA</span>
+                    </div>
+                </div>
+            </div>
+<!-- prueba -->
+            <div class="about-text">
+                <div class="section-tag cyan" style="display: inline-flex; margin-bottom: 16px;">
+                    <span>PERFIL_PROFESIONAL</span>
+                </div>
+                <h2 class="section-title" style="text-align: left;">DIGITAL_DEFENDER</h2>
+
+                <p>Estudiante de <strong>Licenciatura en Ciberseguridad</strong> en Universidad FASTA (desde febrero 2025), con orientación al desarrollo web, programación y seguridad informática. (en pausa)</p>
+
+                <p>Experiencia en implementación de soluciones digitales, automatización de procesos y configuración de entornos tecnológicos. Perfil analítico con fuerte interés en inteligencia artificial, ciencia de datos y seguridad digital.</p>
+
+                <div class="code-snippet">
+                    <div class="comment">// Mi Filosofía</div>
+                    <div><span class="keyword">const</span> perfil = {</div>
+                    <div style="padding-left: 16px;"><span class="property">ciberseguridad</span>: <span class="boolean">true</span>,</div>
+                    <div style="padding-left: 16px;"><span class="property">desarrolloWeb</span>: <span class="boolean">true</span>,</div>
+                    <div style="padding-left: 16px;"><span class="property">inteligenciaArtificial</span>: <span class="boolean">true</span>,</div>
+                    <div style="padding-left: 16px;"><span class="property">aprendizajeContinuo</span>: <span class="boolean">true</span></div>
+                    <div><span style="color: var(--matrix-green)">}</span>;</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills">
+        <div class="hacker-grid"></div>
+        <div class="section-header">
+            <div class="section-tag green">
+                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                </svg>
+                <span>STACK_TECNOLÓGICO</span>
+            </div>
+            <h2 class="section-title">HABILIDADES_TÉCNICAS</h2>
+            <p class="section-desc">Tecnologías y herramientas que domino para crear soluciones digitales seguras y eficientes.</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card green">
+                <span class="corner-bl"></span><span class="corner-br"></span>
+                <span class="feature-number">01</span>
+                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                </svg>
+                <h3 class="feature-title">DESARROLLO_WEB</h3>
+                <p class="feature-desc">HTML5, CSS3 y JavaScript moderno. Creación de interfaces responsivas, interactivas y optimizadas para rendimiento.</p>
+            </div>
+
+            <div class="feature-card cyan">
+                <span class="corner-bl"></span><span class="corner-br"></span>
+                <span class="feature-number">02</span>
+                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                </svg>
+                <h3 class="feature-title">PYTHON_AUTOMATION</h3>
+                <p class="feature-desc">Automatización de procesos, scripting y fundamentos de programación. Desarrollo de bots y herramientas personalizadas.</p>
+            </div>
+
+            <div class="feature-card red">
+                <span class="corner-bl"></span><span class="corner-br"></span>
+                <span class="feature-number">03</span>
+                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"/>
+                </svg>
+                <h3 class="feature-title">BASES_DE_DATOS</h3>
+                <p class="feature-desc">PostgreSQL. Diseño, consultas y gestión de bases de datos relacionales para aplicaciones escalables.</p>
+            </div>
+
+            <div class="feature-card green">
+                <span class="corner-bl"></span><span class="corner-br"></span>
+                <span class="feature-number">04</span>
+                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                </svg>
+                <h3 class="feature-title">INTEGRACIÓN_IA</h3>
+                <p class="feature-desc">Implementación de bots y herramientas con inteligencia artificial. Prompting responsable y optimización de modelos.</p>
+            </div>
+
+            <div class="feature-card cyan">
+                <span class="corner-bl"></span><span class="corner-br"></span>
+                <span class="feature-number">05</span>
+                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+                <h3 class="feature-title">EXCEL_AUTOMATION</h3>
+                <p class="feature-desc">Excel avanzado con automatización. Macros, fórmulas complejas y análisis de datos empresariales.</p>
+            </div>
+
+            <div class="feature-card red">
+                <span class="corner-bl"></span><span class="corner-br"></span>
+                <span class="feature-number">06</span>
+                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                </svg>
+                <h3 class="feature-title">CIBERSEGURIDAD</h3>
+                <p class="feature-desc">Fundamentos de seguridad informática. Entornos Windows y Linux. Soporte técnico y optimización de sistemas.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="hacker-grid"></div>
+        <div class="section-header">
+            <div class="section-tag cyan">
+                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+                <span>ESTABLECER_CONEXIÓN</span>
+            </div>
+            <h2 class="section-title">INICIAR_CONTACTO</h2>
+            <p class="section-desc">Envíame un mensaje seguro. Estoy disponible para oportunidades de desarrollo, prácticas profesionales y proyectos colaborativos.</p>
+        </div>
+
+        <div class="contact-container">
+            <div class="terminal-window">
+                <div class="terminal-header">
+                    <div class="terminal-dots">
+                        <div class="terminal-dot red"></div>
+                        <div class="terminal-dot yellow"></div>
+                        <div class="terminal-dot green"></div>
+                    </div>
+                    <span class="terminal-title">contacto_anfossi.sh</span>
+                    <div style="width: 40px;"></div>
+                </div>
+
+                <div class="terminal-body">
+                    <div class="terminal-log">
+                        <div class="terminal-line"><span class="prompt">user@terminal:~$</span> ./iniciar_contacto.sh</div>
+                        <div class="terminal-line"><span class="prompt">user@terminal:~$</span> CONEXIÓN_ESTABLECIDA</div>
+                        <div class="terminal-line"><span class="prompt">user@terminal:~$</span> ANFOSSI_TOMAS_EN_LÍNEA</div>
+                    </div>
+
+                    <form class="terminal-form" id="contact-form">
+                        <div class="form-group">
+                            <label class="form-label">
+                                <span class="prompt">user@terminal:~$</span> INGRESAR_NOMBRE
+                            </label>
+                            <div class="form-input-wrapper">
+                                <svg class="form-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                                </svg>
+                                <input id="wha_name" type="text" class="form-input" name="name" placeholder="Tu_Nombre" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <span class="prompt">user@terminal:~$</span> INGRESAR_EMAIL
+                            </label>
+                            <div class="form-input-wrapper">
+                                <svg class="form-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                </svg>
+                                <input id="wha_email" type="email" class="form-input" name="email" placeholder="tu@email.com" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <span class="prompt">user@terminal:~$</span> INGRESAR_MENSAJE
+                            </label>
+                            <div class="form-input-wrapper">
+                                <svg class="form-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
+                                </svg>
+                                <textarea id="wha_mensaje" class="form-input" name="message" placeholder="Describe tu propuesta o consulta..." required></textarea>
+                            </div>
+                        </div>
+
+                        <button onclick="enviarWhatsApp()" type="submit" class="form-submit">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                            </svg>
+                            <span>ENVIAR_MENSAJE</span>
+                        </button>
+                    </form>
+                </div>
+
+                <div class="terminal-footer">
+                    <span>ENCRIPTACIÓN: AES-256-GCM</span>
+                    <span>PROTOCOLO: TLS v1.3</span>
+                </div>
+            </div>
+
+            <div class="contact-info">
+                <div class="contact-info-card cyan">
+                    <div class="contact-info-label">EMAIL</div>
+                    <div class="contact-info-value">tomasanfo61@gmail.com</div>
+                </div>
+                <div class="contact-info-card green">
+                    <div class="contact-info-label">TELÉFONO</div>
+                    <div class="contact-info-value">+54 2984333857</div>
+                </div>
+                <div class="contact-info-card red">
+                    <div class="contact-info-label">UBICACIÓN</div>
+                    <div class="contact-info-value">GRAL.ROCA, ARG</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MODAL GALERÍA DE CERTIFICADOS (GRID) -->
+    <div class="modal-overlay cert-modal" id="cert-modal">
+        <div class="modal-content">
+            <span class="modal-corner tl"></span>
+            <span class="modal-corner tr"></span>
+            <span class="modal-corner bl"></span>
+            <span class="modal-corner br"></span>
+
+            <button class="modal-close" onclick="closeCertGallery()">
+                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+
+            <div class="modal-header">
+                <svg class="modal-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+                </svg>
+                <h2 class="modal-title">GALERÍA_DE_CERTIFICADOS</h2>
+                <p class="modal-subtitle">Click en cualquier certificado para ver en tamaño completo</p>
+            </div>
+
+            <div class="cert-grid">
+                <!-- CERTIFICADO 1: Ciberseguridad YPF -->
+                <div class="cert-item" onclick="openCertFull(0)">
+                    <div class="cert-image-thumb">
+                        <img src="certificados/ciberseguridad-ypf.jpg" alt="Ciberseguridad YPF">
+                        <span class="cert-badge ypf">YPF</span>
+                        <div class="cert-overlay">
+                            <span class="cert-overlay-text">VER COMPLETO</span>
+                        </div>
+                    </div>
+                    <div class="cert-title">CIBERSEGURIDAD</div>
+                    <div class="cert-issuer">Fundación YPF</div>
+                    <div class="cert-date">
+                        <span class="cert-status"></span>
+                        Febrero 2026
+                    </div>
+                </div>
+
+                <!-- CERTIFICADO 2: IA Gemini -->
+                <div class="cert-item" onclick="openCertFull(1)">
+                    <div class="cert-image-thumb">
+                        <img src="certificados/gemini-santander.jpg" alt="Domina la IA con Gemini">
+                        <span class="cert-badge santander">SANTANDER</span>
+                        <div class="cert-overlay">
+                            <span class="cert-overlay-text">VER COMPLETO</span>
+                        </div>
+                    </div>
+                    <div class="cert-title">DOMINA_LA_IA_CON_GEMINI</div>
+                    <div class="cert-issuer">Santander Open Academy</div>
+                    <div class="cert-date">
+                        <span class="cert-status"></span>
+                        Febrero 2026
+                    </div>
+                </div>
+
+                <!-- CERTIFICADO 3: Excel YPF -->
+                <div class="cert-item" onclick="openCertFull(2)">
+                    <div class="cert-image-thumb">
+                        <img src="certificados/excel-ypf.jpg" alt="Excel YPF">
+                        <span class="cert-badge ypf">YPF</span>
+                        <div class="cert-overlay">
+                            <span class="cert-overlay-text">VER COMPLETO</span>
+                        </div>
+                    </div>
+                    <div class="cert-title">INTRODUCCIÓN_A_EXCEL</div>
+                    <div class="cert-issuer">Fundación YPF</div>
+                    <div class="cert-date">
+                        <span class="cert-status"></span>
+                        Febrero 2026
+                    </div>
+                </div>
+
+                <!-- CERTIFICADO 4: IA YPF -->
+                <div class="cert-item" onclick="openCertFull(3)">
+                    <div class="cert-image-thumb">
+                        <img src="certificados/ia-ypf.jpg" alt="Inteligencia Artificial YPF">
+                        <span class="cert-badge ypf">YPF</span>
+                        <div class="cert-overlay">
+                            <span class="cert-overlay-text">VER COMPLETO</span>
+                        </div>
+                    </div>
+                    <div class="cert-title">INTRODUCCIÓN_A_IA</div>
+                    <div class="cert-issuer">Fundación YPF</div>
+                    <div class="cert-date">
+                        <span class="cert-status"></span>
+                        Febrero 2026
+                    </div>
+                </div>
+
+                                <!-- CERTIFICADO 5: PYTHON SANTANDER -->
+                <div class="cert-item" onclick="openCertFull(3)">
+                    <div class="cert-image-thumb">
+                        <img src="certificados/Python-Santander-ANFOSSITOMAS.jpg" alt="PYTHON YPF">
+                        <span class="cert-badge ypf">SANTANDER</span>
+                        <div class="cert-overlay">
+                            <span class="cert-overlay-text">VER COMPLETO</span>
+                        </div>
+                    </div>
+                    <div class="cert-title">PYTHON</div>
+                    <div class="cert-issuer">Santander Open Academy</div>
+                    <div class="cert-date">
+                        <span class="cert-status"></span>
+                        Febrero 2026
+                    </div>
+                </div>
+
+                <!-- CERTIFICADO 6: Power BI YPF -->
+                <div class="cert-item" onclick="openCertFull(4)">
+                    <div class="cert-image-thumb">
+                        <img src="certificados/powerbi-ypf.jpg" alt="Power BI YPF">
+                        <span class="cert-badge ypf">YPF</span>
+                        <div class="cert-overlay">
+                            <span class="cert-overlay-text">VER COMPLETO</span>
+                        </div>
+                    </div>
+                    <div class="cert-title">INTRODUCCIÓN_A_POWER_BI</div>
+                    <div class="cert-issuer">Fundación YPF</div>
+                    <div class="cert-date">
+                        <span class="cert-status"></span>
+                        Febrero 2026
+                    </div>
+                </div>
+
+                <!-- CERTIFICADO 7: Prompting Santander -->
+                <div class="cert-item" onclick="openCertFull(5)">
+                    <div class="cert-image-thumb">
+                        <img src="certificados/prompting-santander.jpg" alt="Prompting Responsable">
+                        <span class="cert-badge santander">SANTANDER</span>
+                        <div class="cert-overlay">
+                            <span class="cert-overlay-text">VER COMPLETO</span>
+                        </div>
+                    </div>
+                    <div class="cert-title">PROMPTING_RESPONSABLE</div>
+                    <div class="cert-issuer">Santander Open Academy</div>
+                    <div class="cert-date">
+                        <span class="cert-status"></span>
+                        Febrero 2026
+                    </div>
+                </div>
+
+                <!-- CERTIFICADO 8: Seguridad Digital Santander -->
+                <div class="cert-item" onclick="openCertFull(6)">
+                    <div class="cert-image-thumb">
+                        <img src="certificados/seguridad-santander.jpg" alt="Seguridad Digital">
+                        <span class="cert-badge santander">SANTANDER</span>
+                        <div class="cert-overlay">
+                            <span class="cert-overlay-text">VER COMPLETO</span>
+                        </div>
+                    </div>
+                    <div class="cert-title">SEGURIDAD_DIGITAL</div>
+                    <div class="cert-issuer">Santander Open Academy</div>
+                    <div class="cert-date">
+                        <span class="cert-status"></span>
+                        Febrero 2026
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 24px; padding: 16px; border: 1px solid rgba(0,255,65,0.2); background: rgba(0,0,0,0.4);">
+                <p style="font-size: 11px; color: #888; margin-bottom: 8px;">Todos los certificados verificables en:</p>
+                <p style="font-size: 10px; color: var(--matrix-green);">Fundación YPF | Santander Open Academy</p>
+            </div>
+
+            <div class="modal-hex">7_CERTIFICADOS // YPF_SANTANDER // 2026</div>
+        </div>
+    </div>
+
+    <!-- MODAL VISTA COMPLETA DE CERTIFICADO -->
+    <div class="cert-full-modal" id="cert-full-modal">
+        <div class="cert-full-header">
+            <button class="cert-back-btn" onclick="closeCertFull()">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                </svg>
+                <span>VOLVER A GALERÍA</span>
+            </button>
+            <div class="cert-full-title" id="cert-full-title">TÍTULO_DEL_CERTIFICADO</div>
+            <div class="cert-nav-info">
+                <span id="cert-current">1</span> / <span id="cert-total">7</span>
+            </div>
+        </div>
+
+        <div class="cert-full-body">
+            <button class="cert-nav-btn prev" onclick="navCert(-1)">
+                <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+            </button>
+
+            <img class="cert-full-image" id="cert-full-image" src="" alt="Certificado">
+
+            <button class="cert-nav-btn next" onclick="navCert(1)">
+                <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+            </button>
+        </div>
+
+        <div class="cert-full-footer" id="cert-dots">
+            <!-- Dots se generan dinámicamente -->
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Datos de los certificados
+        const certificados = [
+            { src: 'certificados/ciberseguridad-ypf.jpg', title: 'CIBERSEGURIDAD - Fundación YPF' },
+            { src: 'certificados/gemini-santander.jpg', title: 'DOMINA_LA_IA_CON_GEMINI - Santander' },
+            { src: 'certificados/excel-ypf.jpg', title: 'INTRODUCCIÓN_A_EXCEL - Fundación YPF' },
+            { src: 'certificados/ia-ypf.jpg', title: 'INTRODUCCIÓN_A_IA - Fundación YPF' },
+            { src: 'certificados/powerbi-ypf.jpg', title: 'INTRODUCCIÓN_A_POWER_BI - Fundación YPF' },
+            { src: 'certificados/prompting-santander.jpg', title: 'PROMPTING_RESPONSABLE - Santander' },
+            { src: 'certificados/seguridad-santander.jpg', title: 'SEGURIDAD_DIGITAL - Santander' }
+        ];
+
+        let currentCertIndex = 0;
+
+        // Funciones para la galería (grid)
+        function openCertGallery() {
+            document.getElementById('cert-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCertGallery() {
+            document.getElementById('cert-modal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Funciones para vista completa
+        function openCertFull(index) {
+            currentCertIndex = index;
+            updateCertFull();
+            document.getElementById('cert-full-modal').classList.add('active');
+            generateCertDots();
+        }
+
+        function closeCertFull() {
+            document.getElementById('cert-full-modal').classList.remove('active');
+        }
+
+        function updateCertFull() {
+            const cert = certificados[currentCertIndex];
+            document.getElementById('cert-full-image').src = cert.src;
+            document.getElementById('cert-full-title').textContent = cert.title;
+            document.getElementById('cert-current').textContent = currentCertIndex + 1;
+
+            // Actualizar dots
+            document.querySelectorAll('.cert-dot').forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentCertIndex);
+            });
+
+            // Habilitar/deshabilitar botones de navegación
+            document.querySelector('.cert-nav-btn.prev').disabled = currentCertIndex === 0;
+            document.querySelector('.cert-nav-btn.next').disabled = currentCertIndex === certificados.length - 1;
+        }
+
+        function navCert(direction) {
+            const newIndex = currentCertIndex + direction;
+            if (newIndex >= 0 && newIndex < certificados.length) {
+                currentCertIndex = newIndex;
+                updateCertFull();
+            }
+        }
+
+        function generateCertDots() {
+            const dotsContainer = document.getElementById('cert-dots');
+            dotsContainer.innerHTML = '';
+            certificados.forEach((_, i) => {
+                const dot = document.createElement('div');
+                dot.className = 'cert-dot' + (i === currentCertIndex ? ' active' : '');
+                dot.onclick = () => {
+                    currentCertIndex = i;
+                    updateCertFull();
+                };
+                dotsContainer.appendChild(dot);
+            });
+            document.getElementById('cert-total').textContent = certificados.length;
+        }
+
+        // Cerrar modales con ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (document.getElementById('cert-full-modal').classList.contains('active')) {
+                    closeCertFull();
+                } else if (document.getElementById('cert-modal').classList.contains('active')) {
+                    closeCertGallery();
+                }
+            }
+            // Navegación con flechas
+            if (document.getElementById('cert-full-modal').classList.contains('active')) {
+                if (e.key === 'ArrowLeft') navCert(-1);
+                if (e.key === 'ArrowRight') navCert(1);
+            }
+        });
+
+        // Cerrar al hacer click fuera
+        document.getElementById('cert-modal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('cert-modal')) {
+                closeCertGallery();
+            }
+        });
+    </script>
+    <script>
+function enviarWhatsApp() {
+    const nombre = document.getElementById("wha_name").value.trim();
+    const email = document.getElementById("wha_email").value.trim();
+    const mensaje = document.getElementById("wha_mensaje").value.trim();
+
+    if (!nombre || !email || !mensaje) {
+        alert("Completa todos los campos.");
+        return;
+    }
+
+    const numero = "5492984333857"; 
+
+    const texto = `
+💬 Vi tu portfolio.
+
+👤 Nombre: ${nombre}
+📧 Email: ${email}
+
+
+${mensaje}
+    `;
+
+    const url = `https://wa.me/${numero}?text=${encodeURIComponent(texto)}`;
+
+    window.open(url, "_blank");
+}
+</script>
+</body>
+</html>

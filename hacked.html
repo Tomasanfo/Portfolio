@@ -1,0 +1,3872 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚠ SISTEMA COMPROMETIDO ⚠</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* ========================================
+           CSS VARIABLES & RESET
+        ======================================== */
+        :root {
+            --matrix-green: #00ff41;
+            --matrix-cyan: #00f0ff;
+            --matrix-red: #ff003c;
+            --matrix-dark: #0a0a0a;
+            --matrix-black: #000000;
+            --blood-red: #8b0000;
+            --dark-blood: #4a0000;
+            --font-mono: 'JetBrains Mono', monospace;
+            --font-sans: 'Inter', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-mono);
+            background: var(--matrix-black);
+            color: #fff;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        ::selection {
+            background: var(--matrix-red);
+            color: #000;
+        }
+
+        /* ========================================
+           CORRUPTION EFFECTS - OVERLAYS
+        ======================================== */
+        #corruption-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 99999;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            background: rgba(139, 0, 0, 0.15);
+            mix-blend-mode: multiply;
+        }
+
+        #glitch-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 99998;
+            opacity: 0;
+        }
+
+        .red-flash {
+            position: fixed;
+            inset: 0;
+            background: #ff0000;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 99997;
+            transition: opacity 0.05s ease;
+        }
+
+        .white-flash {
+            position: fixed;
+            inset: 0;
+            background: #ffffff;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 99996;
+        }
+
+        .static-overlay {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 99995;
+            opacity: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        .darkness-overlay {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(ellipse at center, transparent 0%, transparent 40%, rgba(0, 0, 0, 0.85) 100%);
+            pointer-events: none;
+            z-index: 99994;
+            opacity: 0;
+            transition: opacity 2s ease;
+        }
+
+        .darkness-overlay.active {
+            opacity: 1;
+        }
+
+        /* Blood drip effect */
+        .blood-drip {
+            position: fixed;
+            top: -100px;
+            width: 3px;
+            background: linear-gradient(to bottom, transparent, #8b0000, #ff0000);
+            pointer-events: none;
+            z-index: 99993;
+            opacity: 0;
+        }
+
+        .blood-drip.active {
+            animation: blood-fall 3s ease-in forwards;
+        }
+
+        @keyframes blood-fall {
+            0% { opacity: 0; transform: translateY(0); }
+            10% { opacity: 1; }
+            100% { opacity: 1; transform: translateY(100vh); }
+        }
+
+        /* ========================================
+           MATRIX RAIN CANVAS
+        ======================================== */
+        #matrix-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.4;
+            pointer-events: none;
+        }
+
+        /* ========================================
+           CRT EFFECTS
+        ======================================== */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.15),
+                rgba(0, 0, 0, 0.15) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+        }
+
+        .crt-vignette {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9998;
+            background: radial-gradient(
+                ellipse at center,
+                transparent 0%,
+                transparent 60%,
+                rgba(0, 0, 0, 0.6) 100%
+            );
+        }
+
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9997;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* ========================================
+           EVASIVE STOP BUTTON
+        ======================================== */
+        .stop-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #8b0000 0%, #ff0000 100%);
+            border: 3px solid #ff0000;
+            color: #fff;
+            font-family: var(--font-mono);
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            cursor: pointer;
+            z-index: 100001;
+            text-transform: uppercase;
+            box-shadow: 
+                0 0 20px rgba(255, 0, 0, 0.8),
+                0 0 40px rgba(255, 0, 0, 0.4),
+                inset 0 0 20px rgba(0, 0, 0, 0.5);
+            transition: all 0.15s ease-out;
+            animation: stop-pulse 1s infinite;
+            user-select: none;
+        }
+
+        @keyframes stop-pulse {
+            0%, 100% { 
+                box-shadow: 
+                    0 0 20px rgba(255, 0, 0, 0.8),
+                    0 0 40px rgba(255, 0, 0, 0.4),
+                    inset 0 0 20px rgba(0, 0, 0, 0.5);
+            }
+            50% { 
+                box-shadow: 
+                    0 0 30px rgba(255, 0, 0, 1),
+                    0 0 60px rgba(255, 0, 0, 0.6),
+                    inset 0 0 30px rgba(0, 0, 0, 0.7);
+            }
+        }
+
+        .stop-button::before {
+            content: '■ ';
+            color: #000;
+        }
+
+        .stop-button:hover {
+            transform: scale(1.1);
+        }
+
+        .stop-button.clicked {
+            animation: stop-explode 0.5s forwards;
+        }
+
+        @keyframes stop-explode {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.5); background: #fff; color: #000; }
+            100% { transform: scale(0); opacity: 0; }
+        }
+
+        /* ========================================
+           HORROR FACE SCREAMER - IMPROVED
+        ======================================== */
+        .screamer-face {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            z-index: 100000;
+            pointer-events: none;
+            transition: transform 0.05s ease-out;
+        }
+
+        .screamer-face.active {
+            transform: translate(-50%, -50%) scale(1.3);
+            animation: screamer-shake 0.08s infinite;
+        }
+
+        @keyframes screamer-shake {
+            0%, 100% { transform: translate(-50%, -50%) scale(1.3) rotate(-3deg); }
+            25% { transform: translate(-50%, -50%) scale(1.35) rotate(3deg); }
+            50% { transform: translate(-50%, -50%) scale(1.3) rotate(-2deg); }
+            75% { transform: translate(-50%, -50%) scale(1.35) rotate(2deg); }
+        }
+
+        .screamer-face svg {
+            width: 95vw;
+            height: 95vh;
+            max-width: 1000px;
+            max-height: 1000px;
+            filter: 
+                drop-shadow(0 0 100px #ff0000) 
+                drop-shadow(0 0 200px #8b0000)
+                drop-shadow(0 0 300px #4a0000);
+            animation: screamer-pulse 0.08s infinite;
+        }
+
+        @keyframes screamer-pulse {
+            0%, 100% { filter: drop-shadow(0 0 100px #ff0000) drop-shadow(0 0 200px #8b0000) drop-shadow(0 0 300px #4a0000); }
+            50% { filter: drop-shadow(0 0 150px #ff0000) drop-shadow(0 0 300px #8b0000) drop-shadow(0 0 450px #4a0000); }
+        }
+
+        /* ========================================
+           WARNING BANNER
+        ======================================== */
+        .warning-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #ff0000;
+            color: #000;
+            text-align: center;
+            padding: 12px;
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 4px;
+            z-index: 10001;
+            transform: translateY(-100%);
+            transition: transform 0.3s ease;
+            animation: warning-flash 0.2s infinite;
+            text-shadow: 0 0 10px #ff0000;
+        }
+
+        .warning-banner.active {
+            transform: translateY(0);
+        }
+
+        @keyframes warning-flash {
+            0%, 100% { background: #ff0000; color: #000; }
+            50% { background: #000; color: #ff0000; }
+        }
+
+        /* ========================================
+           NAVIGATION
+        ======================================== */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            padding: 16px 0;
+        }
+
+        nav.scrolled {
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 255, 65, 0.3);
+        }
+
+        nav.corrupted {
+            border-bottom: 1px solid rgba(255, 0, 0, 0.5);
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 24px;
+            height: 24px;
+            color: var(--matrix-green);
+            transition: color 0.3s ease;
+        }
+
+        .logo-icon.corrupted {
+            color: var(--matrix-red);
+            animation: icon-flicker 0.1s infinite;
+        }
+
+        @keyframes icon-flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .nav-link {
+            color: #888;
+            text-decoration: none;
+            font-size: 13px;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--matrix-green);
+        }
+
+        .nav-link.corrupted:hover {
+            color: var(--matrix-red);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--matrix-green);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link.corrupted::after {
+            background: var(--matrix-red);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-auth {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .user-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--matrix-green);
+            font-size: 12px;
+            transition: color 0.3s ease;
+        }
+
+        .user-status.corrupted {
+            color: var(--matrix-red);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--matrix-green);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+            transition: background 0.3s ease;
+        }
+
+        .status-dot.corrupted {
+            background: var(--matrix-red);
+            animation: pulse-red 0.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        @keyframes pulse-red {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.3; transform: scale(1.2); }
+        }
+
+        .btn-cyber {
+            padding: 10px 24px;
+            border: 1px solid var(--matrix-green);
+            color: var(--matrix-green);
+            background: transparent;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            letter-spacing: 2px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .btn-cyber.corrupted {
+            border-color: var(--matrix-red);
+            color: var(--matrix-red);
+        }
+
+        .btn-cyber::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background: var(--matrix-green);
+            transition: width 0.3s ease;
+            z-index: -1;
+        }
+
+        .btn-cyber.corrupted::before {
+            background: var(--matrix-red);
+        }
+
+        .btn-cyber:hover::before {
+            width: 100%;
+        }
+
+        .btn-cyber:hover {
+            color: #000;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--matrix-green);
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .mobile-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.95);
+            border-bottom: 1px solid rgba(0, 255, 65, 0.3);
+            padding: 16px 24px;
+        }
+
+        .mobile-menu.active {
+            display: block;
+        }
+
+        .mobile-menu .nav-link {
+            display: block;
+            padding: 12px 0;
+            border-bottom: 1px solid #222;
+        }
+
+        /* ========================================
+           HERO SECTION
+        ======================================== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 80px 24px 40px;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 900px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            border-radius: 9999px;
+            margin-bottom: 32px;
+            animation: flicker 3s infinite;
+            transition: all 0.3s ease;
+        }
+
+        .status-badge.corrupted {
+            border-color: rgba(255, 0, 0, 0.5);
+            animation: flicker-red 0.5s infinite;
+        }
+
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+            52% { opacity: 0.2; }
+            54% { opacity: 1; }
+        }
+
+        @keyframes flicker-red {
+            0%, 100% { opacity: 1; border-color: rgba(255, 0, 0, 0.8); }
+            50% { opacity: 0.5; border-color: rgba(255, 0, 0, 0.3); }
+        }
+
+        .status-badge .dot {
+            width: 8px;
+            height: 8px;
+            background: var(--matrix-green);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+            transition: background 0.3s ease;
+        }
+
+        .status-badge.corrupted .dot {
+            background: var(--matrix-red);
+        }
+
+        .status-badge span {
+            color: var(--matrix-green);
+            font-size: 11px;
+            letter-spacing: 2px;
+            transition: color 0.3s ease;
+        }
+
+        .status-badge.corrupted span {
+            color: var(--matrix-red);
+        }
+
+        .hero-title {
+            font-size: clamp(36px, 10vw, 80px);
+            font-weight: 700;
+            margin-bottom: 24px;
+            letter-spacing: -2px;
+            transition: all 0.3s ease;
+        }
+
+        .hero-title.corrupted {
+            color: var(--matrix-red);
+            text-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+        }
+
+        .typewriter {
+            display: inline-block;
+        }
+
+        .typewriter-cursor {
+            display: inline-block;
+            width: 12px;
+            height: 1em;
+            background: var(--matrix-green);
+            margin-left: 4px;
+            animation: blink 1s step-end infinite;
+            vertical-align: middle;
+            transition: background 0.3s ease;
+        }
+
+        .typewriter-cursor.corrupted {
+            background: var(--matrix-red);
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .hero-subtitle {
+            font-size: clamp(16px, 3vw, 22px);
+            color: #888;
+            margin-bottom: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            min-height: 60px;
+            transition: all 0.3s ease;
+        }
+
+        .hero-subtitle.corrupted {
+            color: #666;
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            justify-content: center;
+            margin-bottom: 60px;
+        }
+
+        .btn-primary {
+            padding: 16px 32px;
+            background: var(--matrix-green);
+            color: #000;
+            border: none;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary.corrupted {
+            background: var(--matrix-red);
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.5);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.5);
+        }
+
+        .btn-primary.corrupted:hover {
+            box-shadow: 0 0 40px rgba(255, 0, 0, 0.8);
+        }
+
+        .btn-secondary {
+            padding: 16px 32px;
+            border: 1px solid rgba(0, 255, 65, 0.5);
+            color: var(--matrix-green);
+            background: transparent;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary.corrupted {
+            border-color: rgba(255, 0, 0, 0.5);
+            color: var(--matrix-red);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 255, 65, 0.1);
+        }
+
+        .btn-secondary.corrupted:hover {
+            background: rgba(255, 0, 0, 0.1);
+        }
+
+        /* Hero Stats */
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 24px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .stat-card {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 255, 65, 0.2);
+            padding: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: var(--matrix-green);
+            transform: translateY(-4px);
+        }
+
+        .stat-card.corrupted {
+            border-color: rgba(255, 0, 0, 0.3);
+        }
+
+        .stat-card.corrupted:hover {
+            border-color: var(--matrix-red);
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+        }
+
+        .stat-icon {
+            width: 32px;
+            height: 32px;
+            margin: 0 auto 12px;
+            color: var(--matrix-green);
+            transition: color 0.3s ease;
+        }
+
+        .stat-card.corrupted .stat-icon {
+            color: var(--matrix-red);
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            transition: color 0.3s ease;
+        }
+
+        .stat-card.corrupted .stat-value {
+            color: var(--matrix-red);
+        }
+
+        .stat-label {
+            font-size: 10px;
+            color: #666;
+            letter-spacing: 2px;
+            transition: color 0.3s ease;
+        }
+
+        .stat-card.corrupted .stat-label {
+            color: #444;
+        }
+
+        /* ========================================
+           SECTION STYLES
+        ======================================== */
+        section {
+            position: relative;
+            padding: 80px 24px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            border-radius: 9999px;
+            margin-bottom: 24px;
+            font-size: 11px;
+            letter-spacing: 2px;
+            color: var(--matrix-green);
+            transition: all 0.3s ease;
+        }
+
+        .section-tag.corrupted {
+            border-color: rgba(255, 0, 0, 0.3);
+            color: var(--matrix-red);
+        }
+
+        .section-title {
+            font-size: clamp(32px, 6vw, 56px);
+            font-weight: 700;
+            margin-bottom: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .section-title.corrupted {
+            color: var(--matrix-red);
+        }
+
+        .section-desc {
+            color: #888;
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .section-desc.corrupted {
+            color: #555;
+        }
+
+        /* Grid Background */
+        .hacker-grid {
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(0, 255, 65, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 65, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+
+        .hacker-grid.corrupted {
+            background-image: 
+                linear-gradient(rgba(255, 0, 0, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 0, 0, 0.05) 1px, transparent 1px);
+        }
+
+        /* ========================================
+           FEATURES SECTION
+        ======================================== */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 255, 65, 0.2);
+            padding: 32px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card::before,
+        .feature-card::after,
+        .feature-card .corner-bl,
+        .feature-card .corner-br {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-color: currentColor;
+            border-style: solid;
+            opacity: 0.5;
+        }
+
+        .feature-card::before {
+            top: 0;
+            left: 0;
+            border-width: 1px 0 0 1px;
+        }
+
+        .feature-card::after {
+            top: 0;
+            right: 0;
+            border-width: 1px 1px 0 0;
+        }
+
+        .feature-card .corner-bl {
+            bottom: 0;
+            left: 0;
+            border-width: 0 0 1px 1px;
+        }
+
+        .feature-card .corner-br {
+            bottom: 0;
+            right: 0;
+            border-width: 0 1px 1px 0;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .feature-card.corrupted {
+            border-color: rgba(255, 0, 0, 0.2);
+            color: var(--matrix-red);
+        }
+
+        .feature-card.corrupted:hover {
+            border-color: var(--matrix-red);
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
+        }
+
+        .feature-number {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            font-size: 10px;
+            opacity: 0.3;
+        }
+
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 16px;
+            color: var(--matrix-green);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card.corrupted .feature-icon {
+            color: var(--matrix-red);
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1);
+        }
+
+        .feature-title {
+            color: #fff;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+        }
+
+        .feature-card.corrupted .feature-title {
+            color: var(--matrix-red);
+        }
+
+        .feature-desc {
+            color: #888;
+            font-size: 13px;
+            line-height: 1.7;
+            transition: color 0.3s ease;
+        }
+
+        .feature-card.corrupted .feature-desc {
+            color: #555;
+        }
+
+        /* ========================================
+           ABOUT SECTION
+        ======================================== */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+            align-items: center;
+        }
+
+        @media (max-width: 900px) {
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+
+        .about-image {
+            position: relative;
+            aspect-ratio: 4/5;
+            overflow: hidden;
+        }
+
+        .about-image-inner {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--matrix-dark), #000, var(--matrix-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .about-image-inner.corrupted {
+            background: linear-gradient(135deg, #1a0000, #000, #1a0000);
+        }
+
+        .hacker-logo {
+            text-align: center;
+        }
+
+        .logo-circles {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 24px;
+        }
+
+        .logo-circle {
+            position: absolute;
+            border: 2px solid;
+            border-radius: 50%;
+            animation: ping 3s ease-out infinite;
+        }
+
+        .logo-circle:nth-child(1) {
+            inset: 0;
+            border-color: rgba(0, 255, 65, 0.3);
+        }
+
+        .logo-circle:nth-child(2) {
+            inset: 20px;
+            border-color: rgba(0, 255, 65, 0.3);
+            animation-delay: 0.5s;
+        }
+
+        .logo-circle:nth-child(3) {
+            inset: 40px;
+            border-color: rgba(0, 240, 255, 0.3);
+            animation-delay: 1s;
+        }
+
+        .logo-circles.corrupted .logo-circle:nth-child(1),
+        .logo-circles.corrupted .logo-circle:nth-child(2) {
+            border-color: rgba(255, 0, 0, 0.3);
+        }
+
+        .logo-circles.corrupted .logo-circle:nth-child(3) {
+            border-color: rgba(139, 0, 0, 0.5);
+        }
+
+        .logo-letter {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            font-weight: 700;
+            color: var(--matrix-green);
+            transition: color 0.3s ease;
+        }
+
+        .logo-letter.corrupted {
+            color: var(--matrix-red);
+        }
+
+        @keyframes ping {
+            0% { transform: scale(1); opacity: 1; }
+            75%, 100% { transform: scale(1.2); opacity: 0; }
+        }
+
+        .about-image-grid {
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(0, 255, 65, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 65, 0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
+            transition: all 0.3s ease;
+        }
+
+        .about-image-grid.corrupted {
+            background-image: 
+                linear-gradient(rgba(255, 0, 0, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 0, 0, 0.05) 1px, transparent 1px);
+        }
+
+        .about-image-frame {
+            position: absolute;
+            inset: 0;
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            pointer-events: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .about-image-frame.corrupted {
+            border-color: rgba(255, 0, 0, 0.3);
+        }
+
+        .about-badge {
+            position: absolute;
+            bottom: -16px;
+            right: -16px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            padding: 12px 24px;
+            transition: border-color 0.3s ease;
+        }
+
+        .about-badge.corrupted {
+            border-color: rgba(255, 0, 0, 0.3);
+        }
+
+        .about-badge-content {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            color: var(--matrix-green);
+            transition: color 0.3s ease;
+        }
+
+        .about-badge.corrupted .about-badge-content {
+            color: var(--matrix-red);
+        }
+
+        .about-text p {
+            color: #888;
+            font-size: 14px;
+            line-height: 1.8;
+            margin-bottom: 16px;
+            transition: color 0.3s ease;
+        }
+
+        .about-text.corrupted p {
+            color: #555;
+        }
+
+        .code-snippet {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            padding: 16px;
+            margin: 24px 0;
+            font-size: 12px;
+            transition: border-color 0.3s ease;
+        }
+
+        .code-snippet.corrupted {
+            border-color: rgba(255, 0, 0, 0.3);
+        }
+
+        .code-snippet .comment { color: #666; }
+        .code-snippet .keyword { color: var(--matrix-cyan); }
+        .code-snippet .property { color: #fff; }
+        .code-snippet .boolean { color: var(--matrix-red); }
+
+        /* ========================================
+           CONTACT SECTION
+        ======================================== */
+        .contact-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .terminal-window {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(0, 255, 65, 0.2);
+            overflow: hidden;
+            transition: border-color 0.3s ease;
+        }
+
+        .terminal-window.corrupted {
+            border-color: rgba(255, 0, 0, 0.3);
+        }
+
+        .terminal-header {
+            background: var(--matrix-dark);
+            border-bottom: 1px solid rgba(0, 255, 65, 0.2);
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: border-color 0.3s ease;
+        }
+
+        .terminal-window.corrupted .terminal-header {
+            border-color: rgba(255, 0, 0, 0.2);
+        }
+
+        .terminal-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .terminal-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .terminal-dot.red { background: var(--matrix-red); }
+        .terminal-dot.yellow { background: #fbbf24; }
+        .terminal-dot.green { background: var(--matrix-green); transition: background 0.3s ease; }
+
+        .terminal-window.corrupted .terminal-dot.green {
+            background: #8b0000;
+        }
+
+        .terminal-title {
+            font-size: 11px;
+            color: #666;
+        }
+
+        .terminal-body {
+            padding: 24px;
+        }
+
+        .terminal-log {
+            margin-bottom: 24px;
+            font-size: 11px;
+        }
+
+        .terminal-line {
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .terminal-line .prompt {
+            color: var(--matrix-green);
+            transition: color 0.3s ease;
+        }
+
+        .terminal-window.corrupted .terminal-line .prompt {
+            color: var(--matrix-red);
+        }
+
+        .terminal-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 11px;
+            color: var(--matrix-green);
+            margin-bottom: 8px;
+            transition: color 0.3s ease;
+        }
+
+        .terminal-window.corrupted .form-label {
+            color: var(--matrix-red);
+        }
+
+        .form-label .prompt {
+            color: #666;
+        }
+
+        .form-input-wrapper {
+            position: relative;
+        }
+
+        .form-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            color: #666;
+        }
+
+        .form-input {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #333;
+            color: #fff;
+            padding: 12px 12px 12px 40px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--matrix-green);
+            box-shadow: 0 0 10px rgba(0, 255, 65, 0.2);
+        }
+
+        .terminal-window.corrupted .form-input:focus {
+            border-color: var(--matrix-red);
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.2);
+        }
+
+        .form-input::placeholder {
+            color: #444;
+        }
+
+        textarea.form-input {
+            padding-left: 40px;
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 16px;
+            background: transparent;
+            border: 1px solid var(--matrix-green);
+            color: var(--matrix-green);
+            font-family: var(--font-mono);
+            font-size: 12px;
+            letter-spacing: 2px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-submit::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background: var(--matrix-green);
+            transition: width 0.3s ease;
+            z-index: -1;
+        }
+
+        .form-submit:hover::before {
+            width: 100%;
+        }
+
+        .form-submit:hover {
+            color: #000;
+        }
+
+        .terminal-window.corrupted .form-submit {
+            border-color: var(--matrix-red);
+            color: var(--matrix-red);
+        }
+
+        .terminal-window.corrupted .form-submit::before {
+            background: var(--matrix-red);
+        }
+
+        .terminal-footer {
+            background: var(--matrix-dark);
+            border-top: 1px solid rgba(0, 255, 65, 0.2);
+            padding: 8px 16px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 9px;
+            color: #666;
+            transition: border-color 0.3s ease;
+        }
+
+        .terminal-window.corrupted .terminal-footer {
+            border-color: rgba(255, 0, 0, 0.2);
+        }
+
+        /* Contact Info Cards */
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            margin-top: 32px;
+        }
+
+        .contact-info-card {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 255, 65, 0.2);
+            padding: 16px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .contact-info-card:hover {
+            border-color: var(--matrix-cyan);
+        }
+
+        .contact-info-card.corrupted {
+            border-color: rgba(255, 0, 0, 0.2);
+        }
+
+        .contact-info-card.corrupted:hover {
+            border-color: var(--matrix-red);
+        }
+
+        .contact-info-label {
+            font-size: 10px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .contact-info-value {
+            font-size: 12px;
+            color: var(--matrix-cyan);
+            transition: color 0.3s ease;
+        }
+
+        .contact-info-card.corrupted .contact-info-value {
+            color: var(--matrix-red);
+        }
+
+        /* ========================================
+           CORRUPTION ANIMATIONS
+        ======================================== */
+        .glitch-text {
+            animation: text-glitch 0.3s infinite;
+        }
+
+        @keyframes text-glitch {
+            0%, 100% { 
+                transform: translate(0);
+                text-shadow: none;
+            }
+            20% { 
+                transform: translate(-2px, 1px);
+                text-shadow: -2px 0 #ff0000, 2px 0 #00ffff;
+            }
+            40% { 
+                transform: translate(2px, -1px);
+                text-shadow: 2px 0 #ff0000, -2px 0 #00ffff;
+            }
+            60% { 
+                transform: translate(-1px, 2px);
+            }
+            80% { 
+                transform: translate(1px, -2px);
+            }
+        }
+
+        .corrupted {
+            filter: hue-rotate(180deg) saturate(200%) contrast(150%);
+        }
+
+        .inverted {
+            filter: invert(1);
+        }
+
+        .bloody {
+            filter: sepia(100%) saturate(300%) hue-rotate(-50deg);
+        }
+
+        .shake {
+            animation: shake-element 0.5s ease-in-out;
+        }
+
+        @keyframes shake-element {
+            0%, 100% { transform: translate(0, 0); }
+            10% { transform: translate(-5px, 3px); }
+            20% { transform: translate(5px, -3px); }
+            30% { transform: translate(-5px, -3px); }
+            40% { transform: translate(5px, 3px); }
+            50% { transform: translate(-3px, 5px); }
+            60% { transform: translate(3px, -5px); }
+            70% { transform: translate(-3px, -5px); }
+            80% { transform: translate(3px, 5px); }
+            90% { transform: translate(-5px, 0); }
+        }
+
+        /* Hidden horror messages */
+        .hidden-message {
+            position: fixed;
+            font-size: 14px;
+            color: #ff0000;
+            text-shadow: 0 0 10px #ff0000;
+            pointer-events: none;
+            z-index: 10002;
+            opacity: 0;
+            font-family: var(--font-mono);
+            letter-spacing: 2px;
+        }
+
+        .hidden-message.show {
+            animation: message-flicker 3s ease forwards;
+        }
+
+        @keyframes message-flicker {
+            0% { opacity: 0; }
+            10% { opacity: 1; }
+            20% { opacity: 0.3; }
+            30% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .mobile-menu-btn { display: block; }
+            .hero-stats { grid-template-columns: 1fr; }
+            .features-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- CORRUPTION OVERLAYS -->
+    <div id="corruption-overlay"></div>
+    <canvas id="glitch-overlay"></canvas>
+    <div class="red-flash" id="red-flash"></div>
+    <div class="white-flash" id="white-flash"></div>
+    <div class="static-overlay" id="static-overlay"></div>
+    <div class="darkness-overlay" id="darkness-overlay"></div>
+    <div id="blood-container"></div>
+
+    <!-- EVASIVE STOP BUTTON -->
+    <button class="stop-button" id="stop-button">DETENER PESADILLA</button>
+
+    <!-- WARNING BANNER -->
+    <div class="warning-banner" id="warning-banner">
+        ⚠ SISTEMA COMPROMETIDO - INTRUSIÓN DETECTADA ⚠
+    </div>
+
+    <!-- SCREAMER FACE -->
+    <div class="screamer-face" id="screamer-face">
+        <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <filter id="noise" x="0%" y="0%" width="100%" height="100%">
+                    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/>
+                </filter>
+                <radialGradient id="eye-glow" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" style="stop-color:#ff0000;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#8b0000;stop-opacity:1" />
+                </radialGradient>
+            </defs>
+            
+            <ellipse cx="200" cy="200" rx="190" ry="195" fill="#0a0000" stroke="#ff0000" stroke-width="10"/>
+            <ellipse cx="200" cy="200" rx="180" ry="185" fill="#000" stroke="#8b0000" stroke-width="4"/>
+            
+            <ellipse cx="110" cy="140" rx="75" ry="85" fill="url(#eye-glow)"/>
+            <ellipse cx="110" cy="140" rx="65" ry="75" fill="#000"/>
+            <ellipse cx="115" cy="145" rx="30" ry="40" fill="#ff0000"/>
+            <ellipse cx="118" cy="148" rx="15" ry="20" fill="#000"/>
+            <circle cx="125" cy="135" r="8" fill="#fff" opacity="0.9"/>
+            
+            <ellipse cx="290" cy="140" rx="75" ry="85" fill="url(#eye-glow)"/>
+            <ellipse cx="290" cy="140" rx="65" ry="75" fill="#000"/>
+            <ellipse cx="285" cy="145" rx="30" ry="40" fill="#ff0000"/>
+            <ellipse cx="282" cy="148" rx="15" ry="20" fill="#000"/>
+            <circle cx="275" cy="135" r="8" fill="#fff" opacity="0.9"/>
+            
+            <path d="M35 140 Q60 100 90 130" stroke="#8b0000" stroke-width="3" fill="none"/>
+            <path d="M35 140 Q55 160 85 150" stroke="#8b0000" stroke-width="3" fill="none"/>
+            <path d="M365 140 Q340 100 310 130" stroke="#8b0000" stroke-width="3" fill="none"/>
+            <path d="M365 140 Q345 160 315 150" stroke="#8b0000" stroke-width="3" fill="none"/>
+            <path d="M110 55 Q130 90 110 120" stroke="#8b0000" stroke-width="2" fill="none"/>
+            <path d="M290 55 Q270 90 290 120" stroke="#8b0000" stroke-width="2" fill="none"/>
+            
+            <path d="M170 230 L200 310 L230 230" stroke="#ff0000" stroke-width="6" fill="none"/>
+            <ellipse cx="200" cy="270" rx="25" ry="35" fill="#1a0000" stroke="#8b0000" stroke-width="2"/>
+            <ellipse cx="190" cy="285" rx="8" ry="12" fill="#000"/>
+            <ellipse cx="210" cy="285" rx="8" ry="12" fill="#000"/>
+            
+            <ellipse cx="200" cy="340" rx="130" ry="70" fill="#000" stroke="#ff0000" stroke-width="8"/>
+            <ellipse cx="200" cy="340" rx="120" ry="60" fill="#0a0000"/>
+            
+            <path d="M95 305 L100 340 L110 300 L115 345 L130 295 L138 348 L155 292 L165 350 L185 290 L195 352 L205 290 L215 352 L235 292 L245 350 L262 295 L270 348 L285 300 L290 345 L300 305 L305 340" 
+                  fill="#ffffcc" stroke="#000" stroke-width="1"/>
+            <path d="M110 375 L115 355 L125 380 L135 352 L148 382 L160 350 L175 385 L190 348 L200 387 L210 348 L225 385 L240 350 L252 382 L265 352 L275 380 L285 355 L290 375" 
+                  fill="#ddddaa" stroke="#000" stroke-width="1"/>
+            
+            <ellipse cx="200" cy="365" rx="60" ry="25" fill="#8b0000" opacity="0.8"/>
+            
+            <path d="M110 225 Q105 260 110 300 Q115 340 110 380" stroke="#8b0000" stroke-width="12" stroke-linecap="round" fill="none" opacity="0.9"/>
+            <path d="M290 225 Q295 260 290 300 Q285 340 290 380" stroke="#8b0000" stroke-width="12" stroke-linecap="round" fill="none" opacity="0.9"/>
+            <path d="M200 410 Q195 440 200 470 Q205 500 200 530" stroke="#8b0000" stroke-width="15" stroke-linecap="round" fill="none" opacity="0.9"/>
+            
+            <path d="M10 80 L50 130 L45 160" stroke="#ff0000" stroke-width="4" fill="none"/>
+            <path d="M390 60 L350 110 L355 150" stroke="#ff0000" stroke-width="4" fill="none"/>
+            <path d="M15 320 L55 280 L60 250" stroke="#ff0000" stroke-width="4" fill="none"/>
+            <path d="M385 340 L345 300 L340 270" stroke="#ff0000" stroke-width="4" fill="none"/>
+            <path d="M140 15 L165 70 L155 95 L175 125 L165 150" stroke="#ff0000" stroke-width="5" fill="none"/>
+            <path d="M260 15 L235 70 L245 95 L225 125 L235 150" stroke="#ff0000" stroke-width="5" fill="none"/>
+            <path d="M80 200 L120 210 L100 230" stroke="#8b0000" stroke-width="2" fill="none"/>
+            <path d="M320 200 L280 210 L300 230" stroke="#8b0000" stroke-width="2" fill="none"/>
+            
+            <rect x="0" y="0" width="400" height="400" fill="url(#noise)" opacity="0.4"/>
+            
+            <circle cx="60" cy="200" r="15" fill="#1a0000" stroke="#8b0000" stroke-width="2"/>
+            <circle cx="340" cy="200" r="15" fill="#1a0000" stroke="#8b0000" stroke-width="2"/>
+        </svg>
+    </div>
+
+    <!-- Matrix Rain Canvas -->
+    <canvas id="matrix-canvas"></canvas>
+
+    <!-- CRT Effects -->
+    <div class="scanlines"></div>
+    <div class="crt-vignette"></div>
+    <div class="noise-overlay"></div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <svg class="logo-icon" id="logo-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+                <span class="logo-text" id="logo-text">ANFOSSI.T</span>
+            </a>
+
+            <div class="nav-links">
+                <a href="#home" class="nav-link" id="nav-link-1">INICIO</a>
+                <a href="#about" class="nav-link" id="nav-link-2">PERFIL</a>
+                <a href="#skills" class="nav-link" id="nav-link-3">HABILIDADES</a>
+                <a href="#contact" class="nav-link" id="nav-link-4">CONTACTO</a>
+            </div>
+
+            <div class="nav-auth">
+                <div class="user-status" id="user-status">
+                    <span class="status-dot" id="status-dot"></span>
+                    <span id="status-text">CONECTADO</span>
+                </div>
+            </div>
+
+            <button class="mobile-menu-btn" id="mobile-menu-btn">
+                <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+            </button>
+        </div>
+
+        <div class="mobile-menu" id="mobile-menu">
+            <a href="#home" class="nav-link">INICIO</a>
+            <a href="#about" class="nav-link">PERFIL</a>
+            <a href="#skills" class="nav-link">HABILIDADES</a>
+            <a href="#contact" class="nav-link">CONTACTO</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="status-badge" id="status-badge">
+                <span class="dot" id="badge-dot"></span>
+                <span id="badge-text">ESTUDIANTE_CIBERSEGURIDAD</span>
+            </div>
+
+            <h1 class="hero-title" id="hero-title">
+                <span class="typewriter" id="hero-typewriter">ANFOSSI_TOMAS</span>
+                <span class="typewriter-cursor" id="typewriter-cursor"></span>
+            </h1>
+
+            <p class="hero-subtitle" id="hero-subtitle">Estudiante de Ciberseguridad | Desarrollo Web | IA & Automatización</p>
+
+            <div class="hero-buttons" id="hero-buttons">
+                <button class="btn-primary" id="btn-primary-1" onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})">
+                    <span id="btn-text-1">CONTACTAR</span>
+                    <svg class="arrow" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                </button>
+                <button class="btn-secondary" id="btn-secondary-1" onclick="document.getElementById('skills').scrollIntoView({behavior: 'smooth'})">
+                    <span id="btn-text-2">VER_HABILIDADES</span>
+                </button>
+            </div>
+
+            <div class="hero-stats" id="hero-stats">
+                <div class="stat-card" id="stat-card-1">
+                    <svg class="stat-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+                    </svg>
+                    <div class="stat-value" id="stat-value-1">8</div>
+                    <div class="stat-label" id="stat-label-1">CERTIFICADOS</div>
+                </div>
+
+                <div class="stat-card" id="stat-card-2">
+                    <svg class="stat-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                    </svg>
+                    <div class="stat-value" id="stat-value-2">IA</div>
+                    <div class="stat-label" id="stat-label-2">ESPECIALIZACIÓN</div>
+                </div>
+                <div class="stat-card" id="stat-card-3">
+                    <svg class="stat-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                    </svg>
+                    <div class="stat-value" id="stat-value-3">FASTA</div>
+                    <div class="stat-label" id="stat-label-3">UNIVERSIDAD (EN PAUSA)</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="hacker-grid" id="about-grid"></div>
+        <div class="about-content">
+            <div class="about-image">
+                <div class="about-image-inner" id="about-image-inner">
+                    <div class="about-image-grid" id="about-image-grid"></div>
+                    <div class="hacker-logo">
+                        <div class="logo-circles" id="logo-circles">
+                            <div class="logo-circle"></div>
+                            <div class="logo-circle"></div>
+                            <div class="logo-circle"></div>
+                            <div class="logo-letter" id="about-logo-letter">T</div>
+                        </div>
+                        <p style="color: var(--matrix-green); font-size: 12px; letter-spacing: 2px;" id="about-logo-text">TOMAS_ANFOSSI</p>
+                    </div>
+                </div>
+                <div class="about-image-frame" id="about-image-frame"></div>
+                <div class="about-badge" id="about-badge">
+                    <div class="about-badge-content">
+                        <span class="status-dot"></span>
+                        <span>EN_BÚSQUEDA_ACTIVA</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="about-text" id="about-text">
+                <div class="section-tag" id="about-section-tag" style="display: inline-flex; margin-bottom: 16px;">
+                    <span>PERFIL_PROFESIONAL</span>
+                </div>
+                <h2 class="section-title" id="about-section-title" style="text-align: left;">DIGITAL_DEFENDER</h2>
+
+                <p id="about-p1">Estudiante de <strong>Licenciatura en Ciberseguridad</strong> en Universidad FASTA (desde febrero 2025), con orientación al desarrollo web, programación y seguridad informática. (en pausa)</p>
+
+                <p id="about-p2">Experiencia en implementación de soluciones digitales, automatización de procesos y configuración de entornos tecnológicos. Perfil analítico con fuerte interés en inteligencia artificial, ciencia de datos y seguridad digital.</p>
+
+                <div class="code-snippet" id="code-snippet">
+                    <div class="comment">// Mi Filosofía</div>
+                    <div><span class="keyword">const</span> perfil = {</div>
+                    <div style="padding-left: 16px;"><span class="property">ciberseguridad</span>: <span class="boolean">true</span>,</div>
+                    <div style="padding-left: 16px;"><span class="property">desarrolloWeb</span>: <span class="boolean">true</span>,</div>
+                    <div style="padding-left: 16px;"><span class="property">inteligenciaArtificial</span>: <span class="boolean">true</span>,</div>
+                    <div style="padding-left: 16px;"><span class="property">aprendizajeContinuo</span>: <span class="boolean">true</span></div>
+                    <div><span style="color: var(--matrix-green)" id="code-bracket">}</span>;</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills">
+        <div class="hacker-grid" id="skills-grid"></div>
+        <div class="section-header">
+            <div class="section-tag" id="skills-section-tag">
+                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                </svg>
+                <span>STACK_TECNOLÓGICO</span>
+            </div>
+            <h2 class="section-title" id="skills-section-title">HABILIDADES_TÉCNICAS</h2>
+            <p class="section-desc" id="skills-section-desc">Tecnologías y herramientas que domino para crear soluciones digitales seguras y eficientes.</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card" id="feature-card-1">
+                <span class="corner-bl"></span><span class="corner-br"></span>
+                <span class="feature-number">01</span>
+                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                </svg>
+                <h3 class="feature-title" id="feature-title-1">DESARROLLO_WEB</h3>
+                <p class="feature-desc" id="feature-desc-1">HTML5, CSS3 y JavaScript moderno. Creación de interfaces responsivas, interactivas y optimizadas para rendimiento.</p>
+            </div>
+
+            <div class="feature-card" id="feature-card-2">
+                <span class="corner-bl"></span><span class="corner-br"></span>
+                <span class="feature-number">02</span>
+                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                </svg>
+                <h3 class="feature-title" id="feature-title-2">PYTHON_AUTOMATION</h3>
+                <p class="feature-desc" id="feature-desc-2">Automatización de procesos, scripting y fundamentos de programación. Desarrollo de bots y herramientas personalizadas.</p>
+            </div>
+
+            <div class="feature-card" id="feature-card-3">
+                <span class="corner-bl"></span><span class="corner-br"></span>
+                <span class="feature-number">03</span>
+                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"/>
+                </svg>
+                <h3 class="feature-title" id="feature-title-3">BASES_DE_DATOS</h3>
+                <p class="feature-desc" id="feature-desc-3">PostgreSQL. Diseño, consultas y gestión de bases de datos relacionales para aplicaciones escalables.</p>
+            </div>
+
+            <div class="feature-card" id="feature-card-4">
+                <span class="corner-bl"></span><span class="corner-br"></span>
+                <span class="feature-number">04</span>
+                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                </svg>
+                <h3 class="feature-title" id="feature-title-4">INTEGRACIÓN_IA</h3>
+                <p class="feature-desc" id="feature-desc-4">Implementación de bots y herramientas con inteligencia artificial. Prompting responsable y optimización de modelos.</p>
+            </div>
+
+            <div class="feature-card" id="feature-card-5">
+                <span class="corner-bl"></span><span class="corner-br"></span>
+                <span class="feature-number">05</span>
+                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+                <h3 class="feature-title" id="feature-title-5">EXCEL_AUTOMATION</h3>
+                <p class="feature-desc" id="feature-desc-5">Excel avanzado con automatización. Macros, fórmulas complejas y análisis de datos empresariales.</p>
+            </div>
+
+            <div class="feature-card" id="feature-card-6">
+                <span class="corner-bl"></span><span class="corner-br"></span>
+                <span class="feature-number">06</span>
+                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                </svg>
+                <h3 class="feature-title" id="feature-title-6">CIBERSEGURIDAD</h3>
+                <p class="feature-desc" id="feature-desc-6">Fundamentos de seguridad informática. Entornos Windows y Linux. Soporte técnico y optimización de sistemas.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="hacker-grid" id="contact-grid"></div>
+        <div class="section-header">
+            <div class="section-tag" id="contact-section-tag">
+                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+                <span>ESTABLECER_CONEXIÓN</span>
+            </div>
+            <h2 class="section-title" id="contact-section-title">INICIAR_CONTACTO</h2>
+            <p class="section-desc" id="contact-section-desc">Envíame un mensaje seguro. Estoy disponible para oportunidades de desarrollo, prácticas profesionales y proyectos colaborativos.</p>
+        </div>
+
+        <div class="contact-container">
+            <div class="terminal-window" id="terminal-window">
+                <div class="terminal-header">
+                    <div class="terminal-dots">
+                        <div class="terminal-dot red"></div>
+                        <div class="terminal-dot yellow"></div>
+                        <div class="terminal-dot green"></div>
+                    </div>
+                    <span class="terminal-title">contacto_anfossi.sh</span>
+                    <div style="width: 40px;"></div>
+                </div>
+
+                <div class="terminal-body">
+                    <div class="terminal-log">
+                        <div class="terminal-line"><span class="prompt">user@terminal:~$</span> ./iniciar_contacto.sh</div>
+                        <div class="terminal-line"><span class="prompt">user@terminal:~$</span> CONEXIÓN_ESTABLECIDA</div>
+                        <div class="terminal-line"><span class="prompt">user@terminal:~$</span> ANFOSSI_TOMAS_EN_LÍNEA</div>
+                    </div>
+
+                    <form class="terminal-form" id="contact-form">
+                        <div class="form-group">
+                            <label class="form-label">
+                                <span class="prompt">user@terminal:~$</span> INGRESAR_NOMBRE
+                            </label>
+                            <div class="form-input-wrapper">
+                                <svg class="form-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                                </svg>
+                                <input type="text" class="form-input" placeholder="Tu_Nombre">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <span class="prompt">user@terminal:~$</span> INGRESAR_EMAIL
+                            </label>
+                            <div class="form-input-wrapper">
+                                <svg class="form-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                </svg>
+                                <input type="email" class="form-input" placeholder="tu@email.com">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <span class="prompt">user@terminal:~$</span> INGRESAR_MENSAJE
+                            </label>
+                            <div class="form-input-wrapper">
+                                <svg class="form-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
+                                </svg>
+                                <textarea class="form-input" placeholder="Describe tu propuesta o consulta..."></textarea>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="form-submit">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                            </svg>
+                            <span>ENVIAR_MENSAJE</span>
+                        </button>
+                    </form>
+                </div>
+
+                <div class="terminal-footer">
+                    <span>ENCRIPTACIÓN: AES-256-GCM</span>
+                    <span>PROTOCOLO: TLS v1.3</span>
+                </div>
+            </div>
+
+            <div class="contact-info">
+                <div class="contact-info-card" id="contact-card-1">
+                    <div class="contact-info-label">EMAIL</div>
+                    <div class="contact-info-value">tomasanfo61@gmail.com</div>
+                </div>
+                <div class="contact-info-card" id="contact-card-2">
+                    <div class="contact-info-label">TELÉFONO</div>
+                    <div class="contact-info-value">+54 2984333857</div>
+                </div>
+                <div class="contact-info-card" id="contact-card-3">
+                    <div class="contact-info-label">UBICACIÓN</div>
+                    <div class="contact-info-value">GRAL.ROCA, ARG</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+ersample = '4x';
+
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(60, audioCtx.currentTime);
+            osc.frequency.linearRampToValueAtTime(30, audioCtx.currentTime + 1.5);
+
+            filter.type = 'lowpass';
+            filter.frequency.setValueAtTime(250, audioCtx.currentTime);
+            filter.Q.value = 20;
+
+            gain.gain.setValueAtTime(0.5, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 1.5);
+
+            osc.connect(distortion);
+            distortion.connect(filter);
+            filter.connect(gain);
+            gain.connect(masterGain);
+
+            osc.start(audioCtx.currentTime);
+            osc.stop(audioCtx.currentTime + 1.5);
+        }
+
+        // METALLIC SCREECH - more piercing
+        function playScreech() {
+            if (!audioCtx) initAudio();
+
+            const osc1 = audioCtx.createOscillator();
+            const osc2 = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            const filter = audioCtx.createBiquadFilter();
+
+            osc1.type = 'square';
+            osc1.frequency.setValueAtTime(3000, audioCtx.currentTime);
+            osc1.frequency.exponentialRampToValueAtTime(80, audioCtx.currentTime + 0.5);
+
+            osc2.type = 'sawtooth';
+            osc2.frequency.setValueAtTime(2500, audioCtx.currentTime);
+            osc2.frequency.exponentialRampToValueAtTime(60, audioCtx.currentTime + 0.5);
+
+            filter.type = 'bandpass';
+            filter.frequency.setValueAtTime(4000, audioCtx.currentTime);
+            filter.Q.value = 60;
+
+            gain.gain.setValueAtTime(0.4, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+
+            osc1.connect(filter);
+            osc2.connect(filter);
+            filter.connect(gain);
+            gain.connect(masterGain);
+
+            osc1.start(audioCtx.currentTime);
+            osc2.start(audioCtx.currentTime);
+            osc1.stop(audioCtx.currentTime + 0.5);
+            osc2.stop(audioCtx.currentTime + 0.5);
+        }
+
+        // DOOR BANGING - NEW SOUND
+        function playDoorBang() {
+            if (!audioCtx) initAudio();
+
+            // Create a thud/bang sound
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            const filter = audioCtx.createBiquadFilter();
+
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(80, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(20, audioCtx.currentTime + 0.3);
+
+            filter.type = 'lowpass';
+            filter.frequency.value = 200;
+            filter.Q.value = 5;
+
+            gain.gain.setValueAtTime(0.8, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+
+            osc.connect(filter);
+            filter.connect(gain);
+            gain.connect(masterGain);
+
+            osc.start(audioCtx.currentTime);
+            osc.stop(audioCtx.currentTime + 0.3);
+
+            // Add a second thud for echo effect
+            setTimeout(() => {
+                const osc2 = audioCtx.createOscillator();
+                const gain2 = audioCtx.createGain();
+                const filter2 = audioCtx.createBiquadFilter();
+
+                osc2.type = 'sine';
+                osc2.frequency.setValueAtTime(60, audioCtx.currentTime);
+                osc2.frequency.exponentialRampToValueAtTime(15, audioCtx.currentTime + 0.2);
+
+                filter2.type = 'lowpass';
+                filter2.frequency.value = 150;
+
+                gain2.gain.setValueAtTime(0.4, audioCtx.currentTime);
+                gain2.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
+
+                osc2.connect(filter2);
+                filter2.connect(gain2);
+                gain2.connect(masterGain);
+
+                osc2.start(audioCtx.currentTime);
+                osc2.stop(audioCtx.currentTime + 0.2);
+            }, 150);
+        }
+
+        // CHAINS RATTLING - NEW SOUND
+        function playChains() {
+            if (!audioCtx) initAudio();
+
+            const numClinks = 5 + Math.floor(Math.random() * 5);
+            
+            for (let i = 0; i < numClinks; i++) {
+                setTimeout(() => {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    const filter = audioCtx.createBiquadFilter();
+
+                    osc.type = 'square';
+                    osc.frequency.setValueAtTime(400 + Math.random() * 400, audioCtx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.1);
+
+                    filter.type = 'bandpass';
+                    filter.frequency.value = 800;
+                    filter.Q.value = 15;
+
+                    gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+
+                    osc.connect(filter);
+                    filter.connect(gain);
+                    gain.connect(masterGain);
+
+                    osc.start(audioCtx.currentTime);
+                    osc.stop(audioCtx.currentTime + 0.1);
+                }, i * 80);
+            }
+        }
+
+        // DISTORTED WHISPER - NEW SOUND
+        function playWhisper() {
+            if (!audioCtx) initAudio();
+
+            const bufferSize = audioCtx.sampleRate * 1.5;
+            const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            const data = buffer.getChannelData(0);
+
+            // Create whisper-like noise
+            for (let i = 0; i < bufferSize; i++) {
+                data[i] = (Math.random() * 2 - 1) * 0.3 * Math.sin(i * 0.01);
+            }
+
+            const noise = audioCtx.createBufferSource();
+            noise.buffer = buffer;
+
+            const gain = audioCtx.createGain();
+            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gain.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime + 0.5);
+            gain.gain.linearRampToValueAtTime(0.1, audioCtx.currentTime + 1.5);
+
+            const filter = audioCtx.createBiquadFilter();
+            filter.type = 'bandpass';
+            filter.frequency.setValueAtTime(1000, audioCtx.currentTime);
+            filter.frequency.linearRampToValueAtTime(3000, audioCtx.currentTime + 1.5);
+            filter.Q.value = 3;
+
+            noise.connect(filter);
+            filter.connect(gain);
+            gain.connect(masterGain);
+
+            noise.start(audioCtx.currentTime);
+        }
+
+        // HEARTBEAT - faster and louder
+        let heartbeatInterval = null;
+        let heartbeatSpeed = 800;
+
+        function playHeartbeat() {
+            if (!audioCtx) initAudio();
+
+            // First beat (lub)
+            const osc1 = audioCtx.createOscillator();
+            const gain1 = audioCtx.createGain();
+
+            osc1.type = 'sine';
+            osc1.frequency.setValueAtTime(50, audioCtx.currentTime);
+            osc1.frequency.exponentialRampToValueAtTime(30, audioCtx.currentTime + 0.1);
+
+            gain1.gain.setValueAtTime(0, audioCtx.currentTime);
+            gain1.gain.linearRampToValueAtTime(0.6, audioCtx.currentTime + 0.03);
+            gain1.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+
+            osc1.connect(gain1);
+            gain1.connect(masterGain);
+
+            osc1.start(audioCtx.currentTime);
+            osc1.stop(audioCtx.currentTime + 0.1);
+
+            // Second beat (dub)
+            setTimeout(() => {
+                const osc2 = audioCtx.createOscillator();
+                const gain2 = audioCtx.createGain();
+
+                osc2.type = 'sine';
+                osc2.frequency.setValueAtTime(45, audioCtx.currentTime);
+                osc2.frequency.exponentialRampToValueAtTime(25, audioCtx.currentTime + 0.08);
+
+                gain2.gain.setValueAtTime(0, audioCtx.currentTime);
+                gain2.gain.linearRampToValueAtTime(0.5, audioCtx.currentTime + 0.02);
+                gain2.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.08);
+
+                osc2.connect(gain2);
+                gain2.connect(masterGain);
+
+                osc2.start(audioCtx.currentTime);
+                osc2.stop(audioCtx.currentTime + 0.08);
+            }, 120);
+        }
+
+        function startHeartbeat() {
+            if (heartbeatInterval) clearInterval(heartbeatInterval);
+            heartbeatInterval = setInterval(() => {
+                playHeartbeat();
+            }, heartbeatSpeed);
+        }
+
+        function speedUpHeartbeat() {
+            heartbeatSpeed = Math.max(150, heartbeatSpeed - 80);
+            startHeartbeat();
+        }
+
+        // WHITE NOISE BURST - for screamer flash
+        function playWhiteNoiseBurst() {
+            if (!audioCtx) initAudio();
+
+            const bufferSize = audioCtx.sampleRate * 0.5;
+            const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            const data = buffer.getChannelData(0);
+
+            for (let i = 0; i < bufferSize; i++) {
+                data[i] = (Math.random() * 2 - 1);
+            }
+
+            const noise = audioCtx.createBufferSource();
+            noise.buffer = buffer;
+
+            const gain = audioCtx.createGain();
+            gain.gain.setValueAtTime(1.0, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+
+            noise.connect(gain);
+            gain.connect(masterGain);
+
+            noise.start(audioCtx.currentTime);
+        }
+
+        // ========================================
+        // EVASIVE STOP BUTTON
+        // ========================================
+        const stopButton = document.getElementById('stop-button');
+        let buttonClickCount = 0;
+        const maxClicks = 5;
+
+        function moveButtonAway(mouseX, mouseY) {
+            const rect = stopButton.getBoundingClientRect();
+            const buttonCenterX = rect.left + rect.width / 2;
+            const buttonCenterY = rect.top + rect.height / 2;
+            
+            const distance = Math.sqrt(
+                Math.pow(mouseX - buttonCenterX, 2) + 
+                Math.pow(mouseY - buttonCenterY, 2)
+            );
+            
+            // If mouse is close, move the button
+            if (distance < 150) {
+                const angle = Math.atan2(buttonCenterY - mouseY, buttonCenterX - mouseX);
+                const moveDistance = 200;
+                
+                let newX = buttonCenterX + Math.cos(angle) * moveDistance - rect.width / 2;
+                let newY = buttonCenterY + Math.sin(angle) * moveDistance - rect.height / 2;
+                
+                // Keep within viewport
+                const padding = 20;
+                newX = Math.max(padding, Math.min(window.innerWidth - rect.width - padding, newX));
+                newY = Math.max(padding, Math.min(window.innerHeight - rect.height - padding, newY));
+                
+                stopButton.style.left = newX + 'px';
+                stopButton.style.right = 'auto';
+                stopButton.style.bottom = 'auto';
+                stopButton.style.top = newY + 'px';
+                
+                // Play sound when button moves
+                if (corruptionLevel > 30 && Math.random() > 0.5) {
+                    playScreech();
+                }
+            }
+        }
+
+        document.addEventListener('mousemove', (e) => {
+            if (buttonClickCount < maxClicks) {
+                moveButtonAway(e.clientX, e.clientY);
+            }
+        });
+
+        stopButton.addEventListener('click', () => {
+            buttonClickCount++;
+            
+            if (buttonClickCount >= maxClicks) {
+                // Final click - "stop" the nightmare
+                stopButton.classList.add('clicked');
+                playScream();
+                triggerWhiteFlash();
+                
+                setTimeout(() => {
+                    // Reset everything
+                    corruptionLevel = 0;
+                    heartbeatSpeed = 800;
+                    if (heartbeatInterval) clearInterval(heartbeatInterval);
+                    document.getElementById('corruption-overlay').style.opacity = '0';
+                    document.getElementById('static-overlay').style.opacity = '0';
+                    document.getElementById('darkness-overlay').classList.remove('active');
+                    document.getElementById('warning-banner').classList.remove('active');
+                    document.body.classList.remove('bloody');
+                    
+                    // Reload page after a moment
+                    setTimeout(() => {
+                        location.reload();
+                    }, 2000);
+                }, 500);
+            } else {
+                // Button escapes
+                playDoorBang();
+                triggerRedFlash();
+                
+                const messages = [
+                    'NO PUEDES',
+                    'DEMASIADO TARDE',
+                    'INTENTO FÚTIL',
+                    'SIGUE INTENTANDO',
+                    'JA JA JA'
+                ];
+                stopButton.textContent = messages[buttonClickCount - 1];
+                
+                // Move to random position
+                const newX = Math.random() * (window.innerWidth - 200);
+                const newY = Math.random() * (window.innerHeight - 100);
+                stopButton.style.left = newX + 'px';
+                stopButton.style.top = newY + 'px';
+                stopButton.style.right = 'auto';
+                stopButton.style.bottom = 'auto';
+            }
+        });
+
+        // ========================================
+        // MATRIX RAIN - Darker and more corrupted
+        // ========================================
+        const canvas = document.getElementById('matrix-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        const fontSize = 14;
+        const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const charArray = chars.split('');
+        let drops = [];
+        let matrixColor = '#ff0040';
+        let corruptionLevel = 0;
+
+        function resizeCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            const columns = Math.floor(width / fontSize);
+            drops = [];
+            for (let i = 0; i < columns; i++) {
+                drops[i] = Math.random() * -100;
+            }
+        }
+
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        function drawMatrix() {
+            ctx.fillStyle = `rgba(0, 0, 0, ${0.08 + corruptionLevel * 0.002})`;
+            ctx.fillRect(0, 0, width, height);
+            ctx.font = `${fontSize}px 'JetBrains Mono', monospace`;
+
+            for (let i = 0; i < drops.length; i++) {
+                const char = charArray[Math.floor(Math.random() * charArray.length)];
+                
+                // Color changes with corruption
+                if (corruptionLevel > 30) {
+                    const redAmount = Math.min(255, corruptionLevel * 2.5);
+                    const greenAmount = Math.max(0, 60 - corruptionLevel);
+                    ctx.fillStyle = Math.random() > 0.7 ? '#ff0000' : `rgb(${redAmount}, ${greenAmount}, 0)`;
+                } else {
+                    ctx.fillStyle = Math.random() > 0.9 ? '#ff3333' : matrixColor;
+                }
+                
+                ctx.fillText(char, i * fontSize, drops[i] * fontSize);
+
+                drops[i] += 0.5 + (corruptionLevel * 0.025);
+
+                if (drops[i] * fontSize > height && Math.random() > 0.96) {
+                    drops[i] = 0;
+                }
+            }
+            requestAnimationFrame(drawMatrix);
+        }
+
+        drawMatrix();
+
+        // ========================================
+        // GLITCH CANVAS
+        // ========================================
+        const glitchCanvas = document.getElementById('glitch-overlay');
+        const glitchCtx = glitchCanvas.getContext('2d');
+
+        function resizeGlitchCanvas() {
+            glitchCanvas.width = window.innerWidth;
+            glitchCanvas.height = window.innerHeight;
+        }
+
+        resizeGlitchCanvas();
+        window.addEventListener('resize', resizeGlitchCanvas);
+
+        function drawGlitchBlocks() {
+            if (corruptionLevel < 15) {
+                glitchCanvas.style.opacity = '0';
+                return;
+            }
+
+            glitchCanvas.style.opacity = Math.min((corruptionLevel - 15) / 80, 0.8);
+            glitchCtx.clearRect(0, 0, glitchCanvas.width, glitchCanvas.height);
+
+            const numBlocks = Math.floor(corruptionLevel / 2);
+            for (let i = 0; i < numBlocks; i++) {
+                const x = Math.random() * glitchCanvas.width;
+                const y = Math.random() * glitchCanvas.height;
+                const w = Math.random() * 200 + 30;
+                const h = Math.random() * 50 + 5;
+
+                const colors = ['#ff0000', '#8b0000', '#000000', '#ffffff', '#ff6600', '#4a0000'];
+                glitchCtx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
+                glitchCtx.fillRect(x, y, w, h);
+            }
+
+            // Scanlines
+            for (let i = 0; i < 20; i++) {
+                const y = Math.random() * glitchCanvas.height;
+                glitchCtx.fillStyle = 'rgba(255, 0, 0, 0.4)';
+                glitchCtx.fillRect(0, y, glitchCanvas.width, Math.random() * 4 + 1);
+            }
+        }
+
+        setInterval(drawGlitchBlocks, 80);
+
+        // ========================================
+        // BLOOD DRIPS
+        // ========================================
+        function createBloodDrip() {
+            if (corruptionLevel < 40) return;
+            
+            const container = document.getElementById('blood-container');
+            const drip = document.createElement('div');
+            drip.className = 'blood-drip';
+            drip.style.left = Math.random() * 100 + '%';
+            drip.style.width = (2 + Math.random() * 4) + 'px';
+            drip.style.height = (50 + Math.random() * 100) + 'px';
+            container.appendChild(drip);
+            
+            setTimeout(() => drip.classList.add('active'), 10);
+            setTimeout(() => drip.remove(), 4000);
+        }
+
+        // ========================================
+        // CORRUPTION SYSTEM
+        // ========================================
+        const corruptionOverlay = document.getElementById('corruption-overlay');
+        const redFlash = document.getElementById('red-flash');
+        const whiteFlash = document.getElementById('white-flash');
+        const staticOverlay = document.getElementById('static-overlay');
+        const darknessOverlay = document.getElementById('darkness-overlay');
+        const warningBanner = document.getElementById('warning-banner');
+        const screamerFace = document.getElementById('screamer-face');
+
+        const horrorMessages = [
+            'TE ESTOY VIENDO',
+            'NO PUEDES ESCAPAR',
+            'DEMASIADO TARDE',
+            'ESTOY DENTRO',
+            'TUS ARCHIVOS SON MÍOS',
+            'NO CIERRES LOS OJOS',
+            'BEHIND YOU',
+            'SAY GOODBYE',
+            'NO HOPE',
+            'SYSTEM FAILURE',
+            'CONTROL LOST',
+            'THEY ARE HERE',
+            'ABANDON_ALL_HOPE',
+            'YOUR_SOUL_IS_MINE',
+            'WELCOME_TO_HELL',
+            'NO WAY OUT',
+            'IT HURTS',
+            'HELP ME',
+            'RUN RUN RUN',
+            'TOO SLOW'
+        ];
+
+        function showHiddenMessage() {
+            if (corruptionLevel < 20) return;
+
+            const msg = document.createElement('div');
+            msg.className = 'hidden-message show';
+            msg.textContent = horrorMessages[Math.floor(Math.random() * horrorMessages.length)];
+            msg.style.left = Math.random() * 80 + 10 + '%';
+            msg.style.top = Math.random() * 80 + 10 + '%';
+            msg.style.fontSize = (Math.random() * 30 + 16) + 'px';
+            msg.style.transform = `rotate(${Math.random() * 20 - 10}deg)`;
+            document.body.appendChild(msg);
+
+            setTimeout(() => msg.remove(), 4000);
+        }
+
+        function triggerRedFlash() {
+            redFlash.style.opacity = '1';
+            redFlash.style.transition = 'opacity 0.05s';
+            playStatic(0.15);
+            setTimeout(() => {
+                redFlash.style.opacity = '0';
+                redFlash.style.transition = 'opacity 0.3s';
+            }, 100);
+        }
+
+        function triggerWhiteFlash() {
+            whiteFlash.style.opacity = '1';
+            playWhiteNoiseBurst();
+            setTimeout(() => {
+                whiteFlash.style.opacity = '0';
+                whiteFlash.style.transition = 'opacity 0.5s';
+            }, 150);
+        }
+
+        function triggerScreamer() {
+            if (corruptionLevel < 50) return;
+
+            // White flash first
+            triggerWhiteFlash();
+            
+            setTimeout(() => {
+                screamerFace.classList.add('active');
+                playScream();
+                playWhiteNoiseBurst();
+                
+                // Multiple rapid flashes
+                let flashCount = 0;
+                const flashInterval = setInterval(() => {
+                    if (flashCount % 2 === 0) {
+                        triggerRedFlash();
+                    } else {
+                        triggerWhiteFlash();
+                    }
+                    flashCount++;
+                    if (flashCount >= 8) clearInterval(flashInterval);
+                }, 80);
+
+                setTimeout(() => {
+                    screamerFace.classList.remove('active');
+                }, 800);
+            }, 100);
+        }
+
+        function corruptText(element) {
+            if (!element || corruptionLevel < 30) return;
+
+            const originalText = element.textContent;
+            const glitchChars = '!@#$%^&*()_+-=[]{}|;:,.<>?/~`¡™£¢∞§¶•ªº–≠œ∑´®†¥¨ˆøπ"åß∂ƒ©˙∆˚¬…æ≈ç√∫˜µ≤≥÷';
+            let corrupted = '';
+
+            for (let i = 0; i < originalText.length; i++) {
+                if (Math.random() < corruptionLevel / 250) {
+                    corrupted += glitchChars[Math.floor(Math.random() * glitchChars.length)];
+                } else {
+                    corrupted += originalText[i];
+                }
+            }
+
+            element.textContent = corrupted;
+
+            setTimeout(() => {
+                element.textContent = originalText;
+            }, 150);
+        }
+
+        function shakeElement(element) {
+            if (!element) return;
+            element.classList.add('shake');
+            setTimeout(() => element.classList.remove('shake'), 300);
+        }
+
+        function invertRandomSection() {
+            if (corruptionLevel < 45) return;
+
+            const sections = document.querySelectorAll('section');
+            const randomSection = sections[Math.floor(Math.random() * sections.length)];
+            
+            randomSection.classList.add('inverted');
+            playScreech();
+            
+            setTimeout(() => {
+                randomSection.classList.remove('inverted');
+            }, 150);
+        }
+
+        // ========================================
+        // MAIN CORRUPTION LOOP - Faster and more intense
+        // ========================================
+        function startCorruption() {
+            // Initialize audio on first interaction
+            document.addEventListener('click', () => {
+                initAudio();
+            }, { once: true });
+
+            // Phase 1: Subtle (0-8s)
+            setTimeout(() => {
+                corruptionLevel = 10;
+                playDrone();
+            }, 1500);
+
+            setTimeout(() => {
+                corruptionLevel = 20;
+                playStatic();
+                playWhisper();
+            }, 4000);
+
+            // Phase 2: Noticeable (8-18s)
+            setTimeout(() => {
+                corruptionLevel = 30;
+                warningBanner.classList.add('active');
+                playGrowl();
+                startHeartbeat();
+                createBloodDrip();
+            }, 8000);
+
+            setTimeout(() => {
+                corruptionLevel = 40;
+                playDoorBang();
+                darknessOverlay.classList.add('active');
+            }, 12000);
+
+            // Phase 3: Disturbing (18-30s)
+            setTimeout(() => {
+                corruptionLevel = 50;
+                corruptionOverlay.style.opacity = '0.4';
+                playScream();
+                speedUpHeartbeat();
+                playChains();
+            }, 18000);
+
+            setTimeout(() => {
+                corruptionLevel = 60;
+                staticOverlay.style.opacity = '0.3';
+                triggerRedFlash();
+                playDoorBang();
+            }, 22000);
+
+            setTimeout(() => {
+                corruptionLevel = 70;
+                speedUpHeartbeat();
+                triggerScreamer();
+                playWhisper();
+            }, 26000);
+
+            // Phase 4: Chaos (30-45s)
+            setTimeout(() => {
+                corruptionLevel = 80;
+                corruptionOverlay.style.opacity = '0.6';
+                document.body.classList.add('bloody');
+                playScream();
+                playChains();
+            }, 30000);
+
+            setTimeout(() => {
+                corruptionLevel = 90;
+                speedUpHeartbeat();
+                triggerScreamer();
+                playDoorBang();
+            }, 35000);
+
+            setTimeout(() => {
+                corruptionLevel = 100;
+                corruptionOverlay.style.opacity = '0.8';
+                staticOverlay.style.opacity = '0.5';
+                playScream();
+                triggerScreamer();
+                
+                // Final chaos
+                setInterval(() => {
+                    triggerRedFlash();
+                    invertRandomSection();
+                }, 400);
+            }, 40000);
+
+            // Continuous effects
+            setInterval(() => {
+                if (corruptionLevel > 20) {
+                    showHiddenMessage();
+                    playStatic(0.08);
+                }
+            }, 3000);
+
+            setInterval(() => {
+                if (corruptionLevel > 35) {
+                    const titles = document.querySelectorAll('.section-title, .hero-title, .feature-title');
+                    const randomTitle = titles[Math.floor(Math.random() * titles.length)];
+                    corruptText(randomTitle);
+                    shakeElement(randomTitle);
+                }
+            }, 2000);
+
+            setInterval(() => {
+                if (corruptionLevel > 45 && Math.random() > 0.4) {
+                    triggerRedFlash();
+                }
+            }, 1500);
+
+            setInterval(() => {
+                if (corruptionLevel > 60 && Math.random() > 0.5) {
+                    triggerScreamer();
+                }
+            }, 6000);
+
+            // Random door bangs
+            setInterval(() => {
+                if (corruptionLevel > 40 && Math.random() > 0.6) {
+                    playDoorBang();
+                }
+            }, 5000);
+
+            // Random chains
+            setInterval(() => {
+                if (corruptionLevel > 50 && Math.random() > 0.5) {
+                    playChains();
+                }
+            }, 7000);
+
+            // Blood drips
+            setInterval(() => {
+                if (corruptionLevel > 40) {
+                    createBloodDrip();
+                }
+            }, 4000);
+
+            // Random glitches on elements
+            setInterval(() => {
+                if (corruptionLevel > 30) {
+                    const elements = document.querySelectorAll('.stat-card, .feature-card, .btn-primary, .btn-secondary');
+                    const randomEl = elements[Math.floor(Math.random() * elements.length)];
+                    shakeElement(randomEl);
+                    
+                    if (Math.random() > 0.6) {
+                        randomEl.classList.add('glitch-text');
+                        setTimeout(() => randomEl.classList.remove('glitch-text'), 200);
+                    }
+                }
+            }, 1800);
+        }
+
+        // Start corruption after page loads
+        window.addEventListener('load', () => {
+            setTimeout(startCorruption, 500);
+        });
+
+        // Mobile menu
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+            if (corruptionLevel > 40) {
+                playScreech();
+            }
+        });
+
+        // Navigation scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Contact form
+        document.getElementById('contact-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (corruptionLevel > 40) {
+                playScream();
+                triggerRedFlash();
+            }
+        });
+
+        // Keyboard panic
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && corruptionLevel > 30) {
+                playScream();
+                triggerScreamer();
+            }
+        });
+
+        // Click anywhere for extra horror
+        document.addEventListener('click', (e) => {
+            if (corruptionLevel > 50 && Math.random() > 0.7) {
+                playStatic(0.1);
+            }
+        });
+    </script>
+</body>
+</html>
+    <script>
+        // ========================================
+        // AUDIO SYSTEM - TERRIFYING SOUNDS (HIGH VOLUME)
+        // ========================================
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        let audioCtx = null;
+        let masterGain = null;
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new AudioContext();
+                masterGain = audioCtx.createGain();
+                masterGain.gain.value = 1.5; // HIGH VOLUME
+                masterGain.connect(audioCtx.destination);
+            }
+        }
+
+        function createDistortionCurve(amount) {
+            const samples = 44100;
+            const curve = new Float32Array(samples);
+            const deg = Math.PI / 180;
+            for (let i = 0; i < samples; i++) {
+                const x = (i * 2) / samples - 1;
+                curve[i] = ((3 + amount) * x * 30 * deg / (Math.PI + amount * Math.abs(x))) * Math.sign(x);
+            }
+            return curve;
+        }
+
+        // LOW FREQUENCY DRONE - unsettling
+        function playDrone() {
+            if (!audioCtx) initAudio();
+
+            const osc1 = audioCtx.createOscillator();
+            const osc2 = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            const filter = audioCtx.createBiquadFilter();
+            const distortion = audioCtx.createWaveShaper();
+            const lfo = audioCtx.createOscillator();
+            const lfoGain = audioCtx.createGain();
+
+            distortion.curve = createDistortionCurve(150);
+            distortion.oversample = '4x';
+
+            osc1.type = 'sawtooth';
+            osc1.frequency.setValueAtTime(40, audioCtx.currentTime);
+            osc1.frequency.linearRampToValueAtTime(25, audioCtx.currentTime + 8);
+
+            osc2.type = 'square';
+            osc2.frequency.setValueAtTime(42, audioCtx.currentTime);
+            osc2.frequency.linearRampToValueAtTime(27, audioCtx.currentTime + 8);
+
+            lfo.type = 'sine';
+            lfo.frequency.value = 0.5;
+            lfoGain.gain.value = 100;
+            lfo.connect(lfoGain);
+            lfoGain.connect(filter.frequency);
+
+            filter.type = 'lowpass';
+            filter.frequency.setValueAtTime(150, audioCtx.currentTime);
+            filter.Q.value = 15;
+
+            gain.gain.setValueAtTime(0.4, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.1, audioCtx.currentTime + 8);
+
+            osc1.connect(distortion);
+            osc2.connect(distortion);
+            distortion.connect(filter);
+            filter.connect(gain);
+            gain.connect(masterGain);
+
+            lfo.start(audioCtx.currentTime);
+            osc1.start(audioCtx.currentTime);
+            osc2.start(audioCtx.currentTime);
+            osc1.stop(audioCtx.currentTime + 8);
+            osc2.stop(audioCtx.currentTime + 8);
+            lfo.stop(audioCtx.currentTime + 8);
+        }
+
+        // HIGH PITCH SCREAM - terrifying
+        function playScream() {
+            if (!audioCtx) initAudio();
+
+            const osc1 = audioCtx.createOscillator();
+            const osc2 = audioCtx.createOscillator();
+            const osc3 = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            const filter = audioCtx.createBiquadFilter();
+            const distortion = audioCtx.createWaveShaper();
+
+            distortion.curve = createDistortionCurve(200);
+            distortion.oversample = '4x';
+
+            osc1.type = 'sawtooth';
+            osc1.frequency.setValueAtTime(1000, audioCtx.currentTime);
+            osc1.frequency.exponentialRampToValueAtTime(150, audioCtx.currentTime + 1);
+
+            osc2.type = 'square';
+            osc2.frequency.setValueAtTime(800, audioCtx.currentTime);
+            osc2.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 1);
+
+            osc3.type = 'sawtooth';
+            osc3.frequency.setValueAtTime(1200, audioCtx.currentTime);
+            osc3.frequency.exponentialRampToValueAtTime(200, audioCtx.currentTime + 0.8);
+
+            filter.type = 'bandpass';
+            filter.frequency.setValueAtTime(1500, audioCtx.currentTime);
+            filter.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 1);
+            filter.Q.value = 25;
+
+            gain.gain.setValueAtTime(0.8, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 1);
+
+            osc1.connect(distortion);
+            osc2.connect(distortion);
+            osc3.connect(distortion);
+            distortion.connect(filter);
+            filter.connect(gain);
+            gain.connect(masterGain);
+
+            osc1.start(audioCtx.currentTime);
+            osc2.start(audioCtx.currentTime);
+            osc3.start(audioCtx.currentTime);
+            osc1.stop(audioCtx.currentTime + 1);
+            osc2.stop(audioCtx.currentTime + 1);
+            osc3.stop(audioCtx.currentTime + 0.8);
+        }
+
+        // GLITCH STATIC NOISE
+        function playStatic(duration = 0.3) {
+            if (!audioCtx) initAudio();
+
+            const bufferSize = audioCtx.sampleRate * duration;
+            const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            const data = buffer.getChannelData(0);
+
+            for (let i = 0; i < bufferSize; i++) {
+                data[i] = (Math.random() * 2 - 1) * 1.2;
+            }
+
+            const noise = audioCtx.createBufferSource();
+            noise.buffer = buffer;
+
+            const gain = audioCtx.createGain();
+            gain.gain.setValueAtTime(0.5, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
+
+            const filter = audioCtx.createBiquadFilter();
+            filter.type = 'highpass';
+            filter.frequency.value = 800;
+
+            noise.connect(filter);
+            filter.connect(gain);
+            gain.connect(masterGain);
+
+            noise.start(audioCtx.currentTime);
+        }
+
+        // DEEP GROWL
+        function playGrowl() {
+            if (!audioCtx) initAudio();
+
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            const filter = audioCtx.createBiquadFilter();
+            const distortion = audioCtx.createWaveShaper();
+
+            distortion.curve = createDistortionCurve(250);
+            distortion.oversample = '4x';
+
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(60, audioCtx.currentTime);
+            osc.frequency.linearRampToValueAtTime(30, audioCtx.currentTime + 1.5);
+
+            filter.type = 'lowpass';
+            filter.frequency.setValueAtTime(250, audioCtx.currentTime);
+            filter.Q.value = 20;
+
+            gain.gain.setValueAtTime(0.5, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 1.5);
+
+            osc.connect(distortion);
+            distortion.connect(filter);
+            filter.connect(gain);
+            gain.connect(masterGain);
+
+            osc.start(audioCtx.currentTime);
+            osc.stop(audioCtx.currentTime + 1.5);
+        }
+
+        // METALLIC SCREECH
+        function playScreech() {
+            if (!audioCtx) initAudio();
+
+            const osc1 = audioCtx.createOscillator();
+            const osc2 = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            const filter = audioCtx.createBiquadFilter();
+
+            osc1.type = 'square';
+            osc1.frequency.setValueAtTime(3000, audioCtx.currentTime);
+            osc1.frequency.exponentialRampToValueAtTime(80, audioCtx.currentTime + 0.5);
+
+            osc2.type = 'sawtooth';
+            osc2.frequency.setValueAtTime(2500, audioCtx.currentTime);
+            osc2.frequency.exponentialRampToValueAtTime(60, audioCtx.currentTime + 0.5);
+
+            filter.type = 'bandpass';
+            filter.frequency.setValueAtTime(4000, audioCtx.currentTime);
+            filter.Q.value = 60;
+
+            gain.gain.setValueAtTime(0.4, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+
+            osc1.connect(filter);
+            osc2.connect(filter);
+            filter.connect(gain);
+            gain.connect(masterGain);
+
+            osc1.start(audioCtx.currentTime);
+            osc2.start(audioCtx.currentTime);
+            osc1.stop(audioCtx.currentTime + 0.5);
+            osc2.stop(audioCtx.currentTime + 0.5);
+        }
+
+        // DOOR BANGING
+        function playDoorBang() {
+            if (!audioCtx) initAudio();
+
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            const filter = audioCtx.createBiquadFilter();
+
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(80, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(20, audioCtx.currentTime + 0.3);
+
+            filter.type = 'lowpass';
+            filter.frequency.value = 200;
+            filter.Q.value = 5;
+
+            gain.gain.setValueAtTime(0.8, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+
+            osc.connect(filter);
+            filter.connect(gain);
+            gain.connect(masterGain);
+
+            osc.start(audioCtx.currentTime);
+            osc.stop(audioCtx.currentTime + 0.3);
+
+            setTimeout(() => {
+                const osc2 = audioCtx.createOscillator();
+                const gain2 = audioCtx.createGain();
+                const filter2 = audioCtx.createBiquadFilter();
+
+                osc2.type = 'sine';
+                osc2.frequency.setValueAtTime(60, audioCtx.currentTime);
+                osc2.frequency.exponentialRampToValueAtTime(15, audioCtx.currentTime + 0.2);
+
+                filter2.type = 'lowpass';
+                filter2.frequency.value = 150;
+
+                gain2.gain.setValueAtTime(0.4, audioCtx.currentTime);
+                gain2.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
+
+                osc2.connect(filter2);
+                filter2.connect(gain2);
+                gain2.connect(masterGain);
+
+                osc2.start(audioCtx.currentTime);
+                osc2.stop(audioCtx.currentTime + 0.2);
+            }, 150);
+        }
+
+        // CHAINS RATTLING
+        function playChains() {
+            if (!audioCtx) initAudio();
+
+            const numClinks = 5 + Math.floor(Math.random() * 5);
+            
+            for (let i = 0; i < numClinks; i++) {
+                setTimeout(() => {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    const filter = audioCtx.createBiquadFilter();
+
+                    osc.type = 'square';
+                    osc.frequency.setValueAtTime(400 + Math.random() * 400, audioCtx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.1);
+
+                    filter.type = 'bandpass';
+                    filter.frequency.value = 800;
+                    filter.Q.value = 15;
+
+                    gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+
+                    osc.connect(filter);
+                    filter.connect(gain);
+                    gain.connect(masterGain);
+
+                    osc.start(audioCtx.currentTime);
+                    osc.stop(audioCtx.currentTime + 0.1);
+                }, i * 80);
+            }
+        }
+
+        // DISTORTED WHISPER
+        function playWhisper() {
+            if (!audioCtx) initAudio();
+
+            const bufferSize = audioCtx.sampleRate * 1.5;
+            const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            const data = buffer.getChannelData(0);
+
+            for (let i = 0; i < bufferSize; i++) {
+                data[i] = (Math.random() * 2 - 1) * 0.3 * Math.sin(i * 0.01);
+            }
+
+            const noise = audioCtx.createBufferSource();
+            noise.buffer = buffer;
+
+            const gain = audioCtx.createGain();
+            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gain.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime + 0.5);
+            gain.gain.linearRampToValueAtTime(0.1, audioCtx.currentTime + 1.5);
+
+            const filter = audioCtx.createBiquadFilter();
+            filter.type = 'bandpass';
+            filter.frequency.setValueAtTime(1000, audioCtx.currentTime);
+            filter.frequency.linearRampToValueAtTime(3000, audioCtx.currentTime + 1.5);
+            filter.Q.value = 3;
+
+            noise.connect(filter);
+            filter.connect(gain);
+            gain.connect(masterGain);
+
+            noise.start(audioCtx.currentTime);
+        }
+
+        // HEARTBEAT
+        let heartbeatInterval = null;
+        let heartbeatSpeed = 800;
+
+        function playHeartbeat() {
+            if (!audioCtx) initAudio();
+
+            const osc1 = audioCtx.createOscillator();
+            const gain1 = audioCtx.createGain();
+
+            osc1.type = 'sine';
+            osc1.frequency.setValueAtTime(50, audioCtx.currentTime);
+            osc1.frequency.exponentialRampToValueAtTime(30, audioCtx.currentTime + 0.1);
+
+            gain1.gain.setValueAtTime(0, audioCtx.currentTime);
+            gain1.gain.linearRampToValueAtTime(0.6, audioCtx.currentTime + 0.03);
+            gain1.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+
+            osc1.connect(gain1);
+            gain1.connect(masterGain);
+
+            osc1.start(audioCtx.currentTime);
+            osc1.stop(audioCtx.currentTime + 0.1);
+
+            setTimeout(() => {
+                const osc2 = audioCtx.createOscillator();
+                const gain2 = audioCtx.createGain();
+
+                osc2.type = 'sine';
+                osc2.frequency.setValueAtTime(45, audioCtx.currentTime);
+                osc2.frequency.exponentialRampToValueAtTime(25, audioCtx.currentTime + 0.08);
+
+                gain2.gain.setValueAtTime(0, audioCtx.currentTime);
+                gain2.gain.linearRampToValueAtTime(0.5, audioCtx.currentTime + 0.02);
+                gain2.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.08);
+
+                osc2.connect(gain2);
+                gain2.connect(masterGain);
+
+                osc2.start(audioCtx.currentTime);
+                osc2.stop(audioCtx.currentTime + 0.08);
+            }, 120);
+        }
+
+        function startHeartbeat() {
+            if (heartbeatInterval) clearInterval(heartbeatInterval);
+            heartbeatInterval = setInterval(() => {
+                playHeartbeat();
+            }, heartbeatSpeed);
+        }
+
+        function speedUpHeartbeat() {
+            heartbeatSpeed = Math.max(150, heartbeatSpeed - 80);
+            startHeartbeat();
+        }
+
+        // WHITE NOISE BURST
+        function playWhiteNoiseBurst() {
+            if (!audioCtx) initAudio();
+
+            const bufferSize = audioCtx.sampleRate * 0.5;
+            const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            const data = buffer.getChannelData(0);
+
+            for (let i = 0; i < bufferSize; i++) {
+                data[i] = (Math.random() * 2 - 1);
+            }
+
+            const noise = audioCtx.createBufferSource();
+            noise.buffer = buffer;
+
+            const gain = audioCtx.createGain();
+            gain.gain.setValueAtTime(1.0, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+
+            noise.connect(gain);
+            gain.connect(masterGain);
+
+            noise.start(audioCtx.currentTime);
+        }
+
+        // ========================================
+        // EVASIVE STOP BUTTON
+        // ========================================
+        const stopButton = document.getElementById('stop-button');
+        let buttonClickCount = 0;
+        const maxClicks = 5;
+
+        function moveButtonAway(mouseX, mouseY) {
+            const rect = stopButton.getBoundingClientRect();
+            const buttonCenterX = rect.left + rect.width / 2;
+            const buttonCenterY = rect.top + rect.height / 2;
+            
+            const distance = Math.sqrt(
+                Math.pow(mouseX - buttonCenterX, 2) + 
+                Math.pow(mouseY - buttonCenterY, 2)
+            );
+            
+            if (distance < 150) {
+                const angle = Math.atan2(buttonCenterY - mouseY, buttonCenterX - mouseX);
+                const moveDistance = 200;
+                
+                let newX = buttonCenterX + Math.cos(angle) * moveDistance - rect.width / 2;
+                let newY = buttonCenterY + Math.sin(angle) * moveDistance - rect.height / 2;
+                
+                const padding = 20;
+                newX = Math.max(padding, Math.min(window.innerWidth - rect.width - padding, newX));
+                newY = Math.max(padding, Math.min(window.innerHeight - rect.height - padding, newY));
+                
+                stopButton.style.left = newX + 'px';
+                stopButton.style.right = 'auto';
+                stopButton.style.bottom = 'auto';
+                stopButton.style.top = newY + 'px';
+                
+                if (corruptionLevel > 30 && Math.random() > 0.5) {
+                    playScreech();
+                }
+            }
+        }
+
+        document.addEventListener('mousemove', (e) => {
+            if (buttonClickCount < maxClicks) {
+                moveButtonAway(e.clientX, e.clientY);
+            }
+        });
+
+        stopButton.addEventListener('click', () => {
+            buttonClickCount++;
+            
+            if (buttonClickCount >= maxClicks) {
+                stopButton.classList.add('clicked');
+                playScream();
+                triggerWhiteFlash();
+                
+                setTimeout(() => {
+                    corruptionLevel = 0;
+                    heartbeatSpeed = 800;
+                    if (heartbeatInterval) clearInterval(heartbeatInterval);
+                    document.getElementById('corruption-overlay').style.opacity = '0';
+                    document.getElementById('static-overlay').style.opacity = '0';
+                    document.getElementById('darkness-overlay').classList.remove('active');
+                    document.getElementById('warning-banner').classList.remove('active');
+                    document.body.classList.remove('bloody');
+                    
+                    setTimeout(() => {
+                        location.reload();
+                    }, 2000);
+                }, 500);
+            } else {
+                playDoorBang();
+                triggerRedFlash();
+                
+                const messages = [
+                    'NO PUEDES',
+                    'DEMASIADO TARDE',
+                    'INTENTO FÚTIL',
+                    'SIGUE INTENTANDO',
+                    'JA JA JA'
+                ];
+                stopButton.textContent = messages[buttonClickCount - 1];
+                
+                const newX = Math.random() * (window.innerWidth - 200);
+                const newY = Math.random() * (window.innerHeight - 100);
+                stopButton.style.left = newX + 'px';
+                stopButton.style.top = newY + 'px';
+                stopButton.style.right = 'auto';
+                stopButton.style.bottom = 'auto';
+            }
+        });
+
+        // ========================================
+        // MATRIX RAIN
+        // ========================================
+        const canvas = document.getElementById('matrix-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        const fontSize = 14;
+        const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const charArray = chars.split('');
+        let drops = [];
+        let matrixColor = '#00ff41';
+        let corruptionLevel = 0;
+
+        function resizeCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            const columns = Math.floor(width / fontSize);
+            drops = [];
+            for (let i = 0; i < columns; i++) {
+                drops[i] = Math.random() * -100;
+            }
+        }
+
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        function drawMatrix() {
+            ctx.fillStyle = `rgba(0, 0, 0, ${0.05 + corruptionLevel * 0.001})`;
+            ctx.fillRect(0, 0, width, height);
+            ctx.font = `${fontSize}px 'JetBrains Mono', monospace`;
+
+            for (let i = 0; i < drops.length; i++) {
+                const char = charArray[Math.floor(Math.random() * charArray.length)];
+                
+                if (corruptionLevel > 50) {
+                    const redAmount = Math.min(255, (corruptionLevel - 50) * 5);
+                    ctx.fillStyle = Math.random() > 0.8 ? '#ff0000' : `rgb(${redAmount}, ${Math.max(0, 255 - redAmount)}, 0)`;
+                } else {
+                    ctx.fillStyle = Math.random() > 0.95 ? '#00f0ff' : matrixColor;
+                }
+                
+                ctx.fillText(char, i * fontSize, drops[i] * fontSize);
+
+                drops[i] += 0.5 + (corruptionLevel * 0.02);
+
+                if (drops[i] * fontSize > height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+            }
+            requestAnimationFrame(drawMatrix);
+        }
+
+        drawMatrix();
+
+        // ========================================
+        // GLITCH CANVAS
+        // ========================================
+        const glitchCanvas = document.getElementById('glitch-overlay');
+        const glitchCtx = glitchCanvas.getContext('2d');
+
+        function resizeGlitchCanvas() {
+            glitchCanvas.width = window.innerWidth;
+            glitchCanvas.height = window.innerHeight;
+        }
+
+        resizeGlitchCanvas();
+        window.addEventListener('resize', resizeGlitchCanvas);
+
+        function drawGlitchBlocks() {
+            if (corruptionLevel < 20) {
+                glitchCanvas.style.opacity = '0';
+                return;
+            }
+
+            glitchCanvas.style.opacity = Math.min((corruptionLevel - 20) / 100, 0.6);
+            glitchCtx.clearRect(0, 0, glitchCanvas.width, glitchCanvas.height);
+
+            const numBlocks = Math.floor(corruptionLevel / 3);
+            for (let i = 0; i < numBlocks; i++) {
+                const x = Math.random() * glitchCanvas.width;
+                const y = Math.random() * glitchCanvas.height;
+                const w = Math.random() * 150 + 20;
+                const h = Math.random() * 30 + 5;
+
+                const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffffff', '#ffff00', '#ff00ff'];
+                glitchCtx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
+                glitchCtx.fillRect(x, y, w, h);
+            }
+
+            for (let i = 0; i < 15; i++) {
+                const y = Math.random() * glitchCanvas.height;
+                glitchCtx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+                glitchCtx.fillRect(0, y, glitchCanvas.width, Math.random() * 3 + 1);
+            }
+        }
+
+        setInterval(drawGlitchBlocks, 100);
+
+        // ========================================
+        // BLOOD DRIPS
+        // ========================================
+        function createBloodDrip() {
+            if (corruptionLevel < 40) return;
+            
+            const container = document.getElementById('blood-container');
+            const drip = document.createElement('div');
+            drip.className = 'blood-drip';
+            drip.style.left = Math.random() * 100 + '%';
+            drip.style.width = (2 + Math.random() * 4) + 'px';
+            drip.style.height = (50 + Math.random() * 100) + 'px';
+            container.appendChild(drip);
+            
+            setTimeout(() => drip.classList.add('active'), 10);
+            setTimeout(() => drip.remove(), 4000);
+        }
+
+        // ========================================
+        // TEXT CORRUPTION - ANFOSSI_TOMAS -> ADMIN_ADMIN
+        // ========================================
+        const originalTexts = {
+            'hero-typewriter': 'ANFOSSI_TOMAS',
+            'logo-text': 'ANFOSSI.T',
+            'about-logo-text': 'TOMAS_ANFOSSI',
+            'about-logo-letter': 'T',
+            'about-section-title': 'DIGITAL_DEFENDER',
+            'status-text': 'CONECTADO',
+            'badge-text': 'ESTUDIANTE_CIBERSEGURIDAD',
+            'btn-text-1': 'CONTACTAR',
+            'btn-text-2': 'VER_HABILIDADES',
+            'stat-value-1': '7',
+            'stat-value-2': 'IA',
+            'stat-value-3': 'FASTA',
+            'stat-label-1': 'CERTIFICADOS',
+            'stat-label-2': 'ESPECIALIZACIÓN',
+            'stat-label-3': 'UNIVERSIDAD (EN PAUSA)',
+            'feature-title-1': 'DESARROLLO_WEB',
+            'feature-title-2': 'PYTHON_AUTOMATION',
+            'feature-title-3': 'BASES_DE_DATOS',
+            'feature-title-4': 'INTEGRACIÓN_IA',
+            'feature-title-5': 'EXCEL_AUTOMATION',
+            'feature-title-6': 'CIBERSEGURIDAD',
+            'skills-section-title': 'HABILIDADES_TÉCNICAS',
+            'contact-section-title': 'INICIAR_CONTACTO'
+        };
+
+        const corruptedTexts = {
+            'hero-typewriter': 'ADMIN_ADMIN',
+            'logo-text': 'ROOT.ACCESS',
+            'about-logo-text': 'SYSTEM_BREACH',
+            'about-logo-letter': 'X',
+            'about-section-title': 'DIGITAL_INTRUDER',
+            'status-text': 'COMPROMETIDO',
+            'badge-text': 'ADMIN_ROOT_ACCESS',
+            'btn-text-1': 'NO_ESCAPES',
+            'btn-text-2': 'TE_VEO',
+            'stat-value-1': '666',
+            'stat-value-2': 'XX',
+            'stat-value-3': 'HELL',
+            'stat-label-1': 'VÍCTIMAS',
+            'stat-label-2': 'INFECTADOS',
+            'stat-label-3': 'SIN SALIDA',
+            'feature-title-1': 'SYSTEM_HACK',
+            'feature-title-2': 'DATA_THEFT',
+            'feature-title-3': 'FILES_ENCRYPTED',
+            'feature-title-4': 'AI_MALWARE',
+            'feature-title-5': 'EXCEL_VIRUS',
+            'feature-title-6': 'TOTAL_CONTROL',
+            'skills-section-title': 'MALWARE_ARSENAL',
+            'contact-section-title': 'NO_HAY_AYUDA'
+        };
+
+        function corruptElementText(elementId, corruptionAmount) {
+            const element = document.getElementById(elementId);
+            if (!element) return;
+            
+            const original = originalTexts[elementId];
+            const corrupted = corruptedTexts[elementId];
+            
+            if (!original || !corrupted) return;
+            
+            const glitchChars = '!@#$%^&*()_+-=[]{}|;:,.<>?/~`¡™£¢∞§¶•ªº–≠œ∑´®†¥¨ˆøπ"åß∂ƒ©˙∆˚¬…æ≈ç√∫˜µ≤≥÷';
+            let result = '';
+            
+            const targetLength = original.length;
+            const progress = Math.min(1, corruptionAmount / 100);
+            
+            for (let i = 0; i < targetLength; i++) {
+                const rand = Math.random();
+                if (rand < progress * 0.7) {
+                    result += corrupted[i] || glitchChars[Math.floor(Math.random() * glitchChars.length)];
+                } else if (rand < progress * 0.9) {
+                    result += glitchChars[Math.floor(Math.random() * glitchChars.length)];
+                } else {
+                    result += original[i] || '';
+                }
+            }
+            
+            element.textContent = result;
+        }
+
+        function applyVisualCorruption() {
+            const elements = document.querySelectorAll('[id]');
+            elements.forEach(el => {
+                if (Math.random() < corruptionLevel / 200) {
+                    el.classList.add('corrupted');
+                    setTimeout(() => el.classList.remove('corrupted'), 100);
+                }
+            });
+        }
+
+        function addCorruptedClassToAll() {
+            const allElements = document.querySelectorAll('*');
+            allElements.forEach(el => {
+                if (el.classList.length > 0 && !el.id.includes('overlay') && !el.id.includes('canvas')) {
+                    el.classList.add('corrupted');
+                }
+            });
+        }
+
+        // ========================================
+        // CORRUPTION SYSTEM
+        // ========================================
+        const corruptionOverlay = document.getElementById('corruption-overlay');
+        const redFlash = document.getElementById('red-flash');
+        const whiteFlash = document.getElementById('white-flash');
+        const staticOverlay = document.getElementById('static-overlay');
+        const darknessOverlay = document.getElementById('darkness-overlay');
+        const warningBanner = document.getElementById('warning-banner');
+        const screamerFace = document.getElementById('screamer-face');
+
+        const horrorMessages = [
+            'TE ESTOY VIENDO',
+            'NO PUEDES ESCAPAR',
+            'DEMASIADO TARDE',
+            'ESTOY DENTRO',
+            'TUS ARCHIVOS SON MÍOS',
+            'NO CIERRES LOS OJOS',
+            'BEHIND YOU',
+            'SAY GOODBYE',
+            'NO HOPE',
+            'SYSTEM FAILURE',
+            'CONTROL LOST',
+            'THEY ARE HERE',
+            'ABANDON_ALL_HOPE',
+            'YOUR_SOUL_IS_MINE',
+            'WELCOME_TO_HELL',
+            'NO WAY OUT',
+            'IT HURTS',
+            'HELP ME',
+            'RUN RUN RUN',
+            'TOO SLOW'
+        ];
+
+        function showHiddenMessage() {
+            if (corruptionLevel < 30) return;
+
+            const msg = document.createElement('div');
+            msg.className = 'hidden-message show';
+            msg.textContent = horrorMessages[Math.floor(Math.random() * horrorMessages.length)];
+            msg.style.left = Math.random() * 80 + 10 + '%';
+            msg.style.top = Math.random() * 80 + 10 + '%';
+            msg.style.fontSize = (Math.random() * 20 + 14) + 'px';
+            document.body.appendChild(msg);
+
+            setTimeout(() => msg.remove(), 3000);
+        }
+
+        function triggerRedFlash() {
+            redFlash.style.opacity = '1';
+            playStatic(0.1);
+            setTimeout(() => redFlash.style.opacity = '0', 100);
+        }
+
+        function triggerWhiteFlash() {
+            whiteFlash.style.opacity = '1';
+            playWhiteNoiseBurst();
+            setTimeout(() => whiteFlash.style.opacity = '0', 150);
+        }
+
+        function triggerScreamer() {
+            if (corruptionLevel < 70) return;
+
+            triggerWhiteFlash();
+            
+            setTimeout(() => {
+                screamerFace.classList.add('active');
+                playScream();
+                playWhiteNoiseBurst();
+                
+                let flashCount = 0;
+                const flashInterval = setInterval(() => {
+                    if (flashCount % 2 === 0) {
+                        triggerRedFlash();
+                    } else {
+                        triggerWhiteFlash();
+                    }
+                    flashCount++;
+                    if (flashCount >= 8) clearInterval(flashInterval);
+                }, 80);
+
+                setTimeout(() => {
+                    screamerFace.classList.remove('active');
+                }, 800);
+            }, 100);
+        }
+
+        function corruptText(element) {
+            if (!element || corruptionLevel < 40) return;
+
+            const originalText = element.textContent;
+            const glitchChars = '!@#$%^&*()_+-=[]{}|;:,.<>?/~`¡™£¢∞§¶•ªº–≠œ∑´®†¥¨ˆøπ"åß∂ƒ©˙∆˚¬…æ≈ç√∫˜µ≤≥÷';
+            let corrupted = '';
+
+            for (let i = 0; i < originalText.length; i++) {
+                if (Math.random() < corruptionLevel / 300) {
+                    corrupted += glitchChars[Math.floor(Math.random() * glitchChars.length)];
+                } else {
+                    corrupted += originalText[i];
+                }
+            }
+
+            element.textContent = corrupted;
+
+            setTimeout(() => {
+                element.textContent = originalText;
+            }, 200);
+        }
+
+        function shakeElement(element) {
+            if (!element) return;
+            element.classList.add('shake');
+            setTimeout(() => element.classList.remove('shake'), 500);
+        }
+
+        function invertRandomSection() {
+            if (corruptionLevel < 60) return;
+
+            const sections = document.querySelectorAll('section');
+            const randomSection = sections[Math.floor(Math.random() * sections.length)];
+            
+            randomSection.classList.add('inverted');
+            playScreech();
+            
+            setTimeout(() => {
+                randomSection.classList.remove('inverted');
+            }, 200);
+        }
+
+        // ========================================
+        // MAIN CORRUPTION LOOP - PROGRESSIVE GLITCH
+        // ========================================
+        function startCorruption() {
+            document.addEventListener('click', () => {
+                initAudio();
+            }, { once: true });
+
+            // Phase 1: Subtle (0-10s)
+            setTimeout(() => {
+                corruptionLevel = 10;
+                playDrone();
+            }, 2000);
+
+            setTimeout(() => {
+                corruptionLevel = 20;
+                playStatic();
+                corruptElementText('hero-typewriter', 20);
+            }, 5000);
+
+            // Phase 2: Noticeable (10-20s)
+            setTimeout(() => {
+                corruptionLevel = 30;
+                warningBanner.classList.add('active');
+                playGrowl();
+                startHeartbeat();
+                corruptElementText('hero-typewriter', 30);
+                corruptElementText('logo-text', 30);
+            }, 10000);
+
+            setTimeout(() => {
+                corruptionLevel = 40;
+                matrixColor = '#ff0040';
+                playScreech();
+                corruptElementText('hero-typewriter', 40);
+                corruptElementText('logo-text', 40);
+                corruptElementText('status-text', 40);
+            }, 15000);
+
+            // Phase 3: Disturbing (20-35s)
+            setTimeout(() => {
+                corruptionLevel = 50;
+                corruptionOverlay.style.opacity = '0.3';
+                playScream();
+                speedUpHeartbeat();
+                playChains();
+                corruptElementText('hero-typewriter', 50);
+                corruptElementText('logo-text', 50);
+                corruptElementText('status-text', 50);
+                corruptElementText('badge-text', 50);
+                addCorruptedClassToAll();
+            }, 20000);
+
+            setTimeout(() => {
+                corruptionLevel = 60;
+                staticOverlay.style.opacity = '0.2';
+                triggerRedFlash();
+                playDoorBang();
+                corruptElementText('hero-typewriter', 60);
+                corruptElementText('about-logo-text', 60);
+                corruptElementText('about-logo-letter', 60);
+            }, 25000);
+
+            setTimeout(() => {
+                corruptionLevel = 70;
+                speedUpHeartbeat();
+                triggerScreamer();
+                playWhisper();
+                // Final text change
+                document.getElementById('hero-typewriter').textContent = 'ADMIN_ADMIN';
+                document.getElementById('hero-typewriter').style.color = '#ff0000';
+                document.getElementById('hero-typewriter').style.textShadow = '0 0 30px #ff0000';
+            }, 30000);
+
+            // Phase 4: Chaos (35-50s)
+            setTimeout(() => {
+                corruptionLevel = 80;
+                corruptionOverlay.style.opacity = '0.5';
+                document.body.classList.add('bloody');
+                playScream();
+                // Corrupt all texts
+                Object.keys(originalTexts).forEach(id => {
+                    corruptElementText(id, 80);
+                });
+            }, 35000);
+
+            setTimeout(() => {
+                corruptionLevel = 90;
+                speedUpHeartbeat();
+                triggerScreamer();
+                playDoorBang();
+                // Set final corrupted texts
+                Object.keys(corruptedTexts).forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.textContent = corruptedTexts[id];
+                });
+            }, 40000);
+
+            setTimeout(() => {
+                corruptionLevel = 100;
+                corruptionOverlay.style.opacity = '0.7';
+                staticOverlay.style.opacity = '0.4';
+                playScream();
+                triggerScreamer();
+                
+                setInterval(() => {
+                    triggerRedFlash();
+                    invertRandomSection();
+                }, 500);
+            }, 45000);
+
+            // Continuous effects
+            setInterval(() => {
+                if (corruptionLevel > 30) {
+                    showHiddenMessage();
+                    playStatic(0.05);
+                }
+            }, 4000);
+
+            setInterval(() => {
+                if (corruptionLevel > 50) {
+                    const titles = document.querySelectorAll('.section-title, .hero-title, .feature-title');
+                    const randomTitle = titles[Math.floor(Math.random() * titles.length)];
+                    corruptText(randomTitle);
+                    shakeElement(randomTitle);
+                }
+            }, 3000);
+
+            setInterval(() => {
+                if (corruptionLevel > 60 && Math.random() > 0.5) {
+                    triggerRedFlash();
+                }
+            }, 2000);
+
+            setInterval(() => {
+                if (corruptionLevel > 75 && Math.random() > 0.6) {
+                    triggerScreamer();
+                }
+            }, 8000);
+
+            // Door bangs
+            setInterval(() => {
+                if (corruptionLevel > 40 && Math.random() > 0.6) {
+                    playDoorBang();
+                }
+            }, 5000);
+
+            // Chains
+            setInterval(() => {
+                if (corruptionLevel > 50 && Math.random() > 0.5) {
+                    playChains();
+                }
+            }, 7000);
+
+            // Blood drips
+            setInterval(() => {
+                if (corruptionLevel > 40) {
+                    createBloodDrip();
+                }
+            }, 4000);
+
+            // Random glitches
+            setInterval(() => {
+                if (corruptionLevel > 40) {
+                    const elements = document.querySelectorAll('.stat-card, .feature-card, .btn-primary, .btn-secondary');
+                    const randomEl = elements[Math.floor(Math.random() * elements.length)];
+                    shakeElement(randomEl);
+                    
+                    if (Math.random() > 0.7) {
+                        randomEl.classList.add('glitch-text');
+                        setTimeout(() => randomEl.classList.remove('glitch-text'), 300);
+                    }
+                }
+            }, 2500);
+
+            // Text corruption progression
+            setInterval(() => {
+                if (corruptionLevel > 25 && corruptionLevel < 70) {
+                    const textIds = Object.keys(originalTexts);
+                    const randomId = textIds[Math.floor(Math.random() * textIds.length)];
+                    corruptElementText(randomId, corruptionLevel);
+                }
+            }, 2000);
+        }
+
+        // Start corruption
+        window.addEventListener('load', () => {
+            setTimeout(startCorruption, 1000);
+        });
+
+        // Mobile menu
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+            if (corruptionLevel > 50) {
+                playScreech();
+            }
+        });
+
+        // Navigation scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Contact form
+        document.getElementById('contact-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (corruptionLevel > 50) {
+                playScream();
+                triggerRedFlash();
+            }
+        });
+
+        // Keyboard panic
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && corruptionLevel > 40) {
+                playScream();
+                triggerScreamer();
+            }
+        });
+    </script>
+</body>
+</html>
