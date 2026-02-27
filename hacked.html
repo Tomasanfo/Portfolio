@@ -1960,7 +1960,21 @@
     </section>
 
     <script>
-ersample = '4x';
+// ========================================
+// VOLUMEN ALTO
+// ========================================
+const AudioContext = window.AudioContext || window.webkitAudioContext;
+let audioCtx = null;
+let masterGain = null;
+
+function initAudio() {
+    if (!audioCtx) {
+        audioCtx = new AudioContext();
+        masterGain = audioCtx.createGain();
+        masterGain.gain.value = 1.5; // HIGH VOLUME
+        masterGain.connect(audioCtx.destination);
+    }
+}
 
             osc.type = 'sawtooth';
             osc.frequency.setValueAtTime(60, audioCtx.currentTime);
