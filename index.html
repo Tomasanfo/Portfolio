@@ -445,11 +445,11 @@
             <div class="hero-stats">
                 <!-- STAT CARD CON GALERÍA DE CERTIFICADOS -->
                 <div class="stat-card cert-gallery-btn" onclick="openCertGallery()">
-                    <div class="cert-counter">8</div>
+                    <div class="cert-counter">+</div>
                     <svg class="stat-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
                     </svg>
-                    <div class="stat-value">8</div>
+                    <div class="stat-value">10</div>
                     <div class="stat-label">CERTIFICADOS</div>
                     <div class="cert-preview-hint">Click para ver galería</div>
                 </div>
@@ -707,8 +707,7 @@
         <div class="modal-content">
             <span class="modal-corner tl"></span>
             <span class="modal-corner tr"></span>
-            <span class="modal-corner bl"></span>
-            <span class="modal-corner br"></span>
+
 
             <button class="modal-close" onclick="closeCertGallery()">
                 <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -860,6 +859,38 @@
                         Febrero 2026
                     </div>
                 </div>
+                                <!-- CERTIFICADO 9: Copilot -->
+                <div class="cert-item" onclick="openCertFull(8)">
+                    <div class="cert-image-thumb">
+                        <img src="certificados/Copilot-Santander-ANFOSSI_TOMAS_page-0001.jpg" alt="Copilot">
+                        <span class="cert-badge santander">SANTANDER</span>
+                        <div class="cert-overlay">
+                            <span class="cert-overlay-text">VER COMPLETO</span>
+                        </div>
+                    </div>
+                    <div class="cert-title">Copilot</div>
+                    <div class="cert-issuer">Santander Open Academy</div>
+                    <div class="cert-date">
+                        <span class="cert-status"></span>
+                        Marzo 2026
+                    </div>
+                </div>
+                                <!-- CERTIFICADO 8: Introduccion a ciencia de datos -->
+                <div class="cert-item" onclick="openCertFull(9)">
+                    <div class="cert-image-thumb">
+                        <img src="certificados/Introducción a la Ciencia de Datos-Santander-Anfossi_Tomas_page-0001.jpg" alt="Introducción a la Ciencia de Datos">
+                        <span class="cert-badge santander">SANTANDER</span>
+                        <div class="cert-overlay">
+                            <span class="cert-overlay-text">VER COMPLETO</span>
+                        </div>
+                    </div>
+                    <div class="cert-title">Ciencia_De_Datos</div>
+                    <div class="cert-issuer">Santander Open Academy</div>
+                    <div class="cert-date">
+                        <span class="cert-status"></span>
+                        Marzo 2026
+                    </div>
+                </div>
             </div>
 
             <div style="text-align: center; margin-top: 24px; padding: 16px; border: 1px solid rgba(0,255,65,0.2); background: rgba(0,0,0,0.4);">
@@ -867,7 +898,7 @@
                 <p style="font-size: 10px; color: var(--matrix-green);">Fundación YPF | Santander Open Academy</p>
             </div>
 
-            <div class="modal-hex">8_CERTIFICADOS // YPF_SANTANDER // 2026</div>
+            <div class="modal-hex">10_CERTIFICADOS // YPF_SANTANDER // 2026</div>
         </div>
     </div>
 
@@ -918,7 +949,11 @@
             { src: 'certificados/ia-ypf.jpg', title: 'INTRODUCCIÓN_A_IA - Fundación YPF' },
             { src: 'certificados/powerbi-ypf.jpg', title: 'INTRODUCCIÓN_A_POWER_BI - Fundación YPF' },
             { src: 'certificados/prompting-santander.jpg', title: 'PROMPTING_RESPONSABLE - Santander' },
-            { src: 'certificados/seguridad-santander.jpg', title: 'SEGURIDAD_DIGITAL - Santander' }
+            { src: 'certificados/seguridad-santander.jpg', title: 'SEGURIDAD_DIGITAL - Santander' },
+            { src: 'certificados/Copilot-Santander-ANFOSSI_TOMAS_page-0001.jpg', title: 'COPILOT- Santander' },
+            { src: 'certificados/Introducción a la Ciencia de Datos-Santander-Anfossi_Tomas_page-0001.jpg', title: 'CIENCIA_DE_DATOS - Santander' }
+            
+
         ];
 
         let currentCertIndex = 0;
