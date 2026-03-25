@@ -1,119 +1,8 @@
 // ========================================
-// MATRIX RAIN EFFECT
-// ========================================
-const canvas = document.getElementById('matrix-canvas');
-const ctx = canvas.getContext('2d');
-
-let width, height;
-const fontSize = 14;
-const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-const charArray = chars.split('');
-let drops = [];
-let speeds = [];
-let colors = [];
-
-function resizeCanvas() {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
-    const columns = Math.floor(width / fontSize);
-    drops = [];
-    speeds = [];
-    colors = [];
-    for (let i = 0; i < columns; i++) {
-        drops[i] = Math.random() * -100;
-        speeds[i] = Math.random() * 2 + 1;
-        colors[i] = Math.random() > 0.95 ? '#00f0ff' : '#00ff41';
-    }
-}
-
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
-
-let frameCount = 0;
-function drawMatrix() {
-    frameCount++;
-    if (frameCount % 2 === 0) {
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-        ctx.fillRect(0, 0, width, height);
-        ctx.font = `${fontSize}px 'JetBrains Mono', monospace`;
-
-        for (let i = 0; i < drops.length; i++) {
-            const char = charArray[Math.floor(Math.random() * charArray.length)];
-            ctx.fillStyle = colors[i];
-            ctx.fillText(char, i * fontSize, drops[i] * fontSize);
-
-            drops[i] += speeds[i] * 0.5;
-
-            if (drops[i] * fontSize > height && Math.random() > 0.975) {
-                drops[i] = 0;
-                speeds[i] = Math.random() * 2 + 1;
-                colors[i] = Math.random() > 0.95 ? '#00f0ff' : '#00ff41';
-            }
-        }
-    }
-    requestAnimationFrame(drawMatrix);
-}
-
-drawMatrix();
-
-// ========================================
-// LOADING SCREEN
-// ========================================
-window.addEventListener('load', () => {
-    setTimeout(() => {
-        document.getElementById('loading-screen').classList.add('hidden');
-        startTypewriter();
-    }, 2000);
-});
-
-// ========================================
-// TYPEWRITER EFFECT
-// ========================================
-function startTypewriter() {
-    const text = 'ANFOSSI_TOMAS';
-    const element = document.getElementById('hero-typewriter');
-    const cursor = document.getElementById('typewriter-cursor');
-    let i = 0;
-
-    function type() {
-        if (i < text.length) {
-            element.textContent += text.charAt(i);
-            i++;
-            setTimeout(type, 80);
-        } else {
-            setTimeout(() => {
-                cursor.style.display = 'none';
-                typeSubtitle();
-            }, 500);
-        }
-    }
-
-    type();
-}
-
-function typeSubtitle() {
-    const text = "Estudiante de Ciberseguridad | Desarrollo Web | IA & Automatización";
-    const element = document.getElementById('hero-subtitle');
-    let i = 0;
-
-    function type() {
-        if (i < text.length) {
-            element.textContent += text.charAt(i);
-            i++;
-            setTimeout(type, 30);
-        } else {
-            document.getElementById('hero-buttons').style.opacity = '1';
-            document.getElementById('hero-buttons').style.transition = 'opacity 0.5s ease';
-        }
-    }
-
-    type();
-}
-
-// ========================================
-// NAVIGATION SCROLL EFFECT
+// NAVBAR SCROLL EFFECT
 // ========================================
 const navbar = document.getElementById('navbar');
+
 window.addEventListener('scroll', () => {
     if (window.scrollY > 50) {
         navbar.classList.add('scrolled');
@@ -122,201 +11,281 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// Mobile menu toggle
+// ========================================
+// MOBILE MENU
+// ========================================
 const mobileMenuBtn = document.getElementById('mobile-menu-btn');
 const mobileMenu = document.getElementById('mobile-menu');
+
 mobileMenuBtn.addEventListener('click', () => {
     mobileMenu.classList.toggle('active');
 });
 
-// Close mobile menu on link click
-mobileMenu.querySelectorAll('a').forEach(link => {
+// Close mobile menu when clicking a link
+document.querySelectorAll('.mobile-nav-link').forEach(link => {
     link.addEventListener('click', () => {
         mobileMenu.classList.remove('active');
     });
 });
 
 // ========================================
-// LOGIN MODAL - CV DOWNLOAD
+// SMOOTH SCROLL
 // ========================================
-const modal = document.getElementById('login-modal');
-const authBtn = document.getElementById('auth-btn');
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            const offsetTop = target.offsetTop - 80;
+            window.scrollTo({
+                top: offsetTop,
+                behavior: 'smooth'
+            });
+        }
+    });
+});
 
-function openModal() {
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
-}
+// ========================================
+// SCROLL TO TOP
+// ========================================
+const scrollTopBtn = document.getElementById('scroll-top');
 
-function closeModal() {
-    modal.classList.remove('active');
-    document.body.style.overflow = '';
-    resetForm();
-}
+scrollTopBtn.addEventListener('click', () => {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+});
 
-authBtn.addEventListener('click', openModal);
+// ========================================
+// CERTIFICATE DATA
+// ========================================
+const certificates = [
+    { title: 'Ciberseguridad', issuer: 'Fundación YPF', date: 'Febrero 2026', category: 'Ciberseguridad', image: 'certificados/ciberseguridad-ypf.jpg' },
+    { title: 'Domina la IA con Gemini', issuer: 'Santander Open Academy', date: 'Febrero 2026', category: 'Inteligencia Artificial', image: 'certificados/gemini-santander.jpg' },
+    { title: 'Introducción a Excel', issuer: 'Fundación YPF', date: 'Febrero 2026', category: 'Productividad', image: 'certificados/excel-ypf.jpg' },
+    { title: 'Python', issuer: 'Santander Open Academy', date: 'Febrero 2026', category: 'Programación', image: 'certificados/Python-Santander-ANFOSSITOMAS.jpg' },
+    { title: 'Introducción a IA', issuer: 'Fundación YPF', date: 'Febrero 2026', category: 'Inteligencia Artificial', image: 'certificados/ia-ypf.jpg' },
+    { title: 'Introducción a Power BI', issuer: 'Fundación YPF', date: 'Febrero 2026', category: 'Data Analytics', image: 'certificados/powerbi-ypf.jpg' },
+    { title: 'Prompting Responsable', issuer: 'Santander Open Academy', date: 'Febrero 2026', category: 'Inteligencia Artificial', image: 'certificados/prompting-santander.jpg' },
+    { title: 'Seguridad Digital', issuer: 'Santander Open Academy', date: 'Febrero 2026', category: 'Ciberseguridad', image: 'certificados/seguridad-santander.jpg' },
+    { title: 'Copilot', issuer: 'Santander Open Academy', date: 'Marzo 2026', category: 'Productividad', image: 'certificados/Copilot-Santander-ANFOSSI_TOMAS_page-0001.jpg' },
+    { title: 'Ciencia de Datos', issuer: 'Santander Open Academy', date: 'Marzo 2026', category: 'Data Science', image: 'certificados/Introducción a la Ciencia de Datos-Santander-Anfossi_Tomas_page-0001.jpg' }
+];
 
+// ========================================
+// CERTIFICATE MODAL
+// ========================================
+const modal = document.getElementById('cert-modal');
+const modalClose = document.getElementById('modal-close');
+const modalTitle = document.getElementById('modal-title');
+const modalIssuer = document.getElementById('modal-issuer');
+const modalPrev = document.getElementById('modal-prev');
+const modalNext = document.getElementById('modal-next');
+const modalDots = document.getElementById('modal-dots');
+
+let currentCertIndex = 0;
+
+// Open modal
+document.querySelectorAll('.cert-card').forEach(card => {
+    card.addEventListener('click', () => {
+        currentCertIndex = parseInt(card.dataset.cert);
+        updateModal();
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    });
+});
+
+// Close modal
+modalClose.addEventListener('click', closeModal);
 modal.addEventListener('click', (e) => {
     if (e.target === modal) closeModal();
 });
 
-// Password toggle
-function togglePassword() {
-    const passwordInput = document.getElementById('password');
-    passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
+function closeModal() {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
 }
 
-// Form submission
-const loginForm = document.getElementById('login-form');
-const modalError = document.getElementById('modal-error');
-const modalSuccess = document.getElementById('modal-success');
-const modalSubmit = document.getElementById('modal-submit');
-
-loginForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    modalError.textContent = '';
-
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-
-    if (!username || !password) {
-        modalError.textContent = 'ERROR: TODOS_LOS_CAMPOS_REQUERIDOS';
-        return;
+// Update modal content
+function updateModal() {
+    const cert = certificates[currentCertIndex];
+    modalTitle.textContent = cert.title;
+    modalIssuer.textContent = `${cert.issuer} • ${cert.date}`;
+    
+    // Update image
+    const modalImage = document.getElementById('modal-image');
+    if (modalImage && cert.image) {
+        modalImage.src = cert.image;
+        modalImage.alt = `${cert.title} - ${cert.issuer}`;
     }
+    
+    // Update buttons
+    modalPrev.disabled = currentCertIndex === 0;
+    modalNext.disabled = currentCertIndex === certificates.length - 1;
+    
+    // Update dots
+    updateModalDots();
+}
 
-    modalSubmit.disabled = true;
-    modalSubmit.innerHTML = '<span>VERIFICANDO...</span>';
+// Update modal dots
+function updateModalDots() {
+    modalDots.innerHTML = '';
+    certificates.forEach((_, index) => {
+        const dot = document.createElement('button');
+        dot.className = `modal-dot ${index === currentCertIndex ? 'active' : ''}`;
+        dot.setAttribute('aria-label', `Certificado ${index + 1}`);
+        dot.addEventListener('click', () => {
+            currentCertIndex = index;
+            updateModal();
+        });
+        modalDots.appendChild(dot);
+    });
+}
 
-    await new Promise(resolve => setTimeout(resolve, 1500));
-
-    // Simulamos descarga del CV
-    loginForm.style.display = 'none';
-    modalSuccess.style.display = 'block';
-
-    setTimeout(() => {
-        closeModal();
-        showUserNotification('CV_DESCARGADO');
-    }, 2000);
+// Navigation
+modalPrev.addEventListener('click', () => {
+    if (currentCertIndex > 0) {
+        currentCertIndex--;
+        updateModal();
+    }
 });
 
-function resetForm() {
-    loginForm.reset();
-    loginForm.style.display = 'flex';
-    modalSuccess.style.display = 'none';
-    modalSubmit.disabled = false;
-    modalSubmit.innerHTML = '<span>DESCARGAR_PDF</span>';
-    modalError.textContent = '';
-}
-
-function showUserNotification(text) {
-    const notification = document.getElementById('user-notification');
-    const notificationText = document.getElementById('notification-text');
-    notificationText.textContent = text;
-    notification.style.display = 'flex';
-    setTimeout(() => {
-        notification.style.display = 'none';
-    }, 5000);
-}
-
-// ========================================
-// SERVICES ACCORDION
-// ========================================
-function toggleService(header) {
-    const content = header.nextElementSibling;
-    const isActive = header.classList.contains('active');
-
-    // Close all
-    document.querySelectorAll('.service-header').forEach(h => h.classList.remove('active'));
-    document.querySelectorAll('.service-content').forEach(c => c.classList.remove('active'));
-
-    // Open clicked if wasn't active
-    if (!isActive) {
-        header.classList.add('active');
-        content.classList.add('active');
+modalNext.addEventListener('click', () => {
+    if (currentCertIndex < certificates.length - 1) {
+        currentCertIndex++;
+        updateModal();
     }
-}
+});
+
+// Keyboard navigation
+document.addEventListener('keydown', (e) => {
+    if (!modal.classList.contains('active')) return;
+    
+    if (e.key === 'Escape') closeModal();
+    if (e.key === 'ArrowLeft' && currentCertIndex > 0) {
+        currentCertIndex--;
+        updateModal();
+    }
+    if (e.key === 'ArrowRight' && currentCertIndex < certificates.length - 1) {
+        currentCertIndex++;
+        updateModal();
+    }
+});
 
 // ========================================
 // CONTACT FORM
 // ========================================
 const contactForm = document.getElementById('contact-form');
-const successMessage = document.getElementById('success-message');
+const formSuccess = document.getElementById('form-success');
 
-contactForm.addEventListener('submit', async (e) => {
+contactForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    const submitBtn = contactForm.querySelector('.form-submit');
+    
+    // Simulate form submission
+    const submitBtn = contactForm.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    
     submitBtn.disabled = true;
-    submitBtn.innerHTML = '<span>ENVIANDO...</span>';
-
-    await new Promise(resolve => setTimeout(resolve, 2000));
-
-    contactForm.style.display = 'none';
-    successMessage.style.display = 'block';
+    submitBtn.innerHTML = `
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="spin">
+            <circle cx="12" cy="12" r="10" stroke-dasharray="60" stroke-dashoffset="20"/>
+        </svg>
+        Enviando...
+    `;
+    
+    setTimeout(() => {
+        contactForm.classList.add('hidden');
+        formSuccess.classList.remove('hidden');
+        
+        // Reset after 3 seconds
+        setTimeout(() => {
+            contactForm.reset();
+            contactForm.classList.remove('hidden');
+            formSuccess.classList.add('hidden');
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalText;
+        }, 3000);
+    }, 1500);
 });
 
 // ========================================
-// STATS COUNTER ANIMATION
+// INTERSECTION OBSERVER - ANIMATIONS
 // ========================================
-const statItems = document.querySelectorAll('.stat-item-value');
-const statsObserver = new IntersectionObserver((entries) => {
+const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
-            const el = entry.target;
-            const target = parseFloat(el.dataset.count);
-            const suffix = el.dataset.suffix || '';
-            const duration = 2000;
-            const startTime = performance.now();
-
-            function update(currentTime) {
-                const elapsed = currentTime - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-                const easeProgress = 1 - Math.pow(1 - progress, 3);
-                const current = target * easeProgress;
-
-                if (target % 1 !== 0) {
-                    el.textContent = current.toFixed(1) + suffix;
-                } else {
-                    el.textContent = Math.floor(current) + suffix;
-                }
-
-                if (progress < 1) {
-                    requestAnimationFrame(update);
-                }
-            }
-
-            requestAnimationFrame(update);
-            statsObserver.unobserve(el);
+            entry.target.classList.add('animate-in');
         }
     });
-}, { threshold: 0.5 });
+}, observerOptions);
 
-statItems.forEach(item => statsObserver.observe(item));
-
-// ========================================
-// SCROLL REVEAL ANIMATIONS
-// ========================================
-const revealElements = document.querySelectorAll('.feature-card, .service-item, .stat-item');
-const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
-            revealObserver.unobserve(entry.target);
-        }
-    });
-}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-
-revealElements.forEach(el => {
+// Observe elements
+document.querySelectorAll('.skill-card, .cert-card, .highlight-card, .stat-card').forEach(el => {
     el.style.opacity = '0';
-    el.style.transform = 'translateY(30px)';
-    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-    revealObserver.observe(el);
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    observer.observe(el);
+});
+
+// Add animation class styles
+const style = document.createElement('style');
+style.textContent = `
+    .animate-in {
+        opacity: 1 !important;
+        transform: translateY(0) !important;
+    }
+    
+    @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+    
+    .spin {
+        animation: spin 1s linear infinite;
+    }
+`;
+document.head.appendChild(style);
+
+// ========================================
+// STAGGER ANIMATIONS
+// ========================================
+const staggerElements = document.querySelectorAll('.skills-grid .skill-card, .cert-grid .cert-card');
+staggerElements.forEach((el, index) => {
+    el.style.transitionDelay = `${index * 0.05}s`;
 });
 
 // ========================================
-// KEYBOARD SHORTCUTS
+// ACTIVE NAV LINK
 // ========================================
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modal.classList.contains('active')) {
-        closeModal();
-    }
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-link');
+
+window.addEventListener('scroll', () => {
+    let current = '';
+    
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop - 100;
+        if (scrollY >= sectionTop) {
+            current = section.getAttribute('id');
+        }
+    });
+    
+    navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${current}`) {
+            link.classList.add('active');
+        }
+    });
 });
+
+// ========================================
+// CONSOLE MESSAGE
+// ========================================
+console.log('%c👋 ¡Hola! Bienvenido al portfolio de Tomás Anfossi', 'color: #0a66c2; font-size: 16px; font-weight: bold;');
+console.log('%c¿Buscando un desarrollador? ¡Hablemos!', 'color: #666; font-size: 12px;');
