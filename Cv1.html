@@ -35,7 +35,7 @@
 
         /* Sidebar */
         .sidebar {
-            background: linear-gradient(180deg, #0077B5 0%, #005885 100%);
+            background: linear-gradient(180deg, #1e40af 0%, #3b82f6 100%);
             color: white;
             padding: 40px 30px;
             display: flex;
@@ -109,7 +109,7 @@
             font-size: 13px;
             font-weight: 600;
             margin-bottom: 6px;
-            color: #7dd3fc;
+            color: #bfdbfe;
         }
 
         .skill-tags {
@@ -142,6 +142,42 @@
             border-bottom: 1px solid rgba(255,255,255,0.1);
         }
 
+        /* Certificaciones en Sidebar */
+        .cert-sidebar-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .cert-sidebar-item {
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 10px;
+            border-left: 3px solid #bfdbfe;
+        }
+
+        .cert-sidebar-org {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+            color: #bfdbfe;
+        }
+
+        .cert-sidebar-courses {
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        .hours-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 10px;
+            margin-left: 4px;
+        }
+
         /* Main Content */
         .main-content {
             padding: 40px;
@@ -159,19 +195,19 @@
             align-items: center;
             gap: 12px;
             margin-bottom: 15px;
-            color: #0077B5;
+            color: #1e40af;
         }
 
         .section-icon {
             width: 32px;
             height: 32px;
-            background: linear-gradient(135deg, #0077B5 0%, #00a0dc 100%);
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            box-shadow: 0 4px 6px -1px rgba(0, 119, 181, 0.2);
+            box-shadow: 0 4px 6px -1px rgba(30, 64, 175, 0.2);
         }
 
         .section-icon svg {
@@ -193,57 +229,9 @@
             text-align: justify;
         }
 
-        .projects-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-
-        .project-card {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 10px;
-            padding: 15px;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .project-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: linear-gradient(180deg, #0077B5 0%, #00a0dc 100%);
-        }
-
-        .project-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            border-color: #0077B5;
-        }
-
-        .project-title {
-            font-size: 14px;
-            font-weight: 700;
-            color: #1a1a1a;
-            margin-bottom: 6px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .project-desc {
-            font-size: 12px;
-            color: #64748b;
-            line-height: 1.5;
-        }
-
         .experience-item {
-            background: linear-gradient(90deg, #f0f9ff 0%, #ffffff 100%);
-            border-left: 3px solid #0077B5;
+            background: linear-gradient(90deg, #eff6ff 0%, #ffffff 100%);
+            border-left: 3px solid #3b82f6;
             padding: 15px 20px;
             border-radius: 0 10px 10px 0;
             margin-bottom: 12px;
@@ -264,9 +252,9 @@
 
         .exp-date {
             font-size: 12px;
-            color: #0077B5;
+            color: #1e40af;
             font-weight: 600;
-            background: #e0f2fe;
+            background: #dbeafe;
             padding: 3px 10px;
             border-radius: 20px;
         }
@@ -312,13 +300,25 @@
         .edu-icon {
             width: 36px;
             height: 36px;
-            background: #e0f2fe;
+            background: #dbeafe;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #0077B5;
+            color: #1e40af;
             flex-shrink: 0;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .edu-icon.active {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .edu-icon.done {
+            background: #dcfce7;
+            color: #166534;
         }
 
         .edu-content h4 {
@@ -333,58 +333,45 @@
             color: #64748b;
         }
 
-        .cert-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-        }
-
-        .cert-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px;
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: 12px;
-            transition: all 0.2s;
-        }
-
-        .cert-item:hover {
-            background: #f0f9ff;
-            border-color: #0077B5;
-            transform: scale(1.02);
-        }
-
-        .cert-badge {
-            width: 28px;
-            height: 28px;
-            background: linear-gradient(135deg, #0077B5 0%, #00a0dc 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 12px;
-            font-weight: 700;
-            flex-shrink: 0;
-        }
-
-        .cert-text {
+        .projects-list {
             display: flex;
             flex-direction: column;
+            gap: 12px;
         }
 
-        .cert-title {
-            font-weight: 600;
-            color: #1a1a1a;
-            font-size: 11px;
+        .project-item {
+            background: linear-gradient(90deg, #f0f9ff 0%, #ffffff 100%);
+            border: 1px solid #e0f2fe;
+            border-radius: 10px;
+            padding: 15px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .cert-org {
+        .project-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, #3b82f6 0%, #1e40af 100%);
+        }
+
+        .project-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1e40af;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .project-desc {
+            font-size: 12px;
             color: #64748b;
-            font-size: 10px;
+            line-height: 1.5;
         }
 
         @media print {
@@ -407,11 +394,9 @@
             .sidebar {
                 padding: 30px;
             }
-            .projects-grid, .cert-grid {
-                grid-template-columns: 1fr;
-            }
         }
     </style>
+<base target="_blank">
 </head>
 <body>
     <div class="cv-container">
@@ -419,24 +404,20 @@
         <aside class="sidebar">
             <div class="profile-section">
                 <h1 class="name">TOMÁS ANFOSSI</h1>
-                <p class="title">Desarrollador Web</p>
+                <p class="title">Desarrollador Web & IA</p>
                 
                 <div class="contact-info">
                     <div class="contact-item">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                        <span>General Roca, Río Negro</span>
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                        <span>tomasanfo@gmail.com</span>
                     </div>
                     <div class="contact-item">
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
                         <span>2984 333857</span>
                     </div>
                     <div class="contact-item">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                        <span>tomasanfo@gmail.com</span>
-                    </div>
-                    <div class="contact-item">
-                        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-2 16h-2v-6h2v6zm-1-6.891c-.607 0-1.1-.496-1.1-1.109 0-.612.492-1.109 1.1-1.109s1.1.497 1.1 1.109c0 .613-.493 1.109-1.1 1.109zm8 6.891h-1.998v-2.861c0-1.881-2.002-1.722-2.002 0v2.861h-2v-6h2v1.093c.872-1.616 4-1.736 4 1.548v3.359z"/></svg>
-                        <span>tomasanfo.github.io</span>
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
+                        <span>tomasanfo.github.io/Portfolio</span>
                     </div>
                     <div class="contact-item">
                         <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
@@ -459,20 +440,19 @@
                         </div>
                     </div>
                     <div class="skill-category">
-                        <h4>Programación e IA</h4>
+                        <h4>Programación</h4>
                         <div class="skill-tags">
                             <span class="skill-tag">Python</span>
-                            <span class="skill-tag">Prompt Eng.</span>
-                            <span class="skill-tag">Gemini</span>
-                            <span class="skill-tag">Copilot</span>
+                            <span class="skill-tag">Lógica de Programación</span>
                         </div>
                     </div>
                     <div class="skill-category">
-                        <h4>Ciberseguridad</h4>
+                        <h4>Inteligencia Artificial</h4>
                         <div class="skill-tags">
-                            <span class="skill-tag">Seg. Digital</span>
-                            <span class="skill-tag">Vulnerabilidades</span>
-                            <span class="skill-tag">Gestión Riesgos</span>
+                            <span class="skill-tag">Prompt Engineering</span>
+                            <span class="skill-tag">Gemini</span>
+                            <span class="skill-tag">Copilot</span>
+                            <span class="skill-tag">IA Generativa</span>
                         </div>
                     </div>
                     <div class="skill-category">
@@ -480,7 +460,49 @@
                         <div class="skill-tags">
                             <span class="skill-tag">Power BI</span>
                             <span class="skill-tag">Excel Avanzado</span>
-                            <span class="skill-tag">Ciencia Datos</span>
+                            <span class="skill-tag">Ciencia de Datos</span>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h4>Ciberseguridad</h4>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Seguridad Digital</span>
+                            <span class="skill-tag">Fundamentos</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Certificaciones</h3>
+                <div class="cert-sidebar-list">
+                    <div class="cert-sidebar-item">
+                        <div class="cert-sidebar-org">Santander Open Academy</div>
+                        <div class="cert-sidebar-courses">
+                            Python <span class="hours-badge">8h</span> • 
+                            Copilot <span class="hours-badge">8h</span>
+                        </div>
+                    </div>
+                    <div class="cert-sidebar-item">
+                        <div class="cert-sidebar-org">Fundación YPF</div>
+                        <div class="cert-sidebar-courses">
+                            Ciberseguridad <span class="hours-badge">3h</span> • 
+                            Excel <span class="hours-badge">5h</span> • 
+                            Power BI <span class="hours-badge">5h</span>
+                        </div>
+                    </div>
+                    <div class="cert-sidebar-item">
+                        <div class="cert-sidebar-org">IE University</div>
+                        <div class="cert-sidebar-courses">
+                            Ciencia de Datos <span class="hours-badge">6h</span>
+                        </div>
+                    </div>
+                    <div class="cert-sidebar-item">
+                        <div class="cert-sidebar-org">Google / Microsoft</div>
+                        <div class="cert-sidebar-courses">
+                            IA con Gemini <span class="hours-badge">2h</span> • 
+                            Prompting <span class="hours-badge">8h</span> • 
+                            Seg. Digital <span class="hours-badge">8h</span>
                         </div>
                     </div>
                 </div>
@@ -495,7 +517,7 @@
                     </div>
                     <div class="language-item">
                         <span>Inglés</span>
-                        <span style="font-weight: 600;">Enfocado en programacion</span>
+                        <span style="font-weight: 600;">Básico</span>
                     </div>
                 </div>
             </div>
@@ -512,8 +534,48 @@
                     <h2>Perfil Profesional</h2>
                 </div>
                 <p class="profile-text">
-                    Desarrollador Web especializado en tecnologías front-end con formación en Coderhouse y Egg.com. Perfil técnico sólido en ciberseguridad, inteligencia artificial y análisis de datos, respaldado por más de 40 horas de certificaciones. Actualmente cursando Licenciatura en Ciberseguridad para profundizar en la protección de activos digitales.
+                    Desarrollador Web Front-End con formación técnica sólida en Coderhouse y Egg.com. Complemento mi perfil con conocimientos certificados en IA y análisis de datos. Actualmente, enfoco mi desarrollo profesional en la ciberseguridad, con el objetivo de retomar la Licenciatura.
                 </p>
+            </section>
+
+            <!-- Experiencia -->
+            <section class="section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                    </div>
+                    <h2>Experiencia Profesional</h2>
+                </div>
+                <div class="experience-item">
+                    <div class="exp-header">
+                        <div>
+                            <div class="exp-title">Atención al Público</div>
+                            <div class="exp-company">Consultorios Belgrano Kinesiología</div>
+                        </div>
+                        <span class="exp-date">2022 – 2024</span>
+                    </div>
+                    <div class="exp-desc">
+                        <ul>
+                            <li>Gestión de turnos y atención administrativa en un entorno profesional de salud</li>
+                            <li>Autorización de obras sociales</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="experience-item">
+                    <div class="exp-header">
+                        <div>
+                            <div class="exp-title">Profesional Independiente</div>
+                            <div class="exp-company">Autónomo</div>
+                        </div>
+                        <span class="exp-date">2019 – Actualidad</span>
+                    </div>
+                    <div class="exp-desc">
+                        <ul>
+                            <li>Venta de BOTS y gestión de sistemas automatizados para incremento de métricas en plataformas digitales</li>
+                            <li>Soporte técnico y armado de PC: Optimización de componentes (especialmente procesadores Ryzen)</li>
+                        </ul>
+                    </div>
+                </div>
             </section>
 
             <!-- Proyectos -->
@@ -524,52 +586,15 @@
                     </div>
                     <h2>Proyectos Destacados</h2>
                 </div>
-                <div class="projects-grid">
-                    <div class="project-card">
-                        <div class="project-title">
-                            <svg width="16" height="16" fill="#0077B5" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                            Portfolio Personal
-                        </div>
+                <div class="projects-list">
+                    <div class="project-item">
+                        <div class="project-title">Portfolio Personal</div>
                         <p class="project-desc">Sitio web responsivo exhibiendo proyectos y habilidades técnicas utilizando estándares modernos de desarrollo.</p>
                     </div>
-                    <div class="project-card">
-                        <div class="project-title">
-                            <svg width="16" height="16" fill="#0077B5" viewBox="0 0 24 24"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm4-3c-.83 0-1.5-.67-1.5-1.5S18.67 9 19.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
-                            Neon Drift / Overdrive
-                        </div>
-                        <p class="project-desc">Juego 3D en HTML5 enfocado en mecánicas de juego y diseño visual interactivo.</p>
-                    </div>
-                    <div class="project-card" style="grid-column: 1 / -1;">
-                        <div class="project-title">
-                            <svg width="16" height="16" fill="#0077B5" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                            Automatización con Python
-                        </div>
+                    
+                    <div class="project-item">
+                        <div class="project-title">Automatización con Python</div>
                         <p class="project-desc">Scripts para optimización de tareas y prácticas avanzadas de lógica de programación.</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Experiencia -->
-            <section class="section">
-                <div class="section-header">
-                    <div class="section-icon">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                    </div>
-                    <h2>Experiencia Laboral</h2>
-                </div>
-                <div class="experience-item">
-                    <div class="exp-header">
-                        <div>
-                            <div class="exp-title">Atención al Público</div>
-                            <div class="exp-company">Empresa / Comercio</div>
-                        </div>
-                        <span class="exp-date">2022 – Presente</span>
-                    </div>
-                    <div class="exp-desc">
-                        <ul>
-                            <li>Resolución de conflictos y atención personalizada garantizando experiencia positiva al cliente</li>
-                            <li>Coordinación de tareas en equipo y manejo de caja con precisión y responsabilidad</li>
-                        </ul>
                     </div>
                 </div>
             </section>
@@ -584,77 +609,24 @@
                 </div>
                 <div class="education-list">
                     <div class="edu-item">
-                        <div class="edu-icon">
-                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/></svg>
-                        </div>
+                        <div class="edu-icon active">PAU</div>
                         <div class="edu-content">
                             <h4>Licenciatura en Ciberseguridad</h4>
-                            <p>Universidad FASTA • 2024 – Actualidad</p>
+                            <p>Universidad FASTA • 2024 – En Pausa</p>
                         </div>
                     </div>
                     <div class="edu-item">
-                        <div class="edu-icon">
-                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7zm2.85 11.1l-.85.6V16h-4v-2.3l-.85-.61A4.997 4.997 0 017 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.63-.8 3.16-2.15 4.1z"/></svg>
-                        </div>
+                        <div class="edu-icon done">FIN</div>
                         <div class="edu-content">
                             <h4>Desarrollo Web Full-Stack</h4>
                             <p>Egg.com • Finalizado</p>
                         </div>
                     </div>
                     <div class="edu-item">
-                        <div class="edu-icon">
-                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/></svg>
-                        </div>
+                        <div class="edu-icon done">FIN</div>
                         <div class="edu-content">
                             <h4>Desarrollo Web Front-End</h4>
                             <p>Coderhouse • Finalizado</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Certificaciones -->
-            <section class="section">
-                <div class="section-header">
-                    <div class="section-icon">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
-                    </div>
-                    <h2>Certificaciones Principales</h2>
-                </div>
-                <div class="cert-grid">
-                    <div class="cert-item">
-                        <div class="cert-badge">Py</div>
-                        <div class="cert-text">
-                            <span class="cert-title">Python & Copilot</span>
-                            <span class="cert-org">Santander Open Academy</span>
-                        </div>
-                    </div>
-                    <div class="cert-item">
-                        <div class="cert-badge">CD</div>
-                        <div class="cert-text">
-                            <span class="cert-title">Ciencia de Datos</span>
-                            <span class="cert-org">IE University</span>
-                        </div>
-                    </div>
-                    <div class="cert-item">
-                        <div class="cert-badge">IA</div>
-                        <div class="cert-text">
-                            <span class="cert-title">IA con Gemini</span>
-                            <span class="cert-org">Google</span>
-                        </div>
-                    </div>
-                    <div class="cert-item">
-                        <div class="cert-badge">CS</div>
-                        <div class="cert-text">
-                            <span class="cert-title">Ciberseguridad</span>
-                            <span class="cert-org">Fundación YPF / Microsoft</span>
-                        </div>
-                    </div>
-                    <div class="cert-item">
-                        <div class="cert-badge">BI</div>
-                        <div class="cert-text">
-                            <span class="cert-title">Power BI & Excel</span>
-                            <span class="cert-org">Formación Técnica Prof.</span>
                         </div>
                     </div>
                 </div>
