@@ -1349,7 +1349,7 @@ img {
 }
 
 /* Contact Form */
-.contact-form-wrapper {
+.form-container {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
@@ -1357,28 +1357,28 @@ img {
     box-shadow: var(--shadow);
 }
 
-.contact-form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
+.form-container h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 24px;
 }
 
 .form-group {
     display: flex;
     flex-direction: column;
     gap: 6px;
+    margin-bottom: 20px;
 }
 
 .form-group label {
     font-size: 14px;
     font-weight: 500;
     color: var(--text-primary);
+}
+
+.form-group label .required {
+    color: var(--red);
 }
 
 .form-group input,
@@ -1390,6 +1390,8 @@ img {
     color: var(--text-primary);
     background: var(--surface);
     transition: all var(--transition);
+    width: 100%;
+    font-family: inherit;
 }
 
 .form-group input:focus,
@@ -1407,13 +1409,6 @@ img {
 .form-group textarea {
     resize: vertical;
     min-height: 120px;
-}
-
-.form-note {
-    font-size: 12px;
-    color: var(--text-tertiary);
-    text-align: center;
-    margin-top: -8px;
 }
 
 /* Form Success */
@@ -1539,40 +1534,8 @@ img {
     color: var(--text-tertiary);
 }
 
-.made-with {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-}
-
-.made-with .heart {
-    color: #dc2626;
-}
-
-.made-with .code {
-    color: var(--primary);
-}
-
-.scroll-top {
-    width: 40px;
-    height: 40px;
-    background: var(--border-light);
-    color: var(--text-secondary);
-    border-radius: var(--radius);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all var(--transition);
-}
-
-.scroll-top:hover {
-    background: var(--primary);
-    color: white;
-    transform: translateY(-2px);
-}
-
 /* ========================================
-   MODAL
+   MODAL - ENHANCED WITH RESPONSIVE ZOOM
 ======================================== */
 .modal {
     position: fixed;
@@ -1585,7 +1548,7 @@ img {
     z-index: 2000;
     opacity: 0;
     visibility: hidden;
-    transition: all var(--transition);
+    transition: opacity var(--transition), visibility var(--transition);
     padding: 24px;
 }
 
@@ -1598,12 +1561,14 @@ img {
     background: var(--surface);
     border-radius: var(--radius-lg);
     width: 100%;
-    max-width: 600px;
+    max-width: 700px;
     max-height: 90vh;
     overflow: hidden;
     position: relative;
     transform: scale(0.95);
     transition: transform var(--transition);
+    display: flex;
+    flex-direction: column;
 }
 
 .modal.active .modal-content {
@@ -1624,6 +1589,7 @@ img {
     color: var(--text-secondary);
     transition: all var(--transition);
     z-index: 10;
+    cursor: pointer;
 }
 
 .modal-close:hover {
@@ -1641,6 +1607,7 @@ img {
     font-weight: 600;
     color: var(--text-primary);
     margin-bottom: 4px;
+    padding-right: 48px;
 }
 
 .modal-header p {
@@ -1649,30 +1616,37 @@ img {
 }
 
 .modal-body {
-    padding: 32px;
+    padding: 24px;
+    overflow-y: auto;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--background);
 }
 
 .cert-preview {
-    aspect-ratio: 4/3;
-    background: var(--background);
-    border-radius: var(--radius);
+    width: 100%;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    color: var(--text-tertiary);
-    gap: 12px;
-}
-
-.cert-preview svg {
-    opacity: 0.3;
 }
 
 .modal-cert-img {
     width: 100%;
-    height: 100%;
+    height: auto;
+    max-height: 60vh;
     object-fit: contain;
     border-radius: var(--radius);
+    cursor: zoom-in;
+    transition: transform var(--transition);
+}
+
+/* Zoomed state for certificate image */
+.modal-cert-img.zoomed {
+    cursor: zoom-out;
+    transform: scale(1.5);
+    max-height: none;
 }
 
 .modal-footer {
@@ -1682,6 +1656,7 @@ img {
     padding: 16px 24px;
     border-top: 1px solid var(--border);
     gap: 16px;
+    flex-shrink: 0;
 }
 
 .btn-nav {
@@ -1694,6 +1669,8 @@ img {
     color: var(--text-secondary);
     border-radius: var(--radius);
     transition: all var(--transition);
+    cursor: pointer;
+    white-space: nowrap;
 }
 
 .btn-nav:hover:not(:disabled) {
@@ -1709,6 +1686,8 @@ img {
 .modal-dots {
     display: flex;
     gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .modal-dot {
@@ -1718,12 +1697,22 @@ img {
     border-radius: 50%;
     cursor: pointer;
     transition: all var(--transition);
+    border: none;
+    padding: 0;
 }
 
 .modal-dot.active {
     background: var(--primary);
     width: 24px;
     border-radius: 4px;
+}
+
+.modal-dot:hover {
+    background: var(--text-tertiary);
+}
+
+.modal-dot.active:hover {
+    background: var(--primary);
 }
 
 /* ========================================
@@ -1880,6 +1869,47 @@ img {
         gap: 16px;
         text-align: center;
     }
+    
+    /* Modal responsive on mobile */
+    .modal {
+        padding: 12px;
+    }
+    
+    .modal-content {
+        max-height: 95vh;
+        border-radius: var(--radius);
+    }
+    
+    .modal-body {
+        padding: 16px;
+    }
+    
+    .modal-header {
+        padding: 16px 16px 12px;
+    }
+    
+    .modal-header h3 {
+        font-size: 16px;
+    }
+    
+    .modal-footer {
+        padding: 12px 16px;
+        gap: 8px;
+    }
+    
+    .btn-nav {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+    
+    .btn-nav svg {
+        width: 16px;
+        height: 16px;
+    }
+    
+    .modal-cert-img.zoomed {
+        transform: scale(1.2);
+    }
 }
 
 @media (max-width: 480px) {
@@ -1911,9 +1941,24 @@ img {
     .section-title {
         font-size: 28px;
     }
+    
+    /* Modal adjustments for small phones */
+    .modal-content {
+        max-width: 100%;
+    }
+    
+    .modal-footer .btn-nav span {
+        display: none;
+    }
+    
+    .modal-footer {
+        gap: 4px;
+    }
 }
 
-/* Scrollbar */
+/* ========================================
+   SCROLLBAR
+======================================== */
 ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -1932,7 +1977,9 @@ img {
     background: var(--text-tertiary);
 }
 
-/* Selection */
+/* ========================================
+   SELECTION
+======================================== */
 ::selection {
     background: var(--primary-light);
     color: var(--primary);

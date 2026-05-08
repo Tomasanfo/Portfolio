@@ -50,12 +50,14 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 // ========================================
 const scrollTopBtn = document.getElementById('scroll-top');
 
-scrollTopBtn.addEventListener('click', () => {
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
+if (scrollTopBtn) {  // <-- FIX: Null check before attaching listener
+    scrollTopBtn.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
     });
-});
+}
 
 // ========================================
 // CERTIFICATE DATA
@@ -176,38 +178,40 @@ document.addEventListener('keydown', (e) => {
 // ========================================
 // CONTACT FORM
 // ========================================
-const contactForm = document.getElementById('contact-form');
+const contactForm = document.getElementById('contacto-form');  // <-- FIX: Match HTML id
 const formSuccess = document.getElementById('form-success');
 
-contactForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    
-    // Simulate form submission
-    const submitBtn = contactForm.querySelector('button[type="submit"]');
-    const originalText = submitBtn.innerHTML;
-    
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = `
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="spin">
-            <circle cx="12" cy="12" r="10" stroke-dasharray="60" stroke-dashoffset="20"/>
-        </svg>
-        Enviando...
-    `;
-    
-    setTimeout(() => {
-        contactForm.classList.add('hidden');
-        formSuccess.classList.remove('hidden');
+if (contactForm) {  // <-- FIX: Null check before attaching listener
+    contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
         
-        // Reset after 3 seconds
+        // Simulate form submission
+        const submitBtn = contactForm.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerHTML;
+        
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = `
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="spin">
+                <circle cx="12" cy="12" r="10" stroke-dasharray="60" stroke-dashoffset="20"/>
+            </svg>
+            Enviando...
+        `;
+        
         setTimeout(() => {
-            contactForm.reset();
-            contactForm.classList.remove('hidden');
-            formSuccess.classList.add('hidden');
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = originalText;
-        }, 3000);
-    }, 1500);
-});
+            contactForm.classList.add('hidden');
+            formSuccess.classList.remove('hidden');
+            
+            // Reset after 3 seconds
+            setTimeout(() => {
+                contactForm.reset();
+                contactForm.classList.remove('hidden');
+                formSuccess.classList.add('hidden');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+            }, 3000);
+        }, 1500);
+    });
+}
 
 // ========================================
 // INTERSECTION OBSERVER - ANIMATIONS
