@@ -63,6 +63,7 @@ if (scrollTopBtn) {  // <-- FIX: Null check before attaching listener
 // CERTIFICATE DATA
 // ========================================
 const certificates = [
+    { title: 'Análisis de datos', issuer: 'UTN', date: 'Junio 2026', category: 'Análisis de datos', image: 'certificados/UTNanalisisdatos.png' },
     { title: 'Ciberseguridad', issuer: 'Fundación YPF', date: 'Febrero 2026', category: 'Ciberseguridad', image: 'certificados/ciberseguridad-ypf.jpg' },
     { title: 'Domina la IA con Gemini', issuer: 'Santander Open Academy', date: 'Febrero 2026', category: 'Inteligencia Artificial', image: 'certificados/gemini-santander.jpg' },
     { title: 'Introducción a Excel', issuer: 'Fundación YPF', date: 'Febrero 2026', category: 'Productividad', image: 'certificados/excel-ypf.jpg' },
