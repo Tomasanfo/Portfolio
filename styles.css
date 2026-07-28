@@ -2,61 +2,62 @@
    CSS VARIABLES & RESET
 ======================================== */
 :root {
-    /* Colors - Professional LinkedIn Style */
-    --primary: #0a66c2;
-    --primary-dark: #004182;
-    --primary-light: #e8f3ff;
-    --primary-hover: #004182;
-    
-    --background: #f3f2ef;
-    --surface: #ffffff;
-    --surface-hover: #f9fafb;
-    
-    --text-primary: #191919;
-    --text-secondary: #666666;
-    --text-tertiary: #8c8c8c;
-    
-    --border: #e0e0e0;
-    --border-light: #f0f0f0;
-    
-    --success: #057642;
-    --success-light: #e6f3ee;
-    --warning: #b24020;
-    --warning-light: #fce9e5;
-    
+    /* Colors - Dark editorial with celeste accent */
+    --primary: #38bdf8;
+    --primary-dark: #0ea5e9;
+    --primary-light: rgba(56, 189, 248, 0.12);
+    --primary-hover: #7dd3fc;
+    --on-primary: #071019;
+
+    --background: #0a0e13;
+    --surface: #12181f;
+    --surface-hover: #1a212a;
+
+    --text-primary: #eef2f6;
+    --text-secondary: #97a3b0;
+    --text-tertiary: #626d79;
+
+    --border: #232b34;
+    --border-light: #1a212a;
+
+    --success: #34d399;
+    --success-light: rgba(52, 211, 153, 0.12);
+    --warning: #f87171;
+    --warning-light: rgba(248, 113, 113, 0.12);
+
     /* Skill Colors */
-    --blue: #0a66c2;
-    --blue-light: #e8f3ff;
-    --green: #057642;
-    --green-light: #e6f3ee;
-    --purple: #7c3aed;
-    --purple-light: #ede9fe;
-    --orange: #ea580c;
-    --orange-light: #ffedd5;
-    --teal: #0d9488;
-    --teal-light: #ccfbf1;
-    --red: #dc2626;
-    --red-light: #fee2e2;
-    --yellow: #ca8a04;
-    --yellow-light: #fef9c3;
-    
+    --blue: #38bdf8;
+    --blue-light: rgba(56, 189, 248, 0.12);
+    --green: #34d399;
+    --green-light: rgba(52, 211, 153, 0.12);
+    --purple: #a78bfa;
+    --purple-light: rgba(167, 139, 250, 0.12);
+    --orange: #fb923c;
+    --orange-light: rgba(251, 146, 60, 0.12);
+    --teal: #2dd4bf;
+    --teal-light: rgba(45, 212, 191, 0.12);
+    --red: #f87171;
+    --red-light: rgba(248, 113, 113, 0.12);
+    --yellow: #facc15;
+    --yellow-light: rgba(250, 204, 21, 0.12);
+
     /* Shadows */
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-    --shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.05);
-    --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.1), 0 8px 24px rgba(0, 0, 0, 0.08);
-    --shadow-xl: 0 8px 30px rgba(0, 0, 0, 0.12), 0 16px 48px rgba(0, 0, 0, 0.08);
-    
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow: 0 1px 3px rgba(0, 0, 0, 0.35), 0 4px 16px rgba(0, 0, 0, 0.25);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.4), 0 2px 10px rgba(56, 189, 248, 0.08);
+    --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.5), 0 4px 20px rgba(56, 189, 248, 0.12);
+
     /* Radius */
     --radius-sm: 4px;
     --radius: 8px;
     --radius-lg: 12px;
     --radius-xl: 16px;
-    
+
     /* Transitions */
     --transition-fast: 0.15s ease;
     --transition: 0.3s ease;
     --transition-slow: 0.5s ease;
-    
+
     /* Spacing */
     --section-padding: 80px 0;
     --container-max: 1200px;
@@ -109,7 +110,7 @@ img {
 }
 
 .text-gradient {
-    background: linear-gradient(135deg, var(--primary) 0%, #378fe9 100%);
+    background: linear-gradient(135deg, var(--primary) 0%, #818cf8 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -129,7 +130,7 @@ img {
     gap: 8px;
     padding: 12px 24px;
     background: var(--primary);
-    color: white;
+    color: var(--on-primary);
     font-size: 14px;
     font-weight: 600;
     border-radius: var(--radius);
@@ -188,10 +189,11 @@ img {
 }
 
 #navbar.scrolled {
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(10, 14, 19, 0.85);
     backdrop-filter: blur(10px);
     box-shadow: var(--shadow);
     padding: 12px 0;
+    border-bottom: 1px solid var(--border-light);
 }
 
 .nav-container {
@@ -217,7 +219,7 @@ img {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
+    color: var(--on-primary);
     transition: transform var(--transition);
 }
 
@@ -287,7 +289,8 @@ img {
     top: 100%;
     left: 0;
     right: 0;
-    background: white;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
     padding: 16px 24px;
     box-shadow: var(--shadow-lg);
     flex-direction: column;
@@ -338,14 +341,14 @@ img {
 .hero-blob {
     position: absolute;
     border-radius: 50%;
-    filter: blur(80px);
-    opacity: 0.4;
+    filter: blur(120px);
+    opacity: 0.18;
 }
 
 .blob-1 {
     width: 600px;
     height: 600px;
-    background: var(--primary-light);
+    background: var(--primary);
     top: -100px;
     right: -200px;
 }
@@ -353,10 +356,10 @@ img {
 .blob-2 {
     width: 400px;
     height: 400px;
-    background: var(--blue-light);
+    background: var(--primary);
     bottom: -100px;
     left: -100px;
-    opacity: 0.3;
+    opacity: 0.12;
 }
 
 .hero-grid {
@@ -396,12 +399,23 @@ img {
     50% { opacity: 0.5; }
 }
 
+.hero-greeting {
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+}
+
+.hero-greeting span {
+    color: var(--primary);
+}
+
 .hero-title {
-    font-size: 56px;
+    font-size: 60px;
     font-weight: 800;
-    line-height: 1.1;
+    line-height: 1.08;
     margin-bottom: 20px;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
 }
 
 .hero-subtitle {
@@ -485,7 +499,7 @@ img {
 .profile-avatar {
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, var(--primary) 0%, #378fe9 100%);
+    background: linear-gradient(135deg, var(--primary) 0%, #0c4a6e 100%);
     border-radius: var(--radius-xl);
     display: flex;
     align-items: center;
@@ -505,12 +519,13 @@ img {
     left: -50%;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 60%);
+    background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 60%);
 }
 
 .profile-badge {
     position: absolute;
-    background: white;
+    background: var(--surface);
+    border: 1px solid var(--border);
     padding: 12px 16px;
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-lg);
@@ -877,6 +892,46 @@ img {
     margin-bottom: 16px;
 }
 
+.skill-ps {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 16px;
+    padding: 14px 16px;
+    background: var(--background);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius);
+}
+
+.skill-ps-item {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+}
+
+.skill-ps-label {
+    flex-shrink: 0;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    width: 62px;
+}
+
+.skill-ps-item.problem .skill-ps-label {
+    color: var(--text-tertiary);
+}
+
+.skill-ps-item.solution .skill-ps-label {
+    color: var(--primary);
+}
+
+.skill-ps-item p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
 .skill-tags {
     display: flex;
     flex-wrap: wrap;
@@ -1095,7 +1150,7 @@ img {
 .cert-overlay {
     position: absolute;
     inset: 0;
-    background: rgba(10, 102, 194, 0);
+    background: rgba(10, 14, 19, 0);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1104,14 +1159,14 @@ img {
 }
 
 .cert-card:hover .cert-overlay {
-    background: rgba(10, 102, 194, 0.1);
+    background: rgba(10, 14, 19, 0.55);
     opacity: 1;
 }
 
 .cert-view-btn {
     width: 48px;
     height: 48px;
-    background: white;
+    background: var(--surface);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -1315,8 +1370,8 @@ img {
 }
 
 .availability-card {
-    background: linear-gradient(135deg, var(--primary-light) 0%, #f0f7ff 100%);
-    border: 1px solid rgba(10, 102, 194, 0.2);
+    background: linear-gradient(135deg, var(--primary-light) 0%, rgba(56, 189, 248, 0.03) 100%);
+    border: 1px solid rgba(56, 189, 248, 0.22);
     border-radius: var(--radius-lg);
     padding: 20px;
 }
@@ -1506,7 +1561,7 @@ img {
     gap: 8px;
     padding: 8px 16px;
     background: var(--green-light);
-    border: 1px solid rgba(5, 118, 66, 0.2);
+    border: 1px solid rgba(52, 211, 153, 0.25);
     border-radius: 100px;
     font-size: 13px;
     font-weight: 500;
