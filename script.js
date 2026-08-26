@@ -1,4 +1,44 @@
 // ========================================
+// THEME TOGGLE (modo claro / oscuro)
+// ========================================
+(function initTheme() {
+    const root = document.documentElement;
+    let savedTheme = null;
+
+    try {
+        savedTheme = localStorage.getItem('theme');
+    } catch (e) {
+        // localStorage no disponible (modo privado, iframe, etc.)
+    }
+
+    if (savedTheme === 'light') {
+        root.setAttribute('data-theme', 'light');
+    }
+    // Por defecto se mantiene el modo oscuro original del sitio.
+})();
+
+const themeToggleBtn = document.getElementById('theme-toggle-btn');
+
+if (themeToggleBtn) {
+    themeToggleBtn.addEventListener('click', () => {
+        const root = document.documentElement;
+        const isLight = root.getAttribute('data-theme') === 'light';
+
+        if (isLight) {
+            root.removeAttribute('data-theme');
+        } else {
+            root.setAttribute('data-theme', 'light');
+        }
+
+        try {
+            localStorage.setItem('theme', isLight ? 'dark' : 'light');
+        } catch (e) {
+            // Si falla el guardado, el toggle sigue funcionando solo en esta sesión.
+        }
+    });
+}
+
+// ========================================
 // NAVBAR SCROLL EFFECT
 // ========================================
 const navbar = document.getElementById('navbar');
@@ -73,7 +113,8 @@ const certificates = [
     { title: 'Prompting Responsable', issuer: 'Santander Open Academy', date: 'Febrero 2026', category: 'Inteligencia Artificial', image: 'certificados/prompting-santander.jpg' },
     { title: 'Seguridad Digital', issuer: 'Santander Open Academy', date: 'Febrero 2026', category: 'Ciberseguridad', image: 'certificados/seguridad-santander.jpg' },
     { title: 'Copilot', issuer: 'Santander Open Academy', date: 'Marzo 2026', category: 'Productividad', image: 'certificados/Copilot-Santander-ANFOSSI_TOMAS_page-0001.jpg' },
-    { title: 'Ciencia de Datos', issuer: 'Santander Open Academy', date: 'Marzo 2026', category: 'Data Science', image: 'certificados/Introducción a la Ciencia de Datos-Santander-Anfossi_Tomas_page-0001.jpg' }
+    { title: 'Ciencia de Datos', issuer: 'Santander Open Academy', date: 'Marzo 2026', category: 'Data Science', image: 'certificados/Introducción a la Ciencia de Datos-Santander-Anfossi_Tomas_page-0001.jpg' },
+    { title: 'Seguridad Operativa en Yacimientos', issuer: 'Instituto de Formación Técnica Vaca Muerta', date: 'Agosto 2026', category: 'Ciberseguridad', image: 'certificados/IVM.jpg' }
 ];
 
 // ========================================

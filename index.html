@@ -31,6 +31,23 @@
                 <a href="#contact" class="nav-link">Contacto</a>
             </div>
 
+            <button class="theme-toggle-btn" id="theme-toggle-btn" aria-label="Cambiar modo claro/oscuro" title="Cambiar modo claro/oscuro">
+                <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                </svg>
+                <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="5"/>
+                    <line x1="12" y1="1" x2="12" y2="3"/>
+                    <line x1="12" y1="21" x2="12" y2="23"/>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                    <line x1="1" y1="12" x2="3" y2="12"/>
+                    <line x1="21" y1="12" x2="23" y2="12"/>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                </svg>
+            </button>
+
             <a href="#contact" class="btn-primary">Contactar</a>
 
             <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Menu">
@@ -122,7 +139,7 @@
                                     <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
                                 </svg>
                             </div>
-                            <div class="stat-value">11</div>
+                            <div class="stat-value">12</div>
                             <div class="stat-label">Certificados</div>
                         </div>
                         <div class="stat-item">
@@ -508,11 +525,12 @@
                     Formación Continua
                 </span>
                 <h2 class="section-title">Certificados</h2>
-                <p class="section-subtitle">Certificaciones obtenidas en plataformas reconocidas como Fundación YPF y Santander Open Academy.</p>
+                <p class="section-subtitle">Certificaciones obtenidas en plataformas reconocidas como Universidad Tecnológica Nacional (UTN), Fundación YPF, Santander Open Academy, IVM instituto vaca muerta.</p>
             </div>
 
             <div class="cert-stats">
-                                <div class="cert-stat">
+
+                <div class="cert-stat">
                     <div class="cert-stat-logo santander">UTN</div>
                     <div class="cert-stat-info">
                         <span class="cert-stat-value">1</span>
@@ -534,6 +552,13 @@
                     </div>
                 </div>
                 <div class="cert-stat">
+                    <div class="cert-stat-logo ivm">IVM</div>
+                    <div class="cert-stat-info">
+                        <span class="cert-stat-value">1</span>
+                        <span class="cert-stat-label">Certificado</span>
+                    </div>
+                </div>
+                <div class="cert-stat">
                     <div class="cert-stat-icon">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <circle cx="12" cy="8" r="7"/>
@@ -541,7 +566,7 @@
                         </svg>
                     </div>
                     <div class="cert-stat-info">
-                        <span class="cert-stat-value">11</span>
+                        <span class="cert-stat-value">12</span>
                         <span class="cert-stat-label">Total</span>
                     </div>
                 </div>
@@ -799,12 +824,36 @@
                         </p>
                     </div>
                 </div>
+
+                <div class="cert-card" data-cert="11">
+                    <div class="cert-image">
+                        <img src="certificados/IVM.jpg" alt="Seguridad Operativa en Yacimientos - Instituto de Formación Técnica Vaca Muerta" class="cert-img">
+                        <div class="cert-overlay">
+                            <div class="cert-view-btn">Ver</div>
+                        </div>
+                        <span class="cert-badge ivm">IVM</span>
+                    </div>
+                    <div class="cert-content">
+                        <h4>Seguridad Operativa en Yacimientos</h4>
+                        <p class="cert-issuer">Instituto de Formación Técnica Vaca Muerta</p>
+                        <p class="cert-date">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                                <line x1="16" y1="2" x2="16" y2="6"/>
+                                <line x1="8" y1="2" x2="8" y2="6"/>
+                                <line x1="3" y1="10" x2="21" y2="10"/>
+                            </svg>
+                            Agosto 2026
+                        </p>
+                    </div>
+                </div>
             </div>
 
             <p class="cert-footer">
                 Todos los certificados son verificables en las plataformas oficiales de 
-                <a href="#" class="link">Fundación YPF</a> y 
-                <a href="#" class="link">Santander Open Academy</a>.
+                <a href="#" class="link">Fundación YPF</a>, 
+                <a href="#" class="link">Santander Open Academy</a> e 
+                <a href="#" class="link">Instituto de Formación Técnica Vaca Muerta</a>.
             </p>
         </div>
     </section>
