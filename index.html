@@ -3,97 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tomás Anfossi - Portfolio Profesional</title>
+    <title>Tomás Anfossi | Analista de Datos & Desarrollador</title>
+    <!-- Favicon (Loguito de la pestaña - Iniciales TA) -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230a0e13' stroke='%2338bdf8' stroke-width='2'/><text x='50%' y='54%' dominant-baseline='middle' text-anchor='middle' fill='%2338bdf8' font-family='sans-serif' font-weight='800' font-size='15'>TA</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Navbar -->
+    <!-- ========================================
+         NAVBAR
+    ======================================== -->
     <nav id="navbar">
         <div class="nav-container">
             <a href="#home" class="logo">
                 <div class="logo-icon">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
-                        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                        <line x1="18" y1="20" x2="18" y2="10"/>
+                        <line x1="12" y1="20" x2="12" y2="4"/>
+                        <line x1="6" y1="20" x2="6" y2="14"/>
                     </svg>
                 </div>
-                <span class="logo-text">Anfossi</span>
+                <span class="logo-text">Anfossi<span class="logo-dot">.data</span></span>
             </a>
 
             <div class="nav-links">
                 <a href="#home" class="nav-link">Inicio</a>
-                <a href="#about" class="nav-link">Perfil</a>
-                <a href="#skills" class="nav-link">Habilidades</a>
+                <a href="#about" class="nav-link">Perfil Bento</a>
+                <a href="#projects" class="nav-link">Proyectos</a>
+                <a href="#skills" class="nav-link">Stack Técnico</a>
                 <a href="#certificates" class="nav-link">Certificados</a>
                 <a href="#contact" class="nav-link">Contacto</a>
             </div>
 
-            <button class="theme-toggle-btn" id="theme-toggle-btn" aria-label="Cambiar modo claro/oscuro" title="Cambiar modo claro/oscuro">
-                <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-                </svg>
-                <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="5"/>
-                    <line x1="12" y1="1" x2="12" y2="3"/>
-                    <line x1="12" y1="21" x2="12" y2="23"/>
-                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-                    <line x1="1" y1="12" x2="3" y2="12"/>
-                    <line x1="21" y1="12" x2="23" y2="12"/>
-                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-                </svg>
-            </button>
+            <div class="nav-actions">
+                <button class="theme-toggle-btn" id="theme-toggle-btn" aria-label="Cambiar modo claro/oscuro" title="Cambiar modo claro/oscuro">
+                    <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                    </svg>
+                    <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"/>
+                        <line x1="12" y1="1" x2="12" y2="3"/>
+                        <line x1="12" y1="21" x2="12" y2="23"/>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                        <line x1="1" y1="12" x2="3" y2="12"/>
+                        <line x1="21" y1="12" x2="23" y2="12"/>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                    </svg>
+                </button>
 
-            <a href="#contact" class="btn-primary">Contactar</a>
+                <a href="#contact" class="btn-primary nav-cta">Contactar</a>
 
-            <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Menu">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="3" y1="12" x2="21" y2="12"/>
-                    <line x1="3" y1="6" x2="21" y2="6"/>
-                    <line x1="3" y1="18" x2="21" y2="18"/>
-                </svg>
-            </button>
+                <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Menu">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="12" x2="21" y2="12"/>
+                        <line x1="3" y1="6" x2="21" y2="6"/>
+                        <line x1="3" y1="18" x2="21" y2="18"/>
+                    </svg>
+                </button>
+            </div>
         </div>
 
         <!-- Mobile Menu -->
         <div class="mobile-menu" id="mobile-menu">
             <a href="#home" class="mobile-nav-link">Inicio</a>
-            <a href="#about" class="mobile-nav-link">Perfil</a>
-            <a href="#skills" class="mobile-nav-link">Habilidades</a>
+            <a href="#about" class="mobile-nav-link">Perfil Bento</a>
+            <a href="#projects" class="mobile-nav-link">Proyectos</a>
+            <a href="#skills" class="mobile-nav-link">Stack Técnico</a>
             <a href="#certificates" class="mobile-nav-link">Certificados</a>
             <a href="#contact" class="mobile-nav-link">Contacto</a>
             <a href="#contact" class="btn-primary mobile-cta">Contactar</a>
         </div>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- ========================================
+         HERO SECTION (FOCO EN ANÁLISIS DE DATOS)
+    ======================================== -->
     <section id="home" class="hero">
         <div class="hero-bg">
             <div class="hero-blob blob-1"></div>
             <div class="hero-blob blob-2"></div>
+            <div class="hero-grid-pattern"></div>
         </div>
 
         <div class="container">
-            <div class="hero-grid">
-                <div class="hero-content">
+            <div class="hero-bento">
+                <!-- Columna Principal Hero -->
+                <div class="bento-box hero-main">
                     <div class="badge">
                         <span class="badge-dot"></span>
-                        Estudiante de Ciberseguridad
+                        Disponible para rol de Analista de Datos / BI
                     </div>
 
-                    <p class="hero-greeting">Hola, soy <span>Tomás</span> 👋</p>
+                    <p class="hero-greeting">Hola, soy <span>Tomás Anfossi</span> 👋</p>
 
                     <h1 class="hero-title">
-                        Me gusta <span class="text-gradient">resolver problemas</span>
+                        Transformo datos en <span class="text-gradient">decisiones claras</span> y automatizo procesos.
                     </h1>
 
                     <p class="hero-subtitle">
-                        Desarrollador web apasionado por la tecnología, con especialización en 
-                        inteligencia artificial y fundamentos de ciberseguridad.
+                        <strong>Analista de Datos & Desarrollador Web</strong> certificado en <strong>Tableau (UTN)</strong>, <strong>Power BI</strong>, <strong>Ciencia de Datos</strong> y <strong>Excel Avanzado</strong>. Combino visualización de métricas, bases de datos SQL, automatización con Python e Inteligencia Artificial.
                     </p>
 
                     <div class="hero-info">
@@ -114,8 +126,8 @@
                     </div>
 
                     <div class="hero-buttons">
-                        <a href="#contact" class="btn-primary">
-                            Contactar
+                        <a href="#projects" class="btn-primary">
+                            Ver Proyecto Destacado
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <line x1="5" y1="12" x2="19" y2="12"/>
                                 <polyline points="12 5 19 12 12 19"/>
@@ -127,59 +139,44 @@
                                 <polyline points="7 10 12 15 17 10"/>
                                 <line x1="12" y1="15" x2="12" y2="3"/>
                             </svg>
-                            Ver CV
+                            Descargar CV
                         </a>
-                    </div>
-
-                    <div class="hero-stats">
-                        <div class="stat-item">
-                            <div class="stat-icon">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <circle cx="12" cy="8" r="7"/>
-                                    <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
-                                </svg>
-                            </div>
-                            <div class="stat-value">12</div>
-                            <div class="stat-label">Certificados</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-icon">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"/>
-                                </svg>
-                            </div>
-                            <div class="stat-value">IA</div>
-                            <div class="stat-label">Especialización</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-icon">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
-                                    <path d="M6 12v5c3 3 9 3 12 0v-5"/>
-                                </svg>
-                            </div>
-                            <div class="stat-value">FASTA</div>
-                            <div class="stat-label">(EN PAUSA) ciberseguridad</div>
-                        </div>
                     </div>
                 </div>
 
-                <div class="hero-image">
-                    <div class="profile-card">
-                        <div class="profile-avatar">TA</div>
-                        <div class="profile-badge status">
-                            <span class="status-dot"></span>
-                            En búsqueda activa
-                        </div>
-                        <div class="profile-badge experience">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
-                                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
-                            </svg>
-                            <div>
-                                <small>Experiencia</small>
-                                <strong>Desarrollo Web</strong>
+                <!-- Columna Derecha Bento Hero -->
+                <div class="hero-side-bento">
+                    <div class="bento-box hero-profile-box">
+                        <div class="profile-header">
+                            <div class="profile-avatar">TA</div>
+                            <div class="profile-meta">
+                                <h3>Tomás Anfossi</h3>
+                                <p>Data Analyst & Developer</p>
+                                <span class="status-pill">
+                                    <span class="status-dot"></span> En búsqueda activa
+                                </span>
                             </div>
+                        </div>
+                        <div class="mini-kpi-grid">
+                            <div class="mini-kpi">
+                                <span class="mini-kpi-label">Foco Principal</span>
+                                <strong class="mini-kpi-val accent-blue">Data & BI</strong>
+                            </div>
+                            <div class="mini-kpi">
+                                <span class="mini-kpi-label">Automatización</span>
+                                <strong class="mini-kpi-val accent-green">Python & VBA</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bento-stats-row">
+                        <div class="bento-box mini-stat-box">
+                            <span class="bento-stat-num" id="hero-cert-count">12</span>
+                            <span class="bento-stat-txt">Certificaciones</span>
+                        </div>
+                        <div class="bento-box mini-stat-box">
+                            <span class="bento-stat-num">BI & SQL</span>
+                            <span class="bento-stat-txt">Dashboards & Datos</span>
                         </div>
                     </div>
                 </div>
@@ -187,195 +184,215 @@
         </div>
     </section>
 
-    <!-- About Section -->
+    <!-- ========================================
+         ABOUT SECTION (BENTO GRID)
+    ======================================== -->
     <section id="about" class="about">
         <div class="container">
             <div class="section-header">
                 <span class="section-badge">Perfil Profesional</span>
-                <h2 class="section-title">Sobre Mí</h2>
-                <p class="section-subtitle">Conoce mi trayectoria, valores profesionales y lo que me apasiona del mundo tecnológico.</p>
+                <h2 class="section-title">Enfoque Analítico & Técnico</h2>
+                <p class="section-subtitle">Un perfil híbrido que une el análisis de datos y visualización de métricas con la programación y el desarrollo web.</p>
             </div>
 
-            <div class="about-grid">
-                <div class="about-main">
-                    <div class="about-card">
-                        <h3>Digital Defender en Formación</h3>
-                        <p>
-                            Ex-Estudiante en <strong>Licenciatura en Ciberseguridad</strong> en la 
-                            Universidad FASTA con formación pausada y planes de reintegro a corto plazo. Especializado en desarrollo web, programación y seguridad informática.
-                        </p>
-                        <p>
-                            Enfocado en la implementación de soluciones digitales, automatización y configuración de entornos tecnológicos. Con perfil analítico y aprendizaje constante en IA, Ciencia de Datos y Seguridad Digital, busco consolidar mis bases técnicas mientras me preparo para retomar mi trayectoria académica.
-                        </p>
+            <!-- Bento Grid Layout -->
+            <div class="bento-grid-about">
+                <!-- Caja 1: Resumen Principal (Span 2 columnas) -->
+                <div class="bento-box bento-span-2">
+                    <div class="bento-tag">Sobre Mí</div>
+                    <h3>Analista de Datos con base sólida en Desarrollo y Automatización</h3>
+                    <p>
+                        Me especializo en convertir datos dispersos en tableros claros y accionables, certificado en <strong>Análisis de Datos y Gestión de Dashboards con Tableau (UTN)</strong>, <strong>Power BI</strong>, <strong>Excel Avanzado (Macros/VBA)</strong> y <strong>Ciencia de Datos</strong>.
+                    </p>
+                    <p>
+                        Cuento con formación técnica en <strong>Desarrollo Web Full-Stack (Egg.com)</strong> y <strong>Front-End (Coderhouse)</strong>, lo que me permite no solo analizar datos, sino también crear herramientas en <strong>Python</strong>, automatizar flujos, integrar modelos de <strong>Inteligencia Artificial</strong> y aplicar buenas prácticas de <strong>Ciberseguridad</strong> (Licenciatura en Universidad FASTA en pausa).
+                    </p>
+                </div>
 
-                        <div class="code-block">
-                            <span class="code-comment">// Mi Filosofía</span>
-                            <div class="code-line">
-                                <span class="code-keyword">const</span> <span class="code-variable">perfil</span> = {
-                            </div>
-                            <div class="code-line indent">
-                                <span class="code-property">ciberseguridad</span>: <span class="code-boolean">true</span>,
-                            </div>
-                            <div class="code-line indent">
-                                <span class="code-property">desarrolloWeb</span>: <span class="code-boolean">true</span>,
-                            </div>
-                            <div class="code-line indent">
-                                <span class="code-property">inteligenciaArtificial</span>: <span class="code-boolean">true</span>,
-                            </div>
-                            <div class="code-line indent">
-                                <span class="code-property">aprendizajeContinuo</span>: <span class="code-boolean">true</span>
-                            </div>
-                            <div class="code-line">};</div>
-                        </div>
+                <!-- Caja 2: Consola / Perfil en código -->
+                <div class="bento-box bento-code">
+                    <div class="code-header">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                        <span class="code-filename">analista_datos.py</span>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-line"><span class="code-keyword">perfil</span> = {</div>
+                        <div class="code-line indent"><span class="code-property">"rol_objetivo"</span>: <span class="code-string">"Data Analyst / BI"</span>,</div>
+                        <div class="code-line indent"><span class="code-property">"visualizacion"</span>: [<span class="code-string">"Power BI"</span>, <span class="code-string">"Tableau"</span>],</div>
+                        <div class="code-line indent"><span class="code-property">"datos_codigo"</span>: [<span class="code-string">"SQL"</span>, <span class="code-string">"Python"</span>, <span class="code-string">"Excel VBA"</span>],</div>
+                        <div class="code-line indent"><span class="code-property">"ia_local_cloud"</span>: <span class="code-boolean">True</span></div>
+                        <div class="code-line">}</div>
                     </div>
                 </div>
 
-                <div class="about-highlights">
-                    <div class="highlight-card">
-                        <div class="highlight-icon blue">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="10"/>
-                                <circle cx="12" cy="12" r="6"/>
-                                <circle cx="12" cy="12" r="2"/>
+                <!-- Caja 3: Formación Académica -->
+                <div class="bento-box">
+                    <div class="bento-icon blue">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                            <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+                        </svg>
+                    </div>
+                    <h4>Educación Destacada</h4>
+                    <ul class="bento-list">
+                        <li><strong>UTN:</strong> Análisis de Datos y Dashboards con Tableau</li>
+                        <li><strong>Coderhouse & Egg:</strong> Desarrollo Web Front-End & Full-Stack</li>
+                        <li><strong>Univ. FASTA:</strong> Lic. en Ciberseguridad (En pausa)</li>
+                    </ul>
+                </div>
+
+                <!-- Caja 4: Pilares de Trabajo (Span 2 columnas) -->
+                <div class="bento-box bento-span-2 bento-pillars">
+                    <div class="pillar-item">
+                        <div class="pillar-icon teal">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" y1="20" x2="18" y2="10"/>
+                                <line x1="12" y1="20" x2="12" y2="4"/>
+                                <line x1="6" y1="20" x2="6" y2="14"/>
                             </svg>
                         </div>
-                        <h4>Enfoque Analítico</h4>
-                        <p>Resolución de problemas mediante análisis lógico y pensamiento crítico.</p>
-                    </div>
-
-                    <div class="highlight-card">
-                        <div class="highlight-icon yellow">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
-                            </svg>
+                        <div>
+                            <h5>Dashboards & KPIs</h5>
+                            <p>Reportes interactivos en Power BI, Tableau y Excel para seguimiento de métricas clave.</p>
                         </div>
-                        <h4>Aprendizaje Continuo</h4>
-                        <p>Constante actualización en nuevas tecnologías y metodologías.</p>
                     </div>
-
-                    <div class="highlight-card">
-                        <div class="highlight-icon purple">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <div class="pillar-item">
+                        <div class="pillar-icon green">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <polyline points="16 18 22 12 16 6"/>
                                 <polyline points="8 6 2 12 8 18"/>
                             </svg>
                         </div>
-                        <h4>Desarrollo Web</h4>
-                        <p>Creación de soluciones digitales modernas y eficientes.</p>
+                        <div>
+                            <h5>Automatización con Python</h5>
+                            <p>Scripts para procesamiento masivo de archivos, limpieza de datos y ahorro de tiempo operativo.</p>
+                        </div>
                     </div>
-
-                    <div class="highlight-card">
-                        <div class="highlight-icon red">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    <div class="pillar-item">
+                        <div class="pillar-icon purple">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <ellipse cx="12" cy="5" rx="9" ry="3"/>
+                                <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/>
+                                <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
                             </svg>
                         </div>
-                        <h4>Ciberseguridad</h4>
-                        <p>Fundamentos de seguridad informática y protección de datos.</p>
+                        <div>
+                            <h5>Bases de Datos & IA</h5>
+                            <p>Consultas SQL/PostgreSQL e integración de IA local y generativa con criterio analítico.</p>
+                        </div>
                     </div>
-                </div>
-            </div>
-
-            <div class="about-stats">
-                <div class="stat-card">
-                    <div class="stat-card-value">10+</div>
-                    <div class="stat-card-label">Certificados</div>
-                    <div class="stat-card-sublabel">YPF & Santander</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-card-value">IA</div>
-                    <div class="stat-card-label">Especialización</div>
-                    <div class="stat-card-sublabel">Inteligencia Artificial</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-card-value">FASTA</div>
-                    <div class="stat-card-label">Universidad</div>
-                    <div class="stat-card-sublabel">En pausa</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-card-value">ARG</div>
-                    <div class="stat-card-label">Ubicación</div>
-                    <div class="stat-card-sublabel">General Roca</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Skills Section -->
+    <!-- ========================================
+         PROJECTS SECTION (DINÁMICA DESDE SCRIPT.JS)
+    ======================================== -->
+    <section id="projects" class="projects">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+                        <polyline points="2 17 12 22 22 17"/>
+                        <polyline points="2 12 12 17 22 12"/>
+                    </svg>
+                    Portfolio en Producción
+                </span>
+                <h2 class="section-title">Proyectos Desarrollados</h2>
+                <p class="section-subtitle">Software real aplicando análisis de datos, procesamiento por lotes en Python e Inteligencia Artificial local.</p>
+            </div>
+
+            <!-- Contenedor automático donde script.js inyecta tus proyectos -->
+            <div id="projects-container" class="projects-bento-container"></div>
+        </div>
+    </section>
+
+    <!-- ========================================
+         SKILLS SECTION (BENTO GRID CON PRIORIDAD EN DATOS)
+    ======================================== -->
     <section id="skills" class="skills">
         <div class="container">
             <div class="section-header">
                 <span class="section-badge">Stack Tecnológico</span>
                 <h2 class="section-title">Habilidades Técnicas</h2>
-                <p class="section-subtitle">Tecnologías y herramientas que domino para crear soluciones digitales seguras y eficientes.</p>
+                <p class="section-subtitle">Herramientas orientadas al análisis de datos, inteligencia de negocios, automatización y desarrollo web.</p>
             </div>
 
             <div class="skills-grid">
-                <div class="skill-card">
+                <!-- 1. ANÁLISIS DE DATOS & BI (DESTACADA) -->
+                <div class="skill-card featured-skill">
                     <div class="skill-header">
                         <div class="skill-icon blue">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
-                                <line x1="8" y1="21" x2="16" y2="21"/>
-                                <line x1="12" y1="17" x2="12" y2="21"/>
+                                <line x1="18" y1="20" x2="18" y2="10"/>
+                                <line x1="12" y1="20" x2="12" y2="4"/>
+                                <line x1="6" y1="20" x2="6" y2="14"/>
                             </svg>
                         </div>
                         <div class="skill-title-wrap">
-                            <h3>Desarrollo Web</h3>
-                            <span class="skill-count">4 tecnologías</span>
+                            <span class="skill-priority-badge">Especialidad Principal</span>
+                            <h3>Análisis de Datos & BI</h3>
                         </div>
                     </div>
-                    <p class="skill-desc">HTML5, CSS3 y JavaScript moderno. Creación de interfaces responsivas, interactivas y optimizadas para rendimiento.</p>
+                    <p class="skill-desc">Modelado de datos, diseño de dashboards interactivos, seguimiento de KPIs y análisis estadístico para toma de decisiones.</p>
                     <div class="skill-ps">
                         <div class="skill-ps-item problem">
                             <span class="skill-ps-label">Problema</span>
-                            <p>Muchas ideas y proyectos se quedan en un boceto porque nadie los lleva a producción.</p>
+                            <p>Grandes volúmenes de datos crudos que no se traducen en respuestas claras para el negocio.</p>
                         </div>
                         <div class="skill-ps-item solution">
                             <span class="skill-ps-label">Solución</span>
-                            <p>Construyo interfaces responsivas e interactivas con HTML5, CSS3 y JavaScript moderno.</p>
+                            <p>Transformo datos en tableros visuales e intuitivos con Tableau y Power BI.</p>
                         </div>
                     </div>
                     <div class="skill-tags">
-                        <span class="tag blue">HTML5</span>
-                        <span class="tag blue">CSS3</span>
-                        <span class="tag blue">JavaScript</span>
-                        <span class="tag blue">Responsive Design</span>
+                        <span class="tag blue">Power BI</span>
+                        <span class="tag blue">Tableau</span>
+                        <span class="tag blue">Ciencia de Datos</span>
+                        <span class="tag blue">Dashboards</span>
                     </div>
                 </div>
 
+                <!-- 2. EXCEL AVANZADO & AUTOMATIZACIÓN -->
                 <div class="skill-card">
                     <div class="skill-header">
-                        <div class="skill-icon green">
+                        <div class="skill-icon teal">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="16 18 22 12 16 6"/>
-                                <polyline points="8 6 2 12 8 18"/>
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                                <line x1="16" y1="13" x2="8" y2="13"/>
+                                <line x1="16" y1="17" x2="8" y2="17"/>
                             </svg>
                         </div>
                         <div class="skill-title-wrap">
-                            <h3>Python Automation</h3>
+                            <h3>Excel Avanzado & VBA</h3>
                             <span class="skill-count">4 tecnologías</span>
                         </div>
                     </div>
-                    <p class="skill-desc">Automatización de procesos, scripting y fundamentos de programación. Desarrollo de bots y herramientas personalizadas.</p>
+                    <p class="skill-desc">Automatización de reportes, macros en VBA, tablas dinámicas y fórmulas avanzadas para optimizar el análisis administrativo y operativo.</p>
                     <div class="skill-ps">
                         <div class="skill-ps-item problem">
                             <span class="skill-ps-label">Problema</span>
-                            <p>Tareas repetitivas consumen horas que podrían dedicarse a algo más valioso.</p>
+                            <p>Las planillas manuales acumulan errores humanos y consumen horas operativas.</p>
                         </div>
                         <div class="skill-ps-item solution">
                             <span class="skill-ps-label">Solución</span>
-                            <p>Escribo scripts en Python que automatizan procesos y arman herramientas a medida.</p>
+                            <p>Automatizo flujos con macros VBA y estructuro plantillas confiables de análisis.</p>
                         </div>
                     </div>
                     <div class="skill-tags">
-                        <span class="tag green">Python</span>
-                        <span class="tag green">Scripting</span>
-                        <span class="tag green">Automation</span>
-                        <span class="tag green">Bots</span>
+                        <span class="tag teal">Excel Avanzado</span>
+                        <span class="tag teal">Macros / VBA</span>
+                        <span class="tag teal">Tablas Dinámicas</span>
+                        <span class="tag teal">Limpieza de Datos</span>
                     </div>
                 </div>
 
+                <!-- 3. BASES DE DATOS & SQL -->
                 <div class="skill-card">
                     <div class="skill-header">
                         <div class="skill-icon purple">
@@ -386,28 +403,62 @@
                             </svg>
                         </div>
                         <div class="skill-title-wrap">
-                            <h3>Bases de Datos</h3>
+                            <h3>SQL & Bases de Datos</h3>
                             <span class="skill-count">3 tecnologías</span>
                         </div>
                     </div>
-                    <p class="skill-desc">PostgreSQL. Diseño, consultas y gestión de bases de datos relacionales para aplicaciones escalables.</p>
+                    <p class="skill-desc">Extracción, consulta y estructuración de bases de datos relacionales en PostgreSQL y manipulación de bases locales.</p>
                     <div class="skill-ps">
                         <div class="skill-ps-item problem">
                             <span class="skill-ps-label">Problema</span>
-                            <p>Los datos dispersos y mal estructurados dificultan tomar decisiones confiables.</p>
+                            <p>Información fragmentada o inaccesible para realizar cruces de variables.</p>
                         </div>
                         <div class="skill-ps-item solution">
                             <span class="skill-ps-label">Solución</span>
-                            <p>Diseño y consulto bases PostgreSQL pensadas para escalar sin perder integridad.</p>
+                            <p>Escribo consultas SQL optimizadas y mantengo la integridad de los datos.</p>
                         </div>
                     </div>
                     <div class="skill-tags">
-                        <span class="tag purple">PostgreSQL</span>
                         <span class="tag purple">SQL</span>
-                        <span class="tag purple">Database Design</span>
+                        <span class="tag purple">PostgreSQL</span>
+                        <span class="tag purple">Modelado Relacional</span>
                     </div>
                 </div>
 
+                <!-- 4. PYTHON & PROCESAMIENTO DE DATOS -->
+                <div class="skill-card">
+                    <div class="skill-header">
+                        <div class="skill-icon green">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="16 18 22 12 16 6"/>
+                                <polyline points="8 6 2 12 8 18"/>
+                            </svg>
+                        </div>
+                        <div class="skill-title-wrap">
+                            <h3>Python & Automatización</h3>
+                            <span class="skill-count">4 tecnologías</span>
+                        </div>
+                    </div>
+                    <p class="skill-desc">Desarrollo de aplicaciones de escritorio y scripts en Python con multiprocesamiento, análisis algorítmico y automatización.</p>
+                    <div class="skill-ps">
+                        <div class="skill-ps-item problem">
+                            <span class="skill-ps-label">Problema</span>
+                            <p>Analizar miles de archivos o tareas repetitivas a mano es inviable.</p>
+                        </div>
+                        <div class="skill-ps-item solution">
+                            <span class="skill-ps-label">Solución</span>
+                            <p>Creo herramientas en Python que procesan lotes en paralelo en segundos.</p>
+                        </div>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="tag green">Python</span>
+                        <span class="tag green">Data Processing</span>
+                        <span class="tag green">Scripting</span>
+                        <span class="tag green">Bots</span>
+                    </div>
+                </div>
+
+                <!-- 5. INTELIGENCIA ARTIFICIAL APLICADA -->
                 <div class="skill-card">
                     <div class="skill-header">
                         <div class="skill-icon orange">
@@ -416,104 +467,69 @@
                             </svg>
                         </div>
                         <div class="skill-title-wrap">
-                            <h3>Integración IA</h3>
+                            <h3>Inteligencia Artificial</h3>
                             <span class="skill-count">4 tecnologías</span>
                         </div>
                     </div>
-                    <p class="skill-desc">Implementación de bots y herramientas con inteligencia artificial. Prompting responsable y optimización de modelos.</p>
+                    <p class="skill-desc">Modelos de IA local para clasificación y puntuación, junto con Prompt Engineering avanzado en Gemini, Copilot y OpenAI.</p>
                     <div class="skill-ps">
                         <div class="skill-ps-item problem">
                             <span class="skill-ps-label">Problema</span>
-                            <p>Adoptar IA sin criterio genera resultados poco confiables o directamente inútiles.</p>
+                            <p>Clasificar patrones complejos sin asistencia inteligente lleva demasiado tiempo.</p>
                         </div>
                         <div class="skill-ps-item solution">
                             <span class="skill-ps-label">Solución</span>
-                            <p>Aplico prompting responsable e integro modelos como OpenAI y Gemini con cuidado.</p>
+                            <p>Integro IA local y generativa para puntuar, clasificar y acelerar el análisis.</p>
                         </div>
                     </div>
                     <div class="skill-tags">
-                        <span class="tag orange">OpenAI</span>
-                        <span class="tag orange">Gemini</span>
+                        <span class="tag orange">IA Local</span>
+                        <span class="tag orange">Gemini & Copilot</span>
                         <span class="tag orange">Prompt Engineering</span>
-                        <span class="tag orange">LLMs</span>
+                        <span class="tag orange">OpenAI</span>
                     </div>
                 </div>
 
-                <div class="skill-card">
-                    <div class="skill-header">
-                        <div class="skill-icon teal">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                                <polyline points="14 2 14 8 20 8"/>
-                                <line x1="16" y1="13" x2="8" y2="13"/>
-                                <line x1="16" y1="17" x2="8" y2="17"/>
-                                <polyline points="10 9 9 9 8 9"/>
-                            </svg>
-                        </div>
-                        <div class="skill-title-wrap">
-                            <h3>Excel Automation</h3>
-                            <span class="skill-count">4 tecnologías</span>
-                        </div>
-                    </div>
-                    <p class="skill-desc">Excel avanzado con automatización. Macros, fórmulas complejas y análisis de datos empresariales.</p>
-                    <div class="skill-ps">
-                        <div class="skill-ps-item problem">
-                            <span class="skill-ps-label">Problema</span>
-                            <p>Las planillas manuales acumulan errores y se vuelven un cuello de botella.</p>
-                        </div>
-                        <div class="skill-ps-item solution">
-                            <span class="skill-ps-label">Solución</span>
-                            <p>Automatizo con macros y fórmulas avanzadas para un análisis de datos confiable.</p>
-                        </div>
-                    </div>
-                    <div class="skill-tags">
-                        <span class="tag teal">Excel</span>
-                        <span class="tag teal">Macros</span>
-                        <span class="tag teal">Data Analysis</span>
-                        <span class="tag teal">VBA</span>
-                    </div>
-                </div>
-
+                <!-- 6. DESARROLLO WEB & CIBERSEGURIDAD -->
                 <div class="skill-card">
                     <div class="skill-header">
                         <div class="skill-icon red">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                                <line x1="8" y1="21" x2="16" y2="21"/>
+                                <line x1="12" y1="17" x2="12" y2="21"/>
                             </svg>
                         </div>
                         <div class="skill-title-wrap">
-                            <h3>Ciberseguridad</h3>
+                            <h3>Desarrollo Web & Seguridad</h3>
                             <span class="skill-count">4 tecnologías</span>
                         </div>
                     </div>
-                    <p class="skill-desc">Fundamentos de seguridad informática. Entornos Windows y Linux. Soporte técnico y optimización de sistemas.</p>
+                    <p class="skill-desc">Creación de sitios responsivos (HTML5, CSS3, JS, Git) respaldados por fundamentos de seguridad informática en Windows y Linux.</p>
                     <div class="skill-ps">
                         <div class="skill-ps-item problem">
                             <span class="skill-ps-label">Problema</span>
-                            <p>Muchos entornos quedan expuestos por falta de buenas prácticas básicas de seguridad.</p>
+                            <p>Los proyectos y análisis necesitan publicarse en entornos web claros y seguros.</p>
                         </div>
                         <div class="skill-ps-item solution">
                             <span class="skill-ps-label">Solución</span>
-                            <p>Aplico fundamentos de seguridad en sistemas Windows y Linux, con soporte técnico incluido.</p>
+                            <p>Despliego interfaces web modernas aplicando buenas prácticas de seguridad digital.</p>
                         </div>
                     </div>
                     <div class="skill-tags">
-                        <span class="tag red">Windows</span>
-                        <span class="tag red">Linux</span>
-                        <span class="tag red">Security Basics</span>
-                        <span class="tag red">Support</span>
+                        <span class="tag red">HTML5 / CSS3 / JS</span>
+                        <span class="tag red">Git & GitHub</span>
+                        <span class="tag red">Seguridad Digital</span>
+                        <span class="tag red">Linux / Windows</span>
                     </div>
                 </div>
-            </div>
-
-            <div class="skills-cta">
-                <p>¿Interesado en colaborar en un proyecto?</p>
-                <a href="#contact" class="btn-secondary">Hablemos</a>
             </div>
         </div>
     </section>
 
-    <!-- Certificates Section -->
+    <!-- ========================================
+         CERTIFICATES SECTION (COMPACTA + FILTROS + AUTOMÁTICA)
+    ======================================== -->
     <section id="certificates" class="certificates">
         <div class="container">
             <div class="section-header">
@@ -522,343 +538,53 @@
                         <circle cx="12" cy="8" r="7"/>
                         <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
                     </svg>
-                    Formación Continua
+                    Formación Continua Verificada
                 </span>
-                <h2 class="section-title">Certificados</h2>
-                <p class="section-subtitle">Certificaciones obtenidas en plataformas reconocidas como Universidad Tecnológica Nacional (UTN), Fundación YPF, Santander Open Academy, IVM instituto vaca muerta.</p>
+                <h2 class="section-title">Certificaciones</h2>
+                <p class="section-subtitle">Hacé clic en cualquier pestaña para filtrar por área o institución, o seleccioná una credencial para ver el diploma completo.</p>
             </div>
 
-            <div class="cert-stats">
-
-                <div class="cert-stat">
-                    <div class="cert-stat-logo santander">UTN</div>
-                    <div class="cert-stat-info">
-                        <span class="cert-stat-value">1</span>
-                        <span class="cert-stat-label">Certificado</span>
-                    </div>
-                </div>
-                <div class="cert-stat">
-                    <div class="cert-stat-logo ypf">YPF</div>
-                    <div class="cert-stat-info">
-                        <span class="cert-stat-value">4</span>
-                        <span class="cert-stat-label">Certificados</span>
-                    </div>
-                </div>
-                <div class="cert-stat">
-                    <div class="cert-stat-logo santander">SANT</div>
-                    <div class="cert-stat-info">
-                        <span class="cert-stat-value">6</span>
-                        <span class="cert-stat-label">Certificados</span>
-                    </div>
-                </div>
-                <div class="cert-stat">
-                    <div class="cert-stat-logo ivm">IVM</div>
-                    <div class="cert-stat-info">
-                        <span class="cert-stat-value">1</span>
-                        <span class="cert-stat-label">Certificado</span>
-                    </div>
-                </div>
-                <div class="cert-stat">
-                    <div class="cert-stat-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="8" r="7"/>
-                            <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
-                        </svg>
-                    </div>
-                    <div class="cert-stat-info">
-                        <span class="cert-stat-value">12</span>
-                        <span class="cert-stat-label">Total</span>
-                    </div>
-                </div>
+            <!-- Pestañas de Filtro (Opción B con énfasis en Datos) -->
+            <div class="cert-filters" id="cert-filters">
+                <button class="filter-btn active" data-filter="all">
+                    Todos <span class="filter-count" id="count-all">12</span>
+                </button>
+                <button class="filter-btn highlight-filter" data-filter="datos">
+                    📊 Datos, BI & Excel <span class="filter-count" id="count-datos">0</span>
+                </button>
+                <button class="filter-btn" data-filter="ia">
+                    🤖 IA & Python <span class="filter-count" id="count-ia">0</span>
+                </button>
+                <button class="filter-btn" data-filter="seguridad">
+                    🛡️ Ciberseguridad <span class="filter-count" id="count-seguridad">0</span>
+                </button>
+                <button class="filter-btn" data-filter="UTN">
+                    UTN
+                </button>
+                <button class="filter-btn" data-filter="Fundación YPF">
+                    YPF
+                </button>
+                <button class="filter-btn" data-filter="Santander Open Academy">
+                    Santander
+                </button>
             </div>
 
-            <div class="cert-grid">
-                <div class="cert-card" data-cert="0">
-                    <div class="cert-image">
-                        <img src="certificados/UTNanalisisdatos.png" alt="Análisis de datos y Gestión de Dashboards con Tableau" class="cert-img">
-                        <div class="cert-overlay">
-                            <div class="cert-view-btn">Ver</div>
-                        </div>
-                        <span class="cert-badge UTN">UTN</span>
-                    </div>
-                    <div class="cert-content">
-                        <h4>Análisis de datos</h4>
-                        <p class="cert-issuer">UTN</p>
-                        <p class="cert-date">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                                <line x1="16" y1="2" x2="16" y2="6"/>
-                                <line x1="8" y1="2" x2="8" y2="6"/>
-                                <line x1="3" y1="10" x2="21" y2="10"/>
-                            </svg>
-                           Junio 2026
-                        </p>
-                    </div>
-                </div>
-                <div class="cert-card" data-cert="1">
-                    <div class="cert-image">
-                        <img src="certificados/ciberseguridad-ypf.jpg" alt="Ciberseguridad - Fundación YPF" class="cert-img">
-                        <div class="cert-overlay">
-                            <div class="cert-view-btn">Ver</div>
-                        </div>
-                        <span class="cert-badge ypf">YPF</span>
-                    </div>
-                    <div class="cert-content">
-                        <h4>Ciberseguridad</h4>
-                        <p class="cert-issuer">Fundación YPF</p>
-                        <p class="cert-date">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                                <line x1="16" y1="2" x2="16" y2="6"/>
-                                <line x1="8" y1="2" x2="8" y2="6"/>
-                                <line x1="3" y1="10" x2="21" y2="10"/>
-                            </svg>
-                            Febrero 2026
-                        </p>
-                    </div>
-                </div>
-
-                <div class="cert-card" data-cert="2">
-                    <div class="cert-image">
-                        <img src="certificados/gemini-santander.jpg" alt="Domina la IA con Gemini - Santander" class="cert-img">
-                        <div class="cert-overlay">
-                            <div class="cert-view-btn">Ver</div>
-                        </div>
-                        <span class="cert-badge santander">Santander</span>
-                    </div>
-                    <div class="cert-content">
-                        <h4>Domina la IA con Gemini</h4>
-                        <p class="cert-issuer">Santander Open Academy</p>
-                        <p class="cert-date">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                                <line x1="16" y1="2" x2="16" y2="6"/>
-                                <line x1="8" y1="2" x2="8" y2="6"/>
-                                <line x1="3" y1="10" x2="21" y2="10"/>
-                            </svg>
-                            Febrero 2026
-                        </p>
-                    </div>
-                </div>
-
-                <div class="cert-card" data-cert="3">
-                    <div class="cert-image">
-                        <img src="certificados/excel-ypf.jpg" alt="Introducción a Excel - Fundación YPF" class="cert-img">
-                        <div class="cert-overlay">
-                            <div class="cert-view-btn">Ver</div>
-                        </div>
-                        <span class="cert-badge ypf">YPF</span>
-                    </div>
-                    <div class="cert-content">
-                        <h4>Introducción a Excel</h4>
-                        <p class="cert-issuer">Fundación YPF</p>
-                        <p class="cert-date">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                                <line x1="16" y1="2" x2="16" y2="6"/>
-                                <line x1="8" y1="2" x2="8" y2="6"/>
-                                <line x1="3" y1="10" x2="21" y2="10"/>
-                            </svg>
-                            Febrero 2026
-                        </p>
-                    </div>
-                </div>
-
-                <div class="cert-card" data-cert="4">
-                    <div class="cert-image">
-                        <img src="certificados/Python-Santander-ANFOSSITOMAS.jpg" alt="Python - Santander Open Academy" class="cert-img">
-                        <div class="cert-overlay">
-                            <div class="cert-view-btn">Ver</div>
-                        </div>
-                        <span class="cert-badge santander">Santander</span>
-                    </div>
-                    <div class="cert-content">
-                        <h4>Python</h4>
-                        <p class="cert-issuer">Santander Open Academy</p>
-                        <p class="cert-date">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                                <line x1="16" y1="2" x2="16" y2="6"/>
-                                <line x1="8" y1="2" x2="8" y2="6"/>
-                                <line x1="3" y1="10" x2="21" y2="10"/>
-                            </svg>
-                            Febrero 2026
-                        </p>
-                    </div>
-                </div>
-
-                <div class="cert-card" data-cert="5">
-                    <div class="cert-image">
-                        <img src="certificados/ia-ypf.jpg" alt="Introducción a IA - Fundación YPF" class="cert-img">
-                        <div class="cert-overlay">
-                            <div class="cert-view-btn">Ver</div>
-                        </div>
-                        <span class="cert-badge ypf">YPF</span>
-                    </div>
-                    <div class="cert-content">
-                        <h4>Introducción a IA</h4>
-                        <p class="cert-issuer">Fundación YPF</p>
-                        <p class="cert-date">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                                <line x1="16" y1="2" x2="16" y2="6"/>
-                                <line x1="8" y1="2" x2="8" y2="6"/>
-                                <line x1="3" y1="10" x2="21" y2="10"/>
-                            </svg>
-                            Febrero 2026
-                        </p>
-                    </div>
-                </div>
-
-                <div class="cert-card" data-cert="6">
-                    <div class="cert-image">
-                        <img src="certificados/powerbi-ypf.jpg" alt="Introducción a Power BI - Fundación YPF" class="cert-img">
-                        <div class="cert-overlay">
-                            <div class="cert-view-btn">Ver</div>
-                        </div>
-                        <span class="cert-badge ypf">YPF</span>
-                    </div>
-                    <div class="cert-content">
-                        <h4>Introducción a Power BI</h4>
-                        <p class="cert-issuer">Fundación YPF</p>
-                        <p class="cert-date">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                                <line x1="16" y1="2" x2="16" y2="6"/>
-                                <line x1="8" y1="2" x2="8" y2="6"/>
-                                <line x1="3" y1="10" x2="21" y2="10"/>
-                            </svg>
-                            Febrero 2026
-                        </p>
-                    </div>
-                </div>
-
-                <div class="cert-card" data-cert="7">
-                    <div class="cert-image">
-                        <img src="certificados/prompting-santander.jpg" alt="Prompting Responsable - Santander Open Academy" class="cert-img">
-                        <div class="cert-overlay">
-                            <div class="cert-view-btn">Ver</div>
-                        </div>
-                        <span class="cert-badge santander">Santander</span>
-                    </div>
-                    <div class="cert-content">
-                        <h4>Prompting Responsable</h4>
-                        <p class="cert-issuer">Santander Open Academy</p>
-                        <p class="cert-date">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                                <line x1="16" y1="2" x2="16" y2="6"/>
-                                <line x1="8" y1="2" x2="8" y2="6"/>
-                                <line x1="3" y1="10" x2="21" y2="10"/>
-                            </svg>
-                            Febrero 2026
-                        </p>
-                    </div>
-                </div>
-
-                <div class="cert-card" data-cert="8">
-                    <div class="cert-image">
-                        <img src="certificados/seguridad-santander.jpg" alt="Seguridad Digital - Santander Open Academy" class="cert-img">
-                        <div class="cert-overlay">
-                            <div class="cert-view-btn">Ver</div>
-                        </div>
-                        <span class="cert-badge santander">Santander</span>
-                    </div>
-                    <div class="cert-content">
-                        <h4>Seguridad Digital</h4>
-                        <p class="cert-issuer">Santander Open Academy</p>
-                        <p class="cert-date">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                                <line x1="16" y1="2" x2="16" y2="6"/>
-                                <line x1="8" y1="2" x2="8" y2="6"/>
-                                <line x1="3" y1="10" x2="21" y2="10"/>
-                            </svg>
-                            Febrero 2026
-                        </p>
-                    </div>
-                </div>
-
-                <div class="cert-card" data-cert="9">
-                    <div class="cert-image">
-                        <img src="certificados/Copilot-Santander-ANFOSSI_TOMAS_page-0001.jpg" alt="Copilot - Santander Open Academy" class="cert-img">
-                        <div class="cert-overlay">
-                            <div class="cert-view-btn">Ver</div>
-                        </div>
-                        <span class="cert-badge santander">Santander</span>
-                    </div>
-                    <div class="cert-content">
-                        <h4>Copilot</h4>
-                        <p class="cert-issuer">Santander Open Academy</p>
-                        <p class="cert-date">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                                <line x1="16" y1="2" x2="16" y2="6"/>
-                                <line x1="8" y1="2" x2="8" y2="6"/>
-                                <line x1="3" y1="10" x2="21" y2="10"/>
-                            </svg>
-                            Marzo 2026
-                        </p>
-                    </div>
-                </div>
-
-                <div class="cert-card" data-cert="10">
-                    <div class="cert-image">
-                        <img src="certificados/Introducción a la Ciencia de Datos-Santander-Anfossi_Tomas_page-0001.jpg" alt="Ciencia de Datos - Santander Open Academy" class="cert-img">
-                        <div class="cert-overlay">
-                            <div class="cert-view-btn">Ver</div>
-                        </div>
-                        <span class="cert-badge santander">Santander</span>
-                    </div>
-                    <div class="cert-content">
-                        <h4>Ciencia de Datos</h4>
-                        <p class="cert-issuer">Santander Open Academy</p>
-                        <p class="cert-date">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                                <line x1="16" y1="2" x2="16" y2="6"/>
-                                <line x1="8" y1="2" x2="8" y2="6"/>
-                                <line x1="3" y1="10" x2="21" y2="10"/>
-                            </svg>
-                            Marzo 2026
-                        </p>
-                    </div>
-                </div>
-
-                <div class="cert-card" data-cert="11">
-                    <div class="cert-image">
-                        <img src="certificados/IVM.jpg" alt="Seguridad Operativa en Yacimientos - Instituto de Formación Técnica Vaca Muerta" class="cert-img">
-                        <div class="cert-overlay">
-                            <div class="cert-view-btn">Ver</div>
-                        </div>
-                        <span class="cert-badge ivm">IVM</span>
-                    </div>
-                    <div class="cert-content">
-                        <h4>Seguridad Operativa en Yacimientos</h4>
-                        <p class="cert-issuer">Instituto de Formación Técnica Vaca Muerta</p>
-                        <p class="cert-date">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                                <line x1="16" y1="2" x2="16" y2="6"/>
-                                <line x1="8" y1="2" x2="8" y2="6"/>
-                                <line x1="3" y1="10" x2="21" y2="10"/>
-                            </svg>
-                            Agosto 2026
-                        </p>
-                    </div>
-                </div>
-            </div>
+            <!-- Grilla Compacta de Certificados (Se genera sola desde script.js) -->
+            <div class="cert-compact-grid" id="cert-grid"></div>
 
             <p class="cert-footer">
                 Todos los certificados son verificables en las plataformas oficiales de 
-                <a href="#" class="link">Fundación YPF</a>, 
-                <a href="#" class="link">Santander Open Academy</a> e 
-                <a href="#" class="link">Instituto de Formación Técnica Vaca Muerta</a>.
+                <span class="link">UTN</span>, 
+                <span class="link">Fundación YPF</span>, 
+                <span class="link">Santander Open Academy</span> e 
+                <span class="link">Instituto Vaca Muerta (IVM)</span>.
             </p>
         </div>
     </section>
 
-    <!-- Contact Section -->
+    <!-- ========================================
+         CONTACT SECTION
+    ======================================== -->
     <section id="contact" class="contact">
         <div class="container">
             <div class="section-header">
@@ -870,7 +596,7 @@
                     Establecer Conexión
                 </span>
                 <h2 class="section-title">Iniciar Contacto</h2>
-                <p class="section-subtitle">Estoy disponible para oportunidades de desarrollo, prácticas profesionales y proyectos colaborativos.</p>
+                <p class="section-subtitle">Disponible para puestos de Analista de Datos Jr, Business Intelligence, automatización y desarrollo.</p>
             </div>
 
             <div class="contact-grid">
@@ -895,7 +621,7 @@
                             </svg>
                         </div>
                         <div class="contact-details">
-                            <span class="contact-label">Teléfono</span>
+                            <span class="contact-label">Teléfono / WhatsApp</span>
                             <span class="contact-value">+54 298 433-3857</span>
                         </div>
                     </a>
@@ -909,14 +635,14 @@
                         </div>
                         <div class="contact-details">
                             <span class="contact-label">Ubicación</span>
-                            <span class="contact-value">General Roca, Argentina</span>
+                            <span class="contact-value">General Roca, Río Negro, Argentina</span>
                         </div>
                     </div>
 
                     <div class="social-card">
-                        <h4>Redes Sociales</h4>
+                        <h4>Perfiles Profesionales</h4>
                         <div class="social-links">
-                            <a href="https://www.linkedin.com/in/tomas-anfossi-0bb8a9398/" class="social-link linkedin" aria-label="LinkedIn" target="_blank">
+                            <a href="https://www.linkedin.com/in/tomas-anfossi-0bb8a9398/" class="social-link linkedin" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                                     <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
                                     <rect x="2" y="9" width="4" height="12"/>
@@ -928,7 +654,7 @@
                                     <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
                                 </svg>
                             </a>
-                            <a href="https://wa.me/542984333857" class="social-link whatsapp" aria-label="WhatsApp">
+                            <a href="https://wa.me/5492984333857" class="social-link whatsapp" aria-label="WhatsApp" target="_blank" rel="noopener noreferrer">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                                     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
                                 </svg>
@@ -939,137 +665,98 @@
                     <div class="availability-card">
                         <div class="availability-header">
                             <span class="availability-dot"></span>
-                            <span class="availability-title">Disponible para proyectos</span>
+                            <span class="availability-title">En búsqueda activa</span>
                         </div>
-                        <p>Actualmente estoy buscando oportunidades de prácticas profesionales y proyectos colaborativos en el área de desarrollo web y tecnología.</p>
+                        <p>Apuntando a oportunidades en Análisis de Datos, BI, Automatización de Procesos y Desarrollo Web tanto de forma remota como presencial.</p>
                     </div>
                 </div>
 
-  <div class="form-container">
-    <h2>Contactarme</h2>
-    
-    <form id="contacto-form">
-        <div class="form-group">
-            <label for="nombre">Nombre <span class="required">*</span></label>
-            <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required>
-        </div>
-        
-        <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" placeholder="tu@email.com">
-        </div>
-        
-        <div class="form-group">
-            <label for="telefono">Teléfono</label>
-            <input type="tel" id="telefono" name="telefono" placeholder="Tu teléfono">
-        </div>
-        
-        <div class="form-group">
-            <label for="mensaje">Mensaje <span class="required">*</span></label>
-            <textarea id="mensaje" name="mensaje" rows="4" placeholder="Escribe tu mensaje aquí..." required></textarea>
-        </div>
-        
-        <button type="button" id="btn-whatsapp" class="btn-primary">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <line x1="22" y1="2" x2="11" y2="13"/>
-                <polygon points="22 2 15 22 11 13 2 9 22 2"/>
-            </svg>
-            Enviar Mensaje
-        </button>
-    </form>
-</div>
-
-<script>
-document.getElementById('btn-whatsapp').addEventListener('click', function(e) {
-    e.preventDefault();
-    
-    // Obtener valores
-    const nombre = document.getElementById('nombre').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const telefono = document.getElementById('telefono').value.trim();
-    const mensaje = document.getElementById('mensaje').value.trim();
-    
-    // Validar
-    if (!nombre || !mensaje) {
-        alert('Por favor completa el nombre y el mensaje');
-        return;
-    }
-    
-    // Crear mensaje
-    const texto = `*Nuevo mensaje desde el sitio web*%0A%0A` +
-        `👤 *Nombre:* ${nombre}%0A` +
-        `📧 *Email:* ${email || 'No proporcionado'}%0A` +
-        `📱 *Teléfono:* ${telefono || 'No proporcionado'}%0A%0A` +
-        `💬 *Mensaje:*%0A${mensaje}`;
-    
-    // Tu número: +54 9 298 433-3857
-    const numero = '5492984333857';
-    
-    // Abrir WhatsApp
-    window.open(`https://wa.me/${numero}?text=${texto}`, '_blank');
-});
-</script>
-
-                    <div id="form-success" class="form-success hidden">
-                        <div class="success-icon">
-                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-                                <polyline points="22 4 12 14.01 9 11.01"/>
-                            </svg>
+                <div class="form-container">
+                    <h2>Enviar mensaje directo por WhatsApp</h2>
+                    <form id="contacto-form">
+                        <div class="form-group">
+                            <label for="nombre">Nombre <span class="required">*</span></label>
+                            <input type="text" id="nombre" name="nombre" placeholder="Tu nombre o empresa" required>
                         </div>
-                        <h3>¡Mensaje Enviado!</h3>
-                        <p>Gracias por contactarme. Te responderé a la brevedad.</p>
-                    </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" placeholder="tu@email.com">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="telefono">Teléfono</label>
+                            <input type="tel" id="telefono" name="telefono" placeholder="Tu teléfono">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="mensaje">Mensaje <span class="required">*</span></label>
+                            <textarea id="mensaje" name="mensaje" rows="4" placeholder="Hola Tomás, vimos tu portfolio y nos gustaría conversar..." required></textarea>
+                        </div>
+                        
+                        <button type="button" id="btn-whatsapp" class="btn-primary btn-full">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="22" y1="2" x2="11" y2="13"/>
+                                <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                            </svg>
+                            Enviar Mensaje a WhatsApp
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
+    <!-- ========================================
+         FOOTER
+    ======================================== -->
     <footer class="footer">
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-brand">
                     <a href="#home" class="footer-logo">
                         <div class="logo-icon">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
-                                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                                <line x1="18" y1="20" x2="18" y2="10"/>
+                                <line x1="12" y1="20" x2="12" y2="4"/>
+                                <line x1="6" y1="20" x2="6" y2="14"/>
                             </svg>
                         </div>
-                        <span>Anfossi</span>
+                        <span>Anfossi<span class="logo-dot">.data</span></span>
                     </a>
-                    <p>Desarrollador web apasionado por la tecnología y la ciberseguridad.</p>
+                    <p>Analista de Datos & Desarrollador Web enfocado en BI, automatización con Python e Inteligencia Artificial.</p>
                 </div>
 
                 <div class="footer-nav">
-                    <h4>Navegación</h4>
+                    <h4>Secciones</h4>
                     <nav>
                         <a href="#home">Inicio</a>
                         <a href="#about">Perfil</a>
-                        <a href="#skills">Habilidades</a>
+                        <a href="#projects">Proyectos</a>
+                        <a href="#skills">Stack Técnico</a>
                         <a href="#certificates">Certificados</a>
                         <a href="#contact">Contacto</a>
                     </nav>
                 </div>
 
                 <div class="footer-status">
-                    <h4>Estado</h4>
+                    <h4>Estado Laboral</h4>
                     <div class="status-badge">
                         <span class="status-dot"></span>
-                        En búsqueda activa
+                        Disponible para Análisis de Datos / Dev
                     </div>
                 </div>
             </div>
 
             <div class="footer-bottom">
                 <p>&copy; 2026 Tomás Anfossi. Todos los derechos reservados.</p>
-               
             </div>
         </div>
     </footer>
 
-    <!-- Certificate Modal -->
+    <!-- ========================================
+         MODAL DE CERTIFICADOS
+    ======================================== -->
     <div id="cert-modal" class="modal">
         <div class="modal-content">
             <button class="modal-close" id="modal-close" aria-label="Cerrar">
@@ -1084,7 +771,7 @@ document.getElementById('btn-whatsapp').addEventListener('click', function(e) {
             </div>
             <div class="modal-body">
                 <div class="cert-preview" id="modal-image-container">
-                    <img id="modal-image" src="" alt="Certificado" class="modal-cert-img">
+                    <img id="modal-image" src="" alt="Certificado" class="modal-cert-img" title="Clic para hacer zoom">
                 </div>
             </div>
             <div class="modal-footer">
@@ -1092,11 +779,11 @@ document.getElementById('btn-whatsapp').addEventListener('click', function(e) {
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <polyline points="15 18 9 12 15 6"/>
                     </svg>
-                    Anterior
+                    <span>Anterior</span>
                 </button>
                 <div class="modal-dots" id="modal-dots"></div>
                 <button class="btn-nav" id="modal-next">
-                    Siguiente
+                    <span>Siguiente</span>
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <polyline points="9 18 15 12 9 6"/>
                     </svg>
