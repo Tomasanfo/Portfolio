@@ -1737,3 +1737,38 @@ html[data-theme="light"] .theme-toggle-btn .icon-sun { display: block; }
     }
     .project-bento-card { padding: 22px; }
 }
+/* ========================================
+   FIX MOBILE: evitar desbordes horizontales
+======================================== */
+html, body { max-width: 100%; overflow-x: clip; }
+
+/* 1fr = minmax(auto,1fr) deja crecer la columna con contenido nowrap; minmax(0,1fr) no */
+.hero-bento { grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); }
+.skills-grid, .cert-compact-grid, .bento-grid-about, .mini-kpi-grid, .bento-stats-row,
+.contact-grid, .footer-grid, .project-metrics-grid { min-width: 0; }
+.cert-compact-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.hero-bento > *, .hero-side-bento > *, .bento-grid-about > *, .skills-grid > *,
+.cert-compact-grid > *, .mini-kpi-grid > *, .bento-stats-row > *,
+.contact-grid > *, .footer-grid > *, .cert-compact-card { min-width: 0; }
+.cert-compact-card { max-width: 100%; }
+.mini-kpi-val, .bento-stat-num, .bento-stat-txt, .hero-info .info-item { overflow-wrap: anywhere; }
+.hero-info { flex-wrap: wrap; }
+.hero-blob { max-width: 100vw; }
+
+@media (max-width: 1024px) {
+    .hero-bento, .project-bento-card, .bento-grid-about { grid-template-columns: minmax(0, 1fr); }
+    .skills-grid, .cert-compact-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 768px) {
+    .bento-pillars, .skills-grid, .cert-compact-grid, .contact-grid, .footer-grid,
+    .project-metrics-grid { grid-template-columns: minmax(0, 1fr); }
+    .hero-bento { padding: 20px; gap: 24px; }
+    .container, .nav-container { padding: 0 16px; }
+    .bento-box { padding: 20px; }
+    .hero-title { font-size: clamp(28px, 8.5vw, 34px); }
+    .blob-1 { width: 320px; height: 320px; right: -120px; }
+    .blob-2 { width: 280px; height: 280px; left: -100px; }
+}
+@media (max-width: 400px) {
+    .mini-kpi-grid, .bento-stats-row { grid-template-columns: minmax(0, 1fr); }
+}
