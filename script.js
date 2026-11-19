@@ -497,7 +497,7 @@ if (btnWhatsapp) {
 
 // Inicializar todo al cargar la página
 document.addEventListener('DOMContentLoaded', () => {
-    renderProjects();
+    if (window.renderPortfolioProjects) renderPortfolioProjects(); else renderProjects();
     updateCertCounters();
     renderCertificates('all');
 });
